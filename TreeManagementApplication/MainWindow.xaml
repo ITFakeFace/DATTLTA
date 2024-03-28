@@ -1,0 +1,15 @@
+﻿<Window x:Class="TreeManagementApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TreeManagementApplication"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="1080" Width="1920" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <Canvas Name="canvas" MouseLeftButtonDown="canvas_MouseLeftButtonDown">
+        <TextBox x:Name="rowInput" Canvas.Left="22" TextWrapping="Wrap" Text="row" Canvas.Top="22" Width="120"/>
+        <TextBox x:Name="columnInput" Canvas.Left="22" TextWrapping="Wrap" Text="column" Canvas.Top="45" Width="120"/>
+        <Button x:Name="createNodeBtn" Content="Create" Canvas.Left="162" Canvas.Top="30" MouseLeftButtonDown="createNodeBtn_MouseLeftButtonDown" Click="createNodeBtn_Click"/>
+    </Canvas>
+    
+</Window>
