@@ -71,9 +71,9 @@ namespace TreeManagementApplication.Model.BinaryTree
 		{
 			if (node == null) { return; }
 
-			PrintLNR(node.lNode);
-			Console.Write(node.value!.ToString() + "  ");
-			PrintLNR(node.rNode);
+			PrintLNR(node.getLNode());
+			Console.Write(node.getValue()!.ToString() + "  ");
+			PrintLNR(node.getRNode());
 		}
 
 		public void PrintLRN(INode<T>? node)
@@ -82,43 +82,43 @@ namespace TreeManagementApplication.Model.BinaryTree
 
 			PrintLNR(node.getLNode());
 			PrintLNR(node.getRNode());
-			Console.Write(node.value!.ToString() + "  ");
+			Console.Write(node.getValue()!.ToString() + "  ");
 		}
 
 		public void PrintNLR(INode<T>? node)
 		{
 			if (node == null) { return; }
 
-			Console.Write(node.value!.ToString() + "  ");
-			PrintLNR(node.lNode);
-			PrintLNR(node.rNode);
+			Console.Write(node.getValue()!.ToString() + "  ");
+			PrintLNR(node.getLNode());
+			PrintLNR(node.getRNode());
 		}
 
 		public void PrintNRL(INode<T>? node)
 		{
 			if (node == null) { return; }
 
-			Console.Write(node.value!.ToString() + "  ");
-			PrintLNR(node.rNode);
-			PrintLNR(node.lNode);
+			Console.Write(node.getValue()!.ToString() + "  ");
+			PrintLNR(node.getRNode());
+			PrintLNR(node.getLNode());
 		}
 
 		public void PrintRLN(INode<T>? node)
 		{
 			if (node == null) { return; }
 
-			PrintLNR(node.rNode);
-			PrintLNR(node.lNode);
-			Console.Write(node.value!.ToString() + "  ");
+			PrintLNR(node.getRNode());
+			PrintLNR(node.getLNode());
+			Console.Write(node.getValue()!.ToString() + "  ");
 		}
 
 		public void PrintRNL(INode<T>? node)
 		{
 			if (node == null) { return; }
 
-			PrintLNR(node.rNode);
-			Console.Write(node.value!.ToString() + "  ");
-			PrintLNR(node.lNode);
+			PrintLNR(node.getRNode());
+			Console.Write(node.getValue()!.ToString() + "  ");
+			PrintLNR(node.getLNode());
 		}
 
 		public INode<T> findNode(T value)
