@@ -9,7 +9,7 @@ namespace TreeManagementApplication.Model.VisualModel
 {
 	internal class NodeVisual
 	{
-		public Ellipse Shape { get; set; };
+		public Ellipse Shape { get; set; }
 		public String Text { get; set; }
 
 		public NodeVisual()

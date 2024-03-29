@@ -9,4 +9,8 @@
     <StartupObject>TreeManagementApplication.Program</StartupObject>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\VisualModel\" />
+  </ItemGroup>
+
 </Project>

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinaryTree
 {
-	internal class BinaryTree<T> where T : IComparable<T>
+	internal class BinaryTree<T> : ITree<T> where T : IComparable<T>
 	{
 		public BNode<T>? root { get; set; } = null;
 
@@ -57,17 +58,16 @@ namespace TreeManagementApplication.Model.BinaryTree
 			PrintNode(node.rNode, space + 1);
 		}
 
-		public void TraversePreOrder(BNode<T>? parent)
+		public void UpdateNode(T value)
 		{
-			if (parent != null)
-			{
-				Console.Write(parent.value + " ");
-				TraversePreOrder(parent.lNode);
-				TraversePreOrder(parent.rNode);
-			}
+			throw new NotImplementedException();
 		}
 
-		public void PrintLNR(BNode<T>? node)
+		public void RemoveNode(T value)
+		{
+			throw new NotImplementedException();
+		}
+		public void PrintLNR(INode<T>? node)
 		{
 			if (node == null) { return; }
 
@@ -76,13 +76,54 @@ namespace TreeManagementApplication.Model.BinaryTree
 			PrintLNR(node.rNode);
 		}
 
-		public void PrintLRN(BNode<T>? node)
+		public void PrintLRN(INode<T>? node)
 		{
 			if (node == null) { return; }
 
+			PrintLNR(node.getLNode());
+			PrintLNR(node.getRNode());
+			Console.Write(node.value!.ToString() + "  ");
+		}
+
+		public void PrintNLR(INode<T>? node)
+		{
+			if (node == null) { return; }
+
+			Console.Write(node.value!.ToString() + "  ");
 			PrintLNR(node.lNode);
 			PrintLNR(node.rNode);
+		}
+
+		public void PrintNRL(INode<T>? node)
+		{
+			if (node == null) { return; }
+
 			Console.Write(node.value!.ToString() + "  ");
+			PrintLNR(node.rNode);
+			PrintLNR(node.lNode);
+		}
+
+		public void PrintRLN(INode<T>? node)
+		{
+			if (node == null) { return; }
+
+			PrintLNR(node.rNode);
+			PrintLNR(node.lNode);
+			Console.Write(node.value!.ToString() + "  ");
+		}
+
+		public void PrintRNL(INode<T>? node)
+		{
+			if (node == null) { return; }
+
+			PrintLNR(node.rNode);
+			Console.Write(node.value!.ToString() + "  ");
+			PrintLNR(node.lNode);
+		}
+
+		public INode<T> findNode(T value)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

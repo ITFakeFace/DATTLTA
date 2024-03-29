@@ -5,17 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
 using TreeManagementApplication.Model.BinaryTree;
+using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinarySearchTree
 {
-	internal class BSNode<T> where T : IComparable<T>
+	internal class BSNode<T> : INode<T> where T : IComparable<T>
 	{
 		public T? value { get; set; }
 		public BSNode<T>? lNode { get; set; } = null;
 		public BSNode<T>? rNode { get; set; } = null;
-		public Rectangle nodeObject { get; set; } = new Rectangle();
-		public BSNode() { }
-
 		public BSNode(T value)
 		{
 			this.value = value;
@@ -63,6 +61,21 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 				}
 			}
 			return result;
+		}
+
+		public INode<T>? getLNode()
+		{
+			return this.lNode;
+		}
+
+		public INode<T>? getRNode()
+		{
+			return this.rNode;
+		}
+
+		public T? getValue()
+		{
+			return this.value;
 		}
 	}
 }

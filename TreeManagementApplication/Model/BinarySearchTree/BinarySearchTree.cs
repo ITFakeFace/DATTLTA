@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TreeManagementApplication.Model.BinaryTree;
+using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinarySearchTree
 {
-	internal class BinarySearchTree<T> where T : IComparable<T>
+	internal class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
 	{
 		public BSNode<T>? root;
+
+		public List<T>? values = new List<T>();
 
 		public bool IsEmpty()
 		{
@@ -34,10 +37,14 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			if (this.root == null)
 			{
 				this.root = new BSNode<T>(value);
+				values!.Add(value);
 			}
 			else
 			{
-				this.root.InsertNode(value);
+				if (this.root.InsertNode(value))
+				{
+					values!.Add(value);
+				}
 			}
 		}
 
@@ -45,22 +52,15 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 		{
 			BSNode<T>? result = null;
 			if (node == null)
-			{
 				return node;
-			}
 
 			if (node.value!.CompareTo(value) == 0)
-			{
 				result = node;
-			}
 			else if (node.value.CompareTo(value) < 0)
-			{
 				result = FindNode(node.lNode, value);
-			}
 			else
-			{
 				result = FindNode(node.rNode, value);
-			}
+
 			return result;
 		}
 
@@ -72,9 +72,8 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			PrintNode(node.lNode, space + 1);
 			string blankSpace = "";
 			for (int i = 0; i < space * 4; i++)
-			{
 				blankSpace += " ";
-			}
+
 			Console.WriteLine(blankSpace + node.value);
 			PrintNode(node.rNode, space + 1);
 		}
