@@ -29,13 +29,8 @@ namespace TreeManagementApplication.Model.BinaryTree
 		}
 		public void Print()
 		{
-			BinaryTree<int> tree = new BinaryTree<int>();
-			tree.InsertNode(5);
-			tree.InsertNode(3);
-			tree.InsertNode(4);
-			tree.InsertNode(2);
-			tree.InsertNode(1);
-			tree.root!.Print();
+			ConsoleBinaryTreePrinter<T> printer = new ConsoleBinaryTreePrinter<T>();
+			printer.Print(root);
 		}
 
 		public void Print2()

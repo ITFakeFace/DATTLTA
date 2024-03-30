@@ -21,15 +21,8 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 
 		public void Print()
 		{
-			BinarySearchTree<int> bstree = new BinarySearchTree<int>();
-			bstree.InsertNode(5);
-			bstree.InsertNode(3000);
-			bstree.InsertNode(3);
-			bstree.InsertNode(4);
-			bstree.InsertNode(2000);
-			bstree.InsertNode(1);
-
-			bstree.root!.Print();
+			ConsoleBinaryTreePrinter<T> printer = new ConsoleBinaryTreePrinter<T>();
+			printer.Print(root);
 		}
 
 		public void InsertNode(T value)
@@ -130,6 +123,21 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			PrintLNR(node.getRNode());
 			Console.Write(node.getValue()!.ToString() + "  ");
 			PrintLNR(node.getLNode());
+		}
+
+		public void UpdateNode(T value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void RemoveNode(T value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public INode<T> findNode(T value)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

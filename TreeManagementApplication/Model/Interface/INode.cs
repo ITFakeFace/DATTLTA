@@ -12,5 +12,7 @@ namespace TreeManagementApplication.Model.Interface
 		INode<T>? getRNode();
 
 		T? getValue();
+
+		String? ToString();
 	}
 }

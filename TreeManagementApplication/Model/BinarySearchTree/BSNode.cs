@@ -77,5 +77,10 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 		{
 			return this.value;
 		}
+
+		public override String ToString()
+		{
+			return value + "";
+		}
 	}
 }
