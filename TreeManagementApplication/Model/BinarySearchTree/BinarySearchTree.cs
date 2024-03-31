@@ -78,5 +78,81 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			Console.WriteLine(blankSpace + node.value);
 			PrintNode(node.rNode, space + 1);
 		}
+<<<<<<< Updated upstream
+=======
+
+		public void PrintLNR(INode<T>? node)
+		{
+			if (node == null) { return; }
+
+			PrintLNR(node.getLNode());
+			Console.Write(node.getValue()!.ToString() + "  ");
+			PrintLNR(node.getRNode());
+		}
+
+		public void PrintLRN(INode<T>? node)
+		{
+			if (node == null) { return; }
+
+			PrintLNR(node.getLNode());
+			PrintLNR(node.getRNode());
+			Console.Write(node.getValue()!.ToString() + "  ");
+		}
+
+		public void PrintNLR(INode<T>? node)
+		{
+			if (node == null) { return; }
+
+			Console.Write(node.getValue()!.ToString() + "  ");
+			PrintLNR(node.getLNode());
+			PrintLNR(node.getRNode());
+		}
+
+		public void PrintNRL(INode<T>? node)
+		{
+			if (node == null) { return; }
+
+			Console.Write(node.getValue()!.ToString() + "  ");
+			PrintLNR(node.getRNode());
+			PrintLNR(node.getLNode());
+		}
+
+		public void PrintRLN(INode<T>? node)
+		{
+			if (node == null) { return; }
+
+			PrintLNR(node.getRNode());
+			PrintLNR(node.getLNode());
+			Console.Write(node.getValue()!.ToString() + "  ");
+		}
+
+		public void PrintRNL(INode<T>? node)
+		{
+			if (node == null) { return; }
+
+			PrintLNR(node.getRNode());
+			Console.Write(node.getValue()!.ToString() + "  ");
+			PrintLNR(node.getLNode());
+		}
+
+		public void UpdateNode(T value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void RemoveNode(T value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public INode<T> findNode(T value)
+		{
+			throw new NotImplementedException();
+		}
+		public void deleteNode(T value) 
+		{
+			
+		}
+>>>>>>> Stashed changes
 	}
 }
