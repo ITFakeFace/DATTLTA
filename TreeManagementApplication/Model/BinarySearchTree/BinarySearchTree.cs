@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,15 +18,8 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 
 		public void Print()
 		{
-			BinarySearchTree<int> bstree = new BinarySearchTree<int>();
-			bstree.InsertNode(5);
-			bstree.InsertNode(3000);
-			bstree.InsertNode(3);
-			bstree.InsertNode(4);
-			bstree.InsertNode(2000);
-			bstree.InsertNode(1);
-
-			bstree.root!.Print();
+			ConsoleBinaryTreePrinter<T> printer = new ConsoleBinaryTreePrinter<T>();
+			printer.Print(root);
 		}
 
 		public void InsertNode(T value)
@@ -149,10 +142,5 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 		{
 			throw new NotImplementedException();
 		}
-		public void deleteNode(T value) 
-		{
-			
-		}
->>>>>>> Stashed changes
 	}
 }
