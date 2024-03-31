@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using TreeManagementApplication.Model.BinaryTree;
+using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinarySearchTree
 {
@@ -19,7 +21,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 		public void Print()
 		{
 			ConsoleBinaryTreePrinter<T> printer = new ConsoleBinaryTreePrinter<T>();
-			printer.Print(root);
+			printer.Print((INode<T>?)root);
 		}
 
 		public void InsertNode(T value)
@@ -71,8 +73,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			Console.WriteLine(blankSpace + node.value);
 			PrintNode(node.rNode, space + 1);
 		}
-<<<<<<< Updated upstream
-=======
 
 		public void PrintLNR(INode<T>? node)
 		{
@@ -127,13 +127,35 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			Console.Write(node.getValue()!.ToString() + "  ");
 			PrintLNR(node.getLNode());
 		}
+        public Tuple<BSNode<T>?, BSNode<T>?> findNodeToEdit(BSNode<T>? prevNode, BSNode<T>? node, T value)
+        {
 
-		public void UpdateNode(T value)
-		{
-			throw new NotImplementedException();
-		}
+            if (node == null)
+            {
+                return Tuple.Create<BSNode<T>?, BSNode<T>?>(null, null);
+            }
 
-		public void RemoveNode(T value)
+            if (node.value!.CompareTo(value) == 0)
+            {
+                BSNode<T>? result = node;
+                BSNode<T>? prevResult = prevNode;
+                return Tuple.Create(prevResult, result);
+            }
+            else if (node.value.CompareTo(value) < 0)
+            {
+                return findNodeToEdit(node, node.lNode, value);
+            }
+            else
+            {
+                return findNodeToEdit(node, node.rNode, value);
+            }
+
+        }
+
+
+
+
+        public void RemoveNode(T value)
 		{
 			throw new NotImplementedException();
 		}
