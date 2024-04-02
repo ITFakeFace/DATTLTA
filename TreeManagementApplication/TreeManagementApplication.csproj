@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -8,5 +8,19 @@
     <UseWPF>true</UseWPF>
     <StartupObject>TreeManagementApplication.Program</StartupObject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Static\Images\Settings_512px.png" />
+    <None Remove="Settings_512px.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\System\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Static\Images\Settings_512px.png" />
+    <Resource Include="Settings_512px.png" />
+  </ItemGroup>
 
 </Project>
