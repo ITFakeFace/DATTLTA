@@ -66,7 +66,7 @@ namespace TreeManagementApplication
 			// Add Child
 			canvas.Children.Add(ellipse);
 			Console.WriteLine("Node Created");
-			Line line
+
 		}
 	}
 }

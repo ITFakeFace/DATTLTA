@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,6 +63,26 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 				}
 			}
 			return result;
+		}
+
+		public INode<T>? getLNode()
+		{
+			return this.lNode;
+		}
+
+		public INode<T>? getRNode()
+		{
+			return this.rNode;
+		}
+
+		public T? getValue()
+		{
+			return this.value;
+		}
+
+		public override String ToString()
+		{
+			return value + "";
 		}
 	}
 }
