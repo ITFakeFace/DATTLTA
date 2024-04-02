@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TreeManagementApplication.Model.System
+namespace TreeManagementApplication.Model.VisualModel
 {
 	internal class CoordinateCalculator
 	{
@@ -22,16 +22,16 @@ namespace TreeManagementApplication.Model.System
 			this.gridSize = gridSize;
 			paddingX = calculatePaddingX();
 			paddingY = calculatePaddingY();
-			this.gridCoordinateMap = generateCoordinateMap();
+			gridCoordinateMap = generateCoordinateMap();
 		}
 
 		public CoordinateCalculator(Coordinate mapSize, int gridSizeX, int gridSizeY)
 		{
 			this.mapSize = mapSize;
-			this.gridSize = new Coordinate(gridSizeX, gridSizeY);
+			gridSize = new Coordinate(gridSizeX, gridSizeY);
 			paddingX = calculatePaddingX();
 			paddingY = calculatePaddingY();
-			this.gridCoordinateMap = generateCoordinateMap();
+			gridCoordinateMap = generateCoordinateMap();
 		}
 
 		public CoordinateCalculator(Coordinate mapSize, int gridSize)
@@ -40,7 +40,7 @@ namespace TreeManagementApplication.Model.System
 			this.gridSize = new Coordinate(gridSize, gridSize);
 			paddingX = calculatePaddingX();
 			paddingY = calculatePaddingY();
-			this.gridCoordinateMap = generateCoordinateMap();
+			gridCoordinateMap = generateCoordinateMap();
 		}
 
 		public Coordinate getNodeCoordinate(int row, int collum)
@@ -55,12 +55,12 @@ namespace TreeManagementApplication.Model.System
 
 		public double calculatePaddingX()
 		{
-			return (mapSize.X % gridSize.X) / 2;
+			return mapSize.X % gridSize.X / 2;
 		}
 
 		public double calculatePaddingY()
 		{
-			return (mapSize.Y % gridSize.Y) / 2;
+			return mapSize.Y % gridSize.Y / 2;
 		}
 
 		public List<List<Coordinate>> generateCoordinateMap()

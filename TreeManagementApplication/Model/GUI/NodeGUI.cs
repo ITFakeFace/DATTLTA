@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using TreeManagementApplication.Model.System;
 
 namespace TreeManagementApplication.Model.VisualModel
 {

@@ -9,7 +9,7 @@ namespace TreeManagementApplication.Model.GUI
 {
 	class TreeGUI<T> where T : IComparable<T>
 	{
-		INode<T> node;
+		INode<T> root;
 		public void Print()
 		{
 
