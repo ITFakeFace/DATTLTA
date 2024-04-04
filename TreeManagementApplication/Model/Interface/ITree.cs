@@ -21,6 +21,10 @@ namespace TreeManagementApplication.Model.Interface
 		void PrintNRL(INode<T>? node);
 		void PrintRLN(INode<T>? node);
 		void PrintRNL(INode<T>? node);
-		INode<T> findNode(INode<T> node,T value);
-	}
+		public List<INode<T>>? findNode(T value);
+        public void findNodeRecursive(INode<T>? node, T value, List<INode<T>> found);
+
+
+
+    }
 }

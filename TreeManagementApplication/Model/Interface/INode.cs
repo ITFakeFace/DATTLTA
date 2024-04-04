@@ -11,6 +11,7 @@ namespace TreeManagementApplication.Model.Interface
 		INode<T>? getLNode();
 		INode<T>? getRNode();
 		T? getValue();
+		void setValue(T? value);
 
 		String? ToString();
 	}
