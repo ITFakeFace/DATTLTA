@@ -78,6 +78,11 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			return this.value;
 		}
 
+		public void setValue(T? value)
+		{
+			this.value = value;
+		}
+
 		public override String ToString()
 		{
 			return value + "";

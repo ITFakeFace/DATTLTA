@@ -41,23 +41,16 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			}
 		}
 
-		public BSNode<T>? FindNode(BSNode<T>? node, T value)
+		public List<INode<T>>? findNode(T value)
 		{
-			BSNode<T>? result = null;
-			if (node == null)
-				return node;
-
-			if (node.value!.CompareTo(value) == 0)
-				result = node;
-			else if (node.value.CompareTo(value) < 0)
-				result = FindNode(node.lNode, value);
-			else
-				result = FindNode(node.rNode, value);
-
-			return result;
+			throw new NotImplementedException();
+		}
+        public void findNodeRecursive(INode<T>? node, T value, List<INode<T>> found) 
+		{ 
+			throw new NotImplementedException();
 		}
 
-		public void PrintNode(BNode<T>? node, int space)
+        public void PrintNode(BNode<T>? node, int space)
 		{
 			if (node == null)
 				return;
@@ -135,7 +128,11 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			throw new NotImplementedException();
 		}
 
-		public INode<T> findNode(T value)
+		public List<INode<T>>? findNode(INode<T> node,T value)
+		{
+			throw new NotImplementedException();
+		}
+        public INode<T>? editNode(T valueNTR, T valueR)
 		{
 			throw new NotImplementedException();
 		}
