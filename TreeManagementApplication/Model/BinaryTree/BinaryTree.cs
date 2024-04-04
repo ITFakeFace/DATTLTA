@@ -55,7 +55,7 @@ namespace TreeManagementApplication.Model.BinaryTree
 
 		public void UpdateNode(T value)
 		{
-			throw new NotImplementedException();
+			
 		}
 
 		public void RemoveNode(T value)
@@ -116,9 +116,20 @@ namespace TreeManagementApplication.Model.BinaryTree
 			PrintLNR(node.getLNode());
 		}
 
-		public INode<T> findNode(T value)
+		public INode<T> findNode(INode<T> node,T value)
 		{
-			throw new NotImplementedException();
+			INode<T> found = null;
+			if (node == null) 
+			{
+				return node;
+			}
+			found = findNode(node.getLNode(), value);
+			if(found == null)
+			{
+				found = findNode(node.getRNode(), value);
+			}
+			return found; 
 		}
+		public 
 	}
 }

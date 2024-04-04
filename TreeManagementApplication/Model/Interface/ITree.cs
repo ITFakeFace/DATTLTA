@@ -14,12 +14,13 @@ namespace TreeManagementApplication.Model.Interface
 		void UpdateNode(T value);
 		void RemoveNode(T value);
 
+
 		void PrintLNR(INode<T>? node);
 		void PrintLRN(INode<T>? node);
 		void PrintNLR(INode<T>? node);
 		void PrintNRL(INode<T>? node);
 		void PrintRLN(INode<T>? node);
 		void PrintRNL(INode<T>? node);
-		INode<T> findNode(T value);
+		INode<T> findNode(INode<T> node,T value);
 	}
 }
