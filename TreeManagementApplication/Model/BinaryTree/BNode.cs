@@ -61,5 +61,9 @@ namespace TreeManagementApplication.Model.BinaryTree
 		{
 			return this.value;
 		}
+		public void setValue(T? value)
+		{
+			this.value = value;
+		}
 	}
 }

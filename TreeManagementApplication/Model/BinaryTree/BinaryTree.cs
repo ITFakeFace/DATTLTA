@@ -52,13 +52,13 @@ namespace TreeManagementApplication.Model.BinaryTree
 			Console.WriteLine(blankSpace + node.value);
 			PrintNode(node.rNode, space + 1);
 		}
-
-		public void UpdateNode(T value)
+		public void  UpdateNode(T value)
 		{
 			
 		}
 
-		public void RemoveNode(T value)
+
+        public void RemoveNode(T value)
 		{
 			throw new NotImplementedException();
 		}
@@ -116,20 +116,38 @@ namespace TreeManagementApplication.Model.BinaryTree
 			PrintLNR(node.getLNode());
 		}
 
-		public INode<T> findNode(INode<T> node,T value)
-		{
-			INode<T> found = null;
-			if (node == null) 
-			{
-				return node;
-			}
-			found = findNode(node.getLNode(), value);
-			if(found == null)
-			{
-				found = findNode(node.getRNode(), value);
-			}
-			return found; 
-		}
-		public 
-	}
+        public List<INode<T>>? findNode(T value)
+        {
+            List<INode<T>>? found = new List<INode<T>>();
+            findNodeRecursive(root, value, found);
+
+            return found;
+        }
+
+        public void findNodeRecursive(INode<T>? node, T value, List<INode<T>> found)
+        {
+            if (node == null)
+            {
+                return;
+            }
+
+            int isEqual = node.getValue().CompareTo(value);
+            if (isEqual == 0 && !found.Contains(node))
+            {
+                found.Add(node);
+            }
+
+            if (node.getLNode() != null)
+            {
+                findNodeRecursive(node.getLNode(), value, found);
+            }
+            if (node.getRNode() != null)
+            {
+                findNodeRecursive(node.getRNode(), value, found);
+            }
+        }
+
+
+
+    }
 }
