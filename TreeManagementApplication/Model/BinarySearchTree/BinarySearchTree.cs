@@ -1,140 +1,135 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TreeManagementApplication.Model.BinaryTree;
+﻿using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinarySearchTree
 {
-	internal class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
-	{
-		public BSNode<T>? root;
+    internal class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
+    {
+        public BSNode<T>? root;
 
-		public List<T>? values = new List<T>();
+        public List<T>? values = new List<T>();
 
-		public bool IsEmpty()
-		{
-			return this.root == null;
-		}
+        public bool IsEmpty()
+        {
+            return this.root == null;
+        }
 
-		public void Print()
-		{
-			ConsoleBinaryTreePrinter<T> printer = new ConsoleBinaryTreePrinter<T>();
-			printer.Print(root);
-		}
+        public void Print()
+        {
+            ConsoleBinaryTreePrinter<T> printer = new ConsoleBinaryTreePrinter<T>();
+            printer.Print(root);
+        }
 
-		public void InsertNode(T value)
-		{
-			if (this.root == null)
-			{
-				this.root = new BSNode<T>(value);
-				values!.Add(value);
-			}
-			else
-			{
-				if (this.root.InsertNode(value))
-				{
-					values!.Add(value);
-				}
-			}
-		}
+        public void InsertNode(T value)
+        {
+            if (this.root == null)
+            {
+                this.root = new BSNode<T>(value);
+                values!.Add(value);
+            }
+            else
+            {
+                if (this.root.InsertNode(value))
+                {
+                    values!.Add(value);
+                }
+            }
+        }
 
-		public List<INode<T>>? findNode(T value)
-		{
-			throw new NotImplementedException();
-		}
-        public void findNodeRecursive(INode<T>? node, T value, List<INode<T>> found) 
-		{ 
-			throw new NotImplementedException();
-		}
+        public List<INode<T>>? findNode(T value)
+        {
+            throw new NotImplementedException();
+        }
+        public void findNodeRecursive(INode<T>? node, T value, List<INode<T>> found)
+        {
+            throw new NotImplementedException();
+        }
 
         public void PrintNode(BNode<T>? node, int space)
-		{
-			if (node == null)
-				return;
+        {
+            if (node == null)
+                return;
 
-			PrintNode(node.lNode, space + 1);
-			string blankSpace = "";
-			for (int i = 0; i < space * 4; i++)
-				blankSpace += " ";
+            PrintNode(node.lNode, space + 1);
+            string blankSpace = "";
+            for (int i = 0; i < space * 4; i++)
+                blankSpace += " ";
 
-			Console.WriteLine(blankSpace + node.value);
-			PrintNode(node.rNode, space + 1);
-		}
+            Console.WriteLine(blankSpace + node.value);
+            PrintNode(node.rNode, space + 1);
+        }
 
-		public void PrintLNR(INode<T>? node)
-		{
-			if (node == null) { return; }
+        public void PrintLNR(INode<T>? node)
+        {
+            if (node == null) { return; }
 
-			PrintLNR(node.getLNode());
-			Console.Write(node.getValue()!.ToString() + "  ");
-			PrintLNR(node.getRNode());
-		}
+            PrintLNR(node.getLNode());
+            Console.Write(node.getValue()!.ToString() + "  ");
+            PrintLNR(node.getRNode());
+        }
 
-		public void PrintLRN(INode<T>? node)
-		{
-			if (node == null) { return; }
+        public void PrintLRN(INode<T>? node)
+        {
+            if (node == null) { return; }
 
-			PrintLNR(node.getLNode());
-			PrintLNR(node.getRNode());
-			Console.Write(node.getValue()!.ToString() + "  ");
-		}
+            PrintLNR(node.getLNode());
+            PrintLNR(node.getRNode());
+            Console.Write(node.getValue()!.ToString() + "  ");
+        }
 
-		public void PrintNLR(INode<T>? node)
-		{
-			if (node == null) { return; }
+        public void PrintNLR(INode<T>? node)
+        {
+            if (node == null) { return; }
 
-			Console.Write(node.getValue()!.ToString() + "  ");
-			PrintLNR(node.getLNode());
-			PrintLNR(node.getRNode());
-		}
+            Console.Write(node.getValue()!.ToString() + "  ");
+            PrintLNR(node.getLNode());
+            PrintLNR(node.getRNode());
+        }
 
-		public void PrintNRL(INode<T>? node)
-		{
-			if (node == null) { return; }
+        public void PrintNRL(INode<T>? node)
+        {
+            if (node == null) { return; }
 
-			Console.Write(node.getValue()!.ToString() + "  ");
-			PrintLNR(node.getRNode());
-			PrintLNR(node.getLNode());
-		}
+            Console.Write(node.getValue()!.ToString() + "  ");
+            PrintLNR(node.getRNode());
+            PrintLNR(node.getLNode());
+        }
 
-		public void PrintRLN(INode<T>? node)
-		{
-			if (node == null) { return; }
+        public void PrintRLN(INode<T>? node)
+        {
+            if (node == null) { return; }
 
-			PrintLNR(node.getRNode());
-			PrintLNR(node.getLNode());
-			Console.Write(node.getValue()!.ToString() + "  ");
-		}
+            PrintLNR(node.getRNode());
+            PrintLNR(node.getLNode());
+            Console.Write(node.getValue()!.ToString() + "  ");
+        }
 
-		public void PrintRNL(INode<T>? node)
-		{
-			if (node == null) { return; }
+        public void PrintRNL(INode<T>? node)
+        {
+            if (node == null) { return; }
 
-			PrintLNR(node.getRNode());
-			Console.Write(node.getValue()!.ToString() + "  ");
-			PrintLNR(node.getLNode());
-		}
+            PrintLNR(node.getRNode());
+            Console.Write(node.getValue()!.ToString() + "  ");
+            PrintLNR(node.getLNode());
+        }
 
-		public void UpdateNode(T value)
-		{
-			throw new NotImplementedException();
-		}
+        public void UpdateNode(T value)
+        {
+            throw new NotImplementedException();
+        }
 
-		public void RemoveNode(T value)
-		{
-			throw new NotImplementedException();
-		}
+        public void RemoveNode(T value)
+        {
+            throw new NotImplementedException();
+        }
 
-		public List<INode<T>>? findNode(INode<T> node,T value)
-		{
-			throw new NotImplementedException();
-		}
-        public INode<T>? editNode(T valueNTR, T valueR)
-		{
-			throw new NotImplementedException();
-		}
-	}
+        public List<INode<T>>? findNode(INode<T> node, T value)
+        {
+            throw new NotImplementedException();
+        }
+        public void editNode(T valueNTR, T valueR)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

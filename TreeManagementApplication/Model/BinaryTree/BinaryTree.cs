@@ -46,10 +46,7 @@ namespace TreeManagementApplication.Model.BinaryTree
             Console.WriteLine(blankSpace + node.value);
             PrintNode(node.rNode, space + 1);
         }
-        public void UpdateNode(T value)
-        {
 
-        }
 
 
         public void RemoveNode(T value)
