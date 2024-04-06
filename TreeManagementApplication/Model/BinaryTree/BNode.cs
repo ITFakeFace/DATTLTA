@@ -6,60 +6,99 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Shapes;
 using TreeManagementApplication.Model.Interface;
+using TreeManagementApplication.Model.VisualModel;
 
 namespace TreeManagementApplication.Model.BinaryTree
 {
 	internal class BNode<T> : INode<T> where T : IComparable<T>
 	{
-		public T? value { get; set; }
-		public BNode<T>? lNode { get; set; } = null;
-		public BNode<T>? rNode { get; set; } = null;
-		public BNode(List<T> values) : this(values, 0)
+		public T? Value { get; set; }
+		public NodeGUI<T> GUI { get; set; } = new NodeGUI<T>();
+		public BNode<T>? LNode { get; set; } = null;
+		public BNode<T>? RNode { get; set; } = null;
+		public int Level { get; set; } = 0;
+		public int XIndex { get; set; } = 0;
+		public BNode(List<T> Values) : this(Values, 0)
 		{
 
 		}
 
-		public BNode(List<T> values, int index)
+		public BNode(List<T> Values, int Index)
 		{
-			Load(this, values, index);
+			Load(this, Values, Index, 0);
 		}
 
-		private void Load(BNode<T> tree, List<T> values, int index)
+		private void Load(BNode<T> Tree, List<T> Values, int Index, int Level)
 		{
-			if (index >= values.Count)
+			if (Index >= Values.Count)
 				return;
 
-			tree.value = values[index];
+			Tree.Value = Values[Index];
 
-			if (index * 2 + 1 < values.Count)
-				tree.lNode = new BNode<T>(values, index * 2 + 1);
+			if (Index * 2 + 1 < Values.Count)
+				Tree.LNode = new BNode<T>(Values, Index * 2 + 1);
 
-			if (index * 2 + 2 < values.Count)
-				tree.rNode = new BNode<T>(values, index * 2 + 2);
+			if (Index * 2 + 2 < Values.Count)
+				Tree.RNode = new BNode<T>(Values, Index * 2 + 2);
 		}
 
-		public bool isLeftest()
+		public bool IsLeftest()
 		{
-			if (lNode == null)
+			if (LNode == null)
 			{
 				return true;
 			}
 			return false;
 		}
 
-		public INode<T>? getLNode()
+		public INode<T>? GetLNode()
 		{
-			return this.lNode;
+			return this.LNode;
 		}
 
-		public INode<T>? getRNode()
+		public INode<T>? GetRNode()
 		{
-			return this.rNode;
+			return this.RNode;
 		}
 
-		public T? getValue()
+		public T? GetValue()
 		{
-			return this.value;
+			return this.Value;
+		}
+
+		public INode<T>? FindChildNode(INode<T>? Node, T Value)
+		{
+			INode<T>? result = null;
+			if (Node == null)
+				return null;
+
+			if (Node.GetValue()!.CompareTo(Value) == 0)
+				result = Node;
+			if (result != null)
+				result = FindChildNode(Node.GetLNode(), Value);
+			if (result != null)
+				result = FindChildNode(Node.GetRNode(), Value);
+			return result;
+		}
+
+		public NodeGUI<T> GetGUI()
+		{
+			return this.GUI;
+		}
+
+		public int GetLevel()
+		{
+			throw new NotImplementedException();
+		}
+
+		public int GetDepth()
+		{
+			throw new NotImplementedException();
+		}
+
+		public int GetXIndex()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

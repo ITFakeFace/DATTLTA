@@ -4,119 +4,155 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TreeManagementApplication.Model.GUI;
 using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinaryTree
 {
 	internal class BinaryTree<T> : ITree<T> where T : IComparable<T>
 	{
-		public BNode<T>? root { get; set; } = null;
+		public BNode<T>? Root { get; set; } = null;
 
-		public List<T>? values { get; set; }
+		public List<T>? Values { get; set; }
+
+		public TreeGUI<T> GUI { get; set; } = new TreeGUI<T>();
 
 		public bool IsEmpty()
 		{
-			return root == null;
+			return Root == null;
 		}
-		public void InsertNode(T value)
+
+		public void InsertNode(T Value)
 		{
-			if (values == null)
+			if (Values == null)
 			{
-				values = new List<T>();
+				Values = new List<T>();
 			}
-			values.Add(value);
-			root = new BNode<T>(values);
-		}
-		public void Print()
-		{
-			ConsoleBinaryTreePrinter<T> printer = new ConsoleBinaryTreePrinter<T>();
-			printer.Print(root);
+			Values.Add(Value);
+			Root = new BNode<T>(Values);
 		}
 
-		public void Print2()
+		public void PrintConsole()
 		{
-			PrintNode(root, 2);
+			ConsoleBinaryTreePrinter<T> Printer = new ConsoleBinaryTreePrinter<T>();
+			Printer.Print(Root);
 		}
 
-		public void PrintNode(BNode<T>? node, int space)
+		/*
+		public void PrintConsole2()
 		{
-			if (node == null)
+			PrintNodeToConsole(Root, 2);
+		}
+
+		public void PrintNodeToConsole(BNode<T>? Node, int Space)
+		{
+			if (Node == null)
 				return;
 
-			PrintNode(node.lNode, space + 1);
-			string blankSpace = "";
-			for (int i = 0; i < space * 4; i++)
+			PrintNodeToConsole(Node.LNode, Space + 1);
+			string BlankSpace = "";
+			for (int i = 0; i < Space * 4; i++)
 			{
-				blankSpace += " ";
+				BlankSpace += " ";
 			}
-			Console.WriteLine(blankSpace + node.value);
-			PrintNode(node.rNode, space + 1);
+			Console.WriteLine(BlankSpace + Node.Value);
+			PrintNodeToConsole(Node.RNode, Space + 1);
+		}
+		*/
+
+		public void PrintLNR(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+
+			PrintLNR(Node.GetLNode());
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+			PrintLNR(Node.GetRNode());
+		}
+		public void PrintLRN(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+
+			PrintLNR(Node.GetLNode());
+			PrintLNR(Node.GetRNode());
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+		}
+		public void PrintNLR(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+			PrintLNR(Node.GetLNode());
+			PrintLNR(Node.GetRNode());
+		}
+		public void PrintNRL(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+			PrintLNR(Node.GetRNode());
+			PrintLNR(Node.GetLNode());
+		}
+		public void PrintRLN(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+
+			PrintLNR(Node.GetRNode());
+			PrintLNR(Node.GetLNode());
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+		}
+		public void PrintRNL(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+
+			PrintLNR(Node.GetRNode());
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+			PrintLNR(Node.GetLNode());
 		}
 
-		public void UpdateNode(T value)
+		public bool FindNode(INode<T>? Node, T Value)
+		{
+			if (Node == null)
+			{
+				return false;
+			}
+			if (Node.GetValue()!.CompareTo(Value) == 0)
+			{
+				return true;
+			}
+			return FindNode(Node.GetLNode(), Value) || FindNode(Node.GetRNode(), Value);
+		}
+
+		public INode<T>? FindNode(T Value)
+		{
+			if (this.Root == null)
+			{
+				return null;
+			}
+			return this.Root.FindChildNode(this.Root, Value);
+		}
+
+		public INode<T>? GetRoot()
+		{
+			return this.Root;
+		}
+
+		public void SetRoot(INode<T> Node)
+		{
+			if (Node is BNode<T>)
+			{
+				this.Root = (BNode<T>)Node;
+			}
+			else
+			{
+				Console.WriteLine("Node is not root of Binary Tree");
+			}
+		}
+		public void UpdateNode(T Value)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void RemoveNode(T value)
-		{
-			throw new NotImplementedException();
-		}
-		public void PrintLNR(INode<T>? node)
-		{
-			if (node == null) { return; }
-
-			PrintLNR(node.getLNode());
-			Console.Write(node.getValue()!.ToString() + "  ");
-			PrintLNR(node.getRNode());
-		}
-
-		public void PrintLRN(INode<T>? node)
-		{
-			if (node == null) { return; }
-
-			PrintLNR(node.getLNode());
-			PrintLNR(node.getRNode());
-			Console.Write(node.getValue()!.ToString() + "  ");
-		}
-
-		public void PrintNLR(INode<T>? node)
-		{
-			if (node == null) { return; }
-
-			Console.Write(node.getValue()!.ToString() + "  ");
-			PrintLNR(node.getLNode());
-			PrintLNR(node.getRNode());
-		}
-
-		public void PrintNRL(INode<T>? node)
-		{
-			if (node == null) { return; }
-
-			Console.Write(node.getValue()!.ToString() + "  ");
-			PrintLNR(node.getRNode());
-			PrintLNR(node.getLNode());
-		}
-
-		public void PrintRLN(INode<T>? node)
-		{
-			if (node == null) { return; }
-
-			PrintLNR(node.getRNode());
-			PrintLNR(node.getLNode());
-			Console.Write(node.getValue()!.ToString() + "  ");
-		}
-
-		public void PrintRNL(INode<T>? node)
-		{
-			if (node == null) { return; }
-
-			PrintLNR(node.getRNode());
-			Console.Write(node.getValue()!.ToString() + "  ");
-			PrintLNR(node.getLNode());
-		}
-
-		public INode<T> findNode(T value)
+		public void RemoveNode(T Value)
 		{
 			throw new NotImplementedException();
 		}

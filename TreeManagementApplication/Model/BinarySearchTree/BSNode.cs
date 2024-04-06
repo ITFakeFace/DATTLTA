@@ -6,81 +6,112 @@ using System.Threading.Tasks;
 using System.Windows.Shapes;
 using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.Interface;
+using TreeManagementApplication.Model.VisualModel;
 
 namespace TreeManagementApplication.Model.BinarySearchTree
 {
 	internal class BSNode<T> : INode<T> where T : IComparable<T>
 	{
-		public T? value { get; set; }
-		public BSNode<T>? lNode { get; set; } = null;
-		public BSNode<T>? rNode { get; set; } = null;
-		public BSNode(T value)
+		public T? Value { get; set; }
+		public NodeGUI<T> GUI { get; set; } = new NodeGUI<T>();
+		public int Level { get; set; } = 0;
+		public int XIndex { get; set; } = 0;
+		public BSNode<T>? LNode { get; set; } = null;
+		public BSNode<T>? RNode { get; set; } = null;
+		public BSNode(T Value)
 		{
-			this.value = value;
+			this.Value = Value;
 		}
 
-		public BSNode(T value, BSNode<T> lNode, BSNode<T> rNode)
+		public BSNode(T Value, BSNode<T> LNode, BSNode<T> RNode)
 		{
-			this.value = value;
-			this.lNode = lNode;
-			this.rNode = rNode;
+			this.Value = Value;
+			this.LNode = LNode;
+			this.RNode = RNode;
 		}
 
-		public BSNode<T> initialize(T value)
+		public BSNode<T> initialize(T Value)
 		{
-			return new BSNode<T>(value);
+			return new BSNode<T>(Value);
 		}
-
-		public bool InsertNode(T value)
+		public bool IsLeftest()
+		{
+			if (LNode == null)
+			{
+				return true;
+			}
+			return false;
+		}
+		public bool InsertNode(T Value)
 		{
 			bool result = false;
-			if (this.value!.CompareTo(value) > 0)
+			if (this.Value!.CompareTo(Value) > 0)
 			{
-				if (lNode == null)
+				if (LNode == null)
 				{
-					lNode = new BSNode<T>(value);
+					LNode = new BSNode<T>(Value);
 					result = true;
 				}
 				else
 				{
-					lNode.InsertNode(value);
+					LNode.InsertNode(Value);
 					result = true;
 				}
 			}
 			else
 			{
-				if (rNode == null)
+				if (RNode == null)
 				{
-					rNode = new BSNode<T>(value);
+					RNode = new BSNode<T>(Value);
 					result = true;
 				}
 				else
 				{
-					rNode.InsertNode(value);
+					RNode.InsertNode(Value);
 					result = true;
 				}
 			}
 			return result;
 		}
 
-		public INode<T>? getLNode()
+		public INode<T>? GetLNode()
 		{
-			return this.lNode;
+			return this.LNode;
 		}
 
-		public INode<T>? getRNode()
+		public INode<T>? GetRNode()
 		{
-			return this.rNode;
+			return this.RNode;
 		}
 
-		public T? getValue()
+		public T? GetValue()
 		{
-			return this.value;
+			return this.Value;
 		}
 
 		public override String ToString()
 		{
-			return value + "";
+			return Value + "";
+		}
+
+		public INode<T>? FindChildNode(INode<T> Node, T Value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public NodeGUI<T> GetGUI()
+		{
+			return this.GUI;
+		}
+
+		public int GetLevel()
+		{
+			return this.Level;
+		}
+
+		public int GetXIndex()
+		{
+			return this.XIndex;
 		}
 	}
 }

@@ -9,17 +9,19 @@ namespace TreeManagementApplication.Model.Interface
 {
 	interface ITree<T> where T : IComparable<T>
 	{
-		void Print();
-		void InsertNode(T value);
-		void UpdateNode(T value);
-		void RemoveNode(T value);
-
-		void PrintLNR(INode<T>? node);
-		void PrintLRN(INode<T>? node);
-		void PrintNLR(INode<T>? node);
-		void PrintNRL(INode<T>? node);
-		void PrintRLN(INode<T>? node);
-		void PrintRNL(INode<T>? node);
-		INode<T> findNode(T value);
+		bool IsEmpty();
+		void PrintConsole();
+		void InsertNode(T Value);
+		void UpdateNode(T Value);
+		void RemoveNode(T Value);
+		void PrintLNR(INode<T>? Node);
+		void PrintLRN(INode<T>? Node);
+		void PrintNLR(INode<T>? Node);
+		void PrintNRL(INode<T>? Node);
+		void PrintRLN(INode<T>? Node);
+		void PrintRNL(INode<T>? Node);
+		INode<T>? FindNode(T Value);
+		INode<T>? GetRoot();
+		void SetRoot(INode<T> Node);
 	}
 }
