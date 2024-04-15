@@ -5,22 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TreeManagementApplication.Model.BinarySearchTree;
+using TreeManagementApplication.Model.BinaryTree;
+using TreeManagementApplication.Model.Interface;
 
-namespace TreeManagementApplication.Model.BinaryTree
+namespace TreeManagementApplication.Model
 {
-	internal static class BTreePrinter //where T : IComparable<T>
+	internal class ConsoleBinaryTreePrinter<T> where T : IComparable<T>
 	{
-		class NodeInfo
+		class NodeInfo<T> where T : IComparable<T>
 		{
-			public BNode<int> Node;
-			public string Text;
+			public INode<T>? Node;
+			public string? Text;
 			public int StartPos;
 			public int Size { get { return Text.Length; } }
 			public int EndPos { get { return StartPos + Size; } set { StartPos = value - Size; } }
-			public NodeInfo Parent, Left, Right;
+			public NodeInfo<T>? Parent, Left, Right;
 		}
 
-		public static void Print(this BNode<int> root, int topMargin = 2, int leftMargin = 2)
+		/*
+		public static void Print(BSNode<int>? root, int topMargin = 2, int leftMargin = 2)
 		{
 			if (root == null) return;
 			int rootTop = Console.CursorTop + topMargin;
@@ -74,8 +77,9 @@ namespace TreeManagementApplication.Model.BinaryTree
 			}
 			Console.SetCursorPosition(0, rootTop + 2 * last.Count - 1);
 		}
+		*/
 
-		private static void Print(NodeInfo item, int top)
+		private static void Print(NodeInfo<T> item, int top)
 		{
 			SwapColors();
 			Print(item.Text, top, item.StartPos);
@@ -105,6 +109,61 @@ namespace TreeManagementApplication.Model.BinaryTree
 			var color = Console.ForegroundColor;
 			Console.ForegroundColor = Console.BackgroundColor;
 			Console.BackgroundColor = color;
+		}
+
+		internal void Print(INode<T>? root, int topMargin = 2, int leftMargin = 2)
+		{
+			if (root == null) return;
+			int rootTop = Console.CursorTop + topMargin;
+			var last = new List<NodeInfo<T>>();
+			var next = root;
+			for (int level = 0; next != null; level++)
+			{
+				var item = new NodeInfo<T> { Node = next, Text = " " + next.getValue()!.ToString() + " " };
+				if (level < last.Count)
+				{
+					item.StartPos = last[level].EndPos + 1;
+					last[level] = item;
+				}
+				else
+				{
+					item.StartPos = leftMargin;
+					last.Add(item);
+				}
+				if (level > 0)
+				{
+					item.Parent = last[level - 1];
+					if (next == item.Parent.Node.getLNode())
+					{
+						item.Parent.Left = item;
+						item.EndPos = Math.Max(item.EndPos, item.Parent.StartPos);
+					}
+					else
+					{
+						item.Parent.Right = item;
+						item.StartPos = Math.Max(item.StartPos, item.Parent.EndPos);
+					}
+				}
+				next = next.getLNode() ?? next.getRNode();
+				for (; next == null; item = item.Parent)
+				{
+					Print(item, rootTop + 2 * level);
+					if (--level < 0) break;
+					if (item == item.Parent.Left)
+					{
+						item.Parent.StartPos = item.EndPos;
+						next = item.Parent.Node.getRNode();
+					}
+					else
+					{
+						if (item.Parent.Left == null)
+							item.Parent.EndPos = item.StartPos;
+						else
+							item.Parent.StartPos += (item.StartPos - item.Parent.EndPos) / 2;
+					}
+				}
+			}
+			Console.SetCursorPosition(0, rootTop + 2 * last.Count - 1);
 		}
 	}
 }

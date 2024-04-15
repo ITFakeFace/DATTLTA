@@ -10,15 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Model\System\**" />
-    <EmbeddedResource Remove="Model\System\**" />
-    <None Remove="Model\System\**" />
-    <Page Remove="Model\System\**" />
+    <Folder Include="Model\VisualModel\" />
   </ItemGroup>
-
-	<ItemGroup>
-		<Resource Include="Resources\Static\Images\Settings_512px.png" />
-	</ItemGroup>
-
 
 </Project>

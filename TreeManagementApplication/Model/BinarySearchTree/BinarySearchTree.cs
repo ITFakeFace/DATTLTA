@@ -1,82 +1,188 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Xml.Linq;
 using TreeManagementApplication.Model.BinaryTree;
+using TreeManagementApplication.Model.Interface;
+using TreeManagementApplication.Model.VisualModel;
 
 namespace TreeManagementApplication.Model.BinarySearchTree
 {
-	internal class BinarySearchTree<T> where T : IComparable<T>
+	internal class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
 	{
-		public BSNode<T>? root;
+		public BSNode<T>? Root { get; set; }
+
+		public List<T>? Values { get; set; } = new List<T>();
 
 		public bool IsEmpty()
 		{
-			return this.root == null;
+			return this.Root == null;
 		}
 
-		public void Print()
+		public INode<T>? GetRoot()
 		{
-			BinarySearchTree<int> bstree = new BinarySearchTree<int>();
-			bstree.InsertNode(5);
-			bstree.InsertNode(3000);
-			bstree.InsertNode(3);
-			bstree.InsertNode(4);
-			bstree.InsertNode(2000);
-			bstree.InsertNode(1);
-
-			bstree.root!.Print();
+			return this.GetRoot();
 		}
 
-		public void InsertNode(T value)
+		public void SetRoot(INode<T> Node)
 		{
-			if (this.root == null)
+			if (Node is BSNode<T>)
 			{
-				this.root = new BSNode<T>(value);
+				this.Root = (BSNode<T>)Node;
 			}
 			else
 			{
-				this.root.InsertNode(value);
+				Console.WriteLine("Node is not root of Binary Tree");
 			}
 		}
 
-		public BSNode<T>? FindNode(BSNode<T>? node, T value)
+		public void PrintConsole()
 		{
-			BSNode<T>? result = null;
-			if (node == null)
-			{
-				return node;
-			}
+			ConsoleBinaryTreePrinter<T> printer = new ConsoleBinaryTreePrinter<T>();
+			printer.Print(Root);
+		}
 
-			if (node.value!.CompareTo(value) == 0)
+		public void InsertNode(T Value)
+		{
+			if (this.Root == null)
 			{
-				result = node;
-			}
-			else if (node.value.CompareTo(value) < 0)
-			{
-				result = FindNode(node.lNode, value);
+				this.Root = new BSNode<T>(Value);
+				Values!.Add(Value);
 			}
 			else
 			{
-				result = FindNode(node.rNode, value);
+				if (this.Root.InsertNode(Value))
+				{
+					Values!.Add(Value);
+				}
 			}
-			return result;
 		}
 
-		public void PrintNode(BNode<T>? node, int space)
+		public void PrintNode(BNode<T>? Node, int space)
 		{
-			if (node == null)
+			if (Node == null)
 				return;
 
-			PrintNode(node.lNode, space + 1);
+			PrintNode(Node.LNode, space + 1);
 			string blankSpace = "";
 			for (int i = 0; i < space * 4; i++)
-			{
 				blankSpace += " ";
+
+			Console.WriteLine(blankSpace + Node.Value);
+			PrintNode(Node.RNode, space + 1);
+		}
+
+		public void PrintLNR(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+
+			PrintLNR(Node.GetLNode());
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+			PrintLNR(Node.GetRNode());
+		}
+
+		public void PrintLRN(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+
+			PrintLNR(Node.GetLNode());
+			PrintLNR(Node.GetRNode());
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+		}
+
+		public void PrintNLR(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+			PrintLNR(Node.GetLNode());
+			PrintLNR(Node.GetRNode());
+		}
+
+		public void PrintNRL(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+			PrintLNR(Node.GetRNode());
+			PrintLNR(Node.GetLNode());
+		}
+
+		public void PrintRLN(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+
+			PrintLNR(Node.GetRNode());
+			PrintLNR(Node.GetLNode());
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+		}
+
+		public void PrintRNL(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+
+			PrintLNR(Node.GetRNode());
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+			PrintLNR(Node.GetLNode());
+		}
+
+		public void UpdateNode(T Value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void RemoveNode(T Value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public INode<T>? FindNode(T Value)
+		{
+			if (this.GetRoot() == null) { return null; }
+			return this.GetRoot()!.FindChildNode(this.GetRoot()!, Value);
+		}
+
+
+		public void PrintIndexConsole()
+		{
+			PrintNodeIndexToConsole(Root, 2);
+		}
+
+		public void PrintNodeIndexToConsole(BSNode<T>? Node, int Space)
+		{
+			if (Node == null)
+				return;
+
+			PrintNodeIndexToConsole(Node.LNode, Space + 1);
+			string BlankSpace = "";
+			for (int i = 0; i < Space * 4; i++)
+			{
+				BlankSpace += " ";
 			}
-			Console.WriteLine(blankSpace + node.value);
-			PrintNode(node.rNode, space + 1);
+			Console.WriteLine(BlankSpace + $"({Node.Value},{Node.XIndex},{Node.Level})");
+			PrintNodeIndexToConsole(Node.RNode, Space + 1);
+		}
+
+		public void GenerateGridIndex()
+		{
+			if (Root == null) { return; }
+			int pos = 0;
+			Root.CalcX(ref pos);
+			pos = 0;
+			Root.CalcY(pos);
+		}
+
+		public int GetLargestX(INode<T> Node)
+		{
+			if (Node.GetRNode() == null)
+			{
+				return Node.GetXIndex();
+			}
+			return GetLargestX(Node.GetRNode()!);
+
 		}
 	}
 }
