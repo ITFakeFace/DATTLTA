@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using TreeManagementApplication.Model;
 using TreeManagementApplication.Model.BinarySearchTree;
+using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.GUI;
 using TreeManagementApplication.Model.VisualModel;
 
@@ -18,7 +19,7 @@ namespace TreeManagementApplication
 	{
 		bool createNodeMode = false;
 		CoordinateCalculator coordinateCalculator;
-		BinarySearchTree<int> binaryTree = new BinarySearchTree<int>();
+		BinaryTree<int> binaryTree = new BinaryTree<int>();
 		int GridSize;
 
 		public MainWindow()
@@ -55,7 +56,8 @@ namespace TreeManagementApplication
 				foreach (var item in inpList)
 				{
 					int nodeVal = int.Parse(item);
-					binaryTree.InsertNode(nodeVal);
+					//binaryTree.InsertNode(nodeVal);
+					binaryTree = (BinaryTree<int>)binaryTree.GenerateRandomTree(10, 1, 10);
 					Console.WriteLine("Inserted Node");
 				}
 

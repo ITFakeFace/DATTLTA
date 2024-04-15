@@ -20,8 +20,8 @@
         <TextBox Name="ValAddInp" Canvas.Left="142" TextWrapping="Wrap" Text="Value" Canvas.Top="13" Width="468" FontSize="36" InputScope="Number" TextChanged="RowInp_TextChanged" KeyDown="RowInp_KeyDown" GotFocus="ValAddInp_GotFocus" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <Button Name="CreateNodeBtn" Content="Create Node" Canvas.Left="642" Canvas.Top="13" RenderTransformOrigin="-0.905,-0.246" FontSize="36" Click="CreateNodeBtn_Click_1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <TextBlock Canvas.Left="22" TextWrapping="Wrap" Text="Value" Canvas.Top="12" FontSize="36"/>
-        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="50,0,0,50" Canvas.Left="100" Canvas.Top="100">
-            <Rectangle Height="100" Canvas.Left="65" Stroke="Black" Canvas.Top="411" Width="50" StrokeThickness="0"/>
+        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="50,0,0,50" Canvas.Left="100" Canvas.Top="200">
+            <Rectangle Height="100" Canvas.Left="65" Stroke="Black" Canvas.Top="411" Width="50" StrokeThickness="0" RadiusX="0" RadiusY="0"/>
         </Border>
     </Canvas>
 </Window>
