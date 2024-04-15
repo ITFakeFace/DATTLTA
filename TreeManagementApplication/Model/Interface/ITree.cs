@@ -1,10 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TreeManagementApplication.Model.BinaryTree;
-
 namespace TreeManagementApplication.Model.Interface
 {
 	interface ITree<T> where T : IComparable<T>
@@ -23,5 +16,6 @@ namespace TreeManagementApplication.Model.Interface
 		INode<T>? FindNode(T Value);
 		INode<T>? GetRoot();
 		void SetRoot(INode<T> Node);
+        void editNode(T nodeValue, T valueReplaced);
 	}
 }

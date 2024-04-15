@@ -228,5 +228,9 @@ namespace TreeManagementApplication.Model.BinaryTree
 		{
 			this.Level = Level;
 		}
+		public void setValue(T? value)
+		{
+			this.value = value;
+		}
 	}
 }

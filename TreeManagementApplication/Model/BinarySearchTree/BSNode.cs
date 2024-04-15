@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -131,6 +131,12 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 		}
 
 		void INode<T>.SetLNode(INode<T> Node)
+		public void setValue(T? value)
+		{
+			this.value = value;
+		}
+
+		public override String ToString()
 		{
 			this.LNode = (BSNode<T>)Node;
 		}
