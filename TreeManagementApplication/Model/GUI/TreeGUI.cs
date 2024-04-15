@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using TreeManagementApplication.Model.Interface;
+using TreeManagementApplication.Model.VisualModel;
 
 namespace TreeManagementApplication.Model.GUI
 {
@@ -18,6 +20,13 @@ namespace TreeManagementApplication.Model.GUI
 		public void GenerateXIndex()
 		{
 
+		}
+
+		public void DrawTree(INode<T> Root, ref Canvas canvas, CoordinateCalculator calculator)
+		{
+			NodeGUI<T> nodeGUI = new NodeGUI<T>();
+			canvas.Children.Clear();
+			nodeGUI.DrawNode(Root, ref canvas, calculator);
 		}
 	}
 }

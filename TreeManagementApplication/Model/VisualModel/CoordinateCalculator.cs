@@ -8,9 +8,9 @@ namespace TreeManagementApplication.Model.VisualModel
 {
 	internal class CoordinateCalculator
 	{
-		private Coordinate mapSize { get; set; }
-		public List<List<Coordinate>> gridCoordinateMap { get; set; }
-		private Coordinate gridSize { get; set; }
+		private Coordinate MapSize { get; set; }
+		public List<List<Coordinate>> GridCoordinateMap { get; set; }
+		private Coordinate GridSize { get; set; }
 		private int row { get; set; }
 		private int column { get; set; }
 		private double paddingX { get; set; }
@@ -18,66 +18,76 @@ namespace TreeManagementApplication.Model.VisualModel
 
 		public CoordinateCalculator(Coordinate mapSize, Coordinate gridSize)
 		{
-			this.mapSize = mapSize;
-			this.gridSize = gridSize;
-			paddingX = calculatePaddingX();
-			paddingY = calculatePaddingY();
-			gridCoordinateMap = generateCoordinateMap();
+			this.MapSize = mapSize;
+			this.GridSize = gridSize;
+			paddingX = CalculatePaddingX();
+			paddingY = CalculatePaddingY();
+			GridCoordinateMap = GenerateCoordinateMap();
 		}
 
 		public CoordinateCalculator(Coordinate mapSize, int gridSizeX, int gridSizeY)
 		{
-			this.mapSize = mapSize;
-			gridSize = new Coordinate(gridSizeX, gridSizeY);
-			paddingX = calculatePaddingX();
-			paddingY = calculatePaddingY();
-			gridCoordinateMap = generateCoordinateMap();
+			this.MapSize = mapSize;
+			GridSize = new Coordinate(gridSizeX, gridSizeY);
+			paddingX = CalculatePaddingX();
+			paddingY = CalculatePaddingY();
+			GridCoordinateMap = GenerateCoordinateMap();
 		}
 
 		public CoordinateCalculator(Coordinate mapSize, int gridSize)
 		{
-			this.mapSize = mapSize;
-			this.gridSize = new Coordinate(gridSize, gridSize);
-			paddingX = calculatePaddingX();
-			paddingY = calculatePaddingY();
-			gridCoordinateMap = generateCoordinateMap();
+			this.MapSize = mapSize;
+			this.GridSize = new Coordinate(gridSize, gridSize);
+			paddingX = CalculatePaddingX();
+			paddingY = CalculatePaddingY();
+			GridCoordinateMap = GenerateCoordinateMap();
 		}
 
-		public Coordinate getNodeCoordinate(int row, int collum)
+		public Coordinate GetNodeCoordinate(int X, int Y)
 		{
-			return new Coordinate(paddingX + collum * gridSize.X, paddingY + row * gridSize.Y);
+			return new Coordinate(paddingX + X * GridSize.X, paddingY + Y * GridSize.Y);
 		}
 
-		public Coordinate getNodeCoordinate(GridCoordinate node)
+		public Coordinate GetNodeCoordinate(GridCoordinate node)
 		{
-			return new Coordinate(paddingX + node.X * gridSize.X, paddingY + node.Y * gridSize.Y);
+			return new Coordinate(paddingX + node.X * GridSize.X, paddingY + node.Y * GridSize.Y);
 		}
 
-		public double calculatePaddingX()
+		public double CalculatePaddingX()
 		{
-			return mapSize.X % gridSize.X / 2;
+			return MapSize.X % GridSize.X / 2;
 		}
 
-		public double calculatePaddingY()
+		public double CalculatePaddingY()
 		{
-			return mapSize.Y % gridSize.Y / 2;
+			return MapSize.Y % GridSize.Y / 2;
 		}
 
-		public List<List<Coordinate>> generateCoordinateMap()
+		public List<List<Coordinate>> GenerateCoordinateMap()
 		{
 			List<List<Coordinate>> map = new List<List<Coordinate>>();
-			column = (int)((mapSize.X - mapSize.X % gridSize.X) / gridSize.X);
-			row = (int)((mapSize.Y - mapSize.Y % gridSize.Y) / gridSize.Y);
-			for (int i = 0; i < column; i++)
+			column = (int)((MapSize.X - MapSize.X % GridSize.X) / GridSize.X);
+			row = (int)((MapSize.Y - MapSize.Y % GridSize.Y) / GridSize.Y);
+			for (int i = 0; i < row; i++)
 			{
 				map.Add(new List<Coordinate>());
-				for (int j = 0; j < row; j++)
+				for (int j = 0; j < column; j++)
 				{
-					map[i].Add(getNodeCoordinate(j, i));
+					map[i].Add(GetNodeCoordinate(j, i));
 				}
 			}
 			Console.WriteLine("Map Created");
+			this.GridCoordinateMap = map;
 			return map;
+		}
+		public GridCoordinate GetGridCoordinate(Coordinate coordinate)
+		{
+			return new GridCoordinate((int)((coordinate.X - paddingX) / GridSize.X), (int)((coordinate.Y - paddingY) / GridSize.Y));
+		}
+
+		public GridCoordinate GetGridCoordinate(double X, double Y)
+		{
+			return new GridCoordinate((int)((X - paddingX) / GridSize.X), (int)((Y - paddingY) / GridSize.Y));
 		}
 	}
 }

@@ -9,14 +9,29 @@ namespace TreeManagementApplication.Model.Interface
 {
 	interface INode<T> where T : IComparable<T>
 	{
+		//Get-Set LNode
+		void SetLNode(INode<T> Node);
 		INode<T>? GetLNode();
+
+		//Get-Set RNode
 		INode<T>? GetRNode();
+		void SetRNode(INode<T> Node);
+
+		//Get-Set Value
 		T? GetValue();
-		int GetLevel();
+		void SetValue(T? Value);
+
+		//Get-Set XIndex
 		int GetXIndex();
+		void SetXIndex(int XIndex);
+
+		//Get-Set Level
+		int GetLevel();
+		void SetLevel(int Level);
+
+		//Sub Check Methods
 		bool IsLeftest();
 		String? ToString();
 		INode<T>? FindChildNode(INode<T> node, T value);
-		NodeGUI<T> GetGUI();
 	}
 }

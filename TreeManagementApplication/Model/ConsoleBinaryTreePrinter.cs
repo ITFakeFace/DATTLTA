@@ -17,7 +17,7 @@ namespace TreeManagementApplication.Model
 			public INode<T>? Node;
 			public string? Text;
 			public int StartPos;
-			public int Size { get { return Text.Length; } }
+			public int Size { get { return Text!.Length; } }
 			public int EndPos { get { return StartPos + Size; } set { StartPos = value - Size; } }
 			public NodeInfo<T>? Parent, Left, Right;
 		}
@@ -119,7 +119,7 @@ namespace TreeManagementApplication.Model
 			var next = root;
 			for (int level = 0; next != null; level++)
 			{
-				var item = new NodeInfo<T> { Node = next, Text = " " + next.getValue()!.ToString() + " " };
+				var item = new NodeInfo<T> { Node = next, Text = " " + next.ToString() + " " };
 				if (level < last.Count)
 				{
 					item.StartPos = last[level].EndPos + 1;
@@ -133,7 +133,7 @@ namespace TreeManagementApplication.Model
 				if (level > 0)
 				{
 					item.Parent = last[level - 1];
-					if (next == item.Parent.Node.getLNode())
+					if (next == item.Parent.Node.GetLNode())
 					{
 						item.Parent.Left = item;
 						item.EndPos = Math.Max(item.EndPos, item.Parent.StartPos);
@@ -144,7 +144,7 @@ namespace TreeManagementApplication.Model
 						item.StartPos = Math.Max(item.StartPos, item.Parent.EndPos);
 					}
 				}
-				next = next.getLNode() ?? next.getRNode();
+				next = next.GetLNode() ?? next.GetRNode();
 				for (; next == null; item = item.Parent)
 				{
 					Print(item, rootTop + 2 * level);
@@ -152,7 +152,7 @@ namespace TreeManagementApplication.Model
 					if (item == item.Parent.Left)
 					{
 						item.Parent.StartPos = item.EndPos;
-						next = item.Parent.Node.getRNode();
+						next = item.Parent.Node.GetRNode();
 					}
 					else
 					{

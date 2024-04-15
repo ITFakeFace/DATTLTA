@@ -21,17 +21,53 @@ namespace TreeManagementApplication.Model.BinaryTree
 		{
 			return Root == null;
 		}
-
 		public void InsertNode(T Value)
 		{
-			if (Values == null)
+			if (Root == null)
 			{
-				Values = new List<T>();
+				Root = new BNode<T>(Value);
+				return;
 			}
-			Values.Add(Value);
-			Root = new BNode<T>(Values);
+			Root.InsertNode(Root, Value);
 		}
+		/*
+		public void InsertNode(INode<T>? Node, T Value)
+		{
+			if (Node == null)
+			{
+				Root = new BNode<T>(Value);
+				return;
+			}
+			Queue<INode<T>> queue = new Queue<INode<T>>();
+			queue.Enqueue(Node);
 
+			// Do level order traversal until we find
+			// an empty place.
+			while (queue.Count != 0)
+			{
+				Node = queue.Peek();
+				queue.Dequeue();
+
+				if (Node.GetLNode() == null)
+				{
+					Node.SetLNode(new BNode<T>(Value));
+					break;
+				}
+				else
+				{
+					queue.Enqueue(Node.GetLNode()!);
+				}
+
+				if (Node.GetRNode() == null)
+				{
+					Node.SetRNode(new BNode<T>(Value));
+					break;
+				}
+				else
+					queue.Enqueue(Node.GetRNode()!);
+			}
+		}
+		*/
 		public void PrintConsole()
 		{
 			ConsoleBinaryTreePrinter<T> Printer = new ConsoleBinaryTreePrinter<T>();
@@ -155,6 +191,25 @@ namespace TreeManagementApplication.Model.BinaryTree
 		public void RemoveNode(T Value)
 		{
 			throw new NotImplementedException();
+		}
+
+		public void GenerateGridIndex()
+		{
+			if (Root == null) { return; }
+			int pos = 0;
+			Root.CalcX(ref pos);
+			pos = 0;
+			Root.CalcY(pos);
+		}
+
+		public int GetLargestX(INode<T> Node)
+		{
+			if (Node.GetRNode() == null)
+			{
+				return Node.GetXIndex();
+			}
+			return GetLargestX(Node.GetRNode()!);
+
 		}
 	}
 }

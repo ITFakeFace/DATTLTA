@@ -16,5 +16,9 @@ namespace TreeManagementApplication.Model.VisualModel
 			this.X = X;
 			this.Y = Y;
 		}
+		public override string ToString()
+		{
+			return $"(X:{X},Y:{Y})";
+		}
 	}
 }

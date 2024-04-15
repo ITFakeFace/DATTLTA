@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using TreeManagementApplication.Model;
+using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.GUI;
 using TreeManagementApplication.Model.VisualModel;
 
@@ -17,56 +18,18 @@ namespace TreeManagementApplication
 	{
 		bool createNodeMode = false;
 		CoordinateCalculator coordinateCalculator;
+		BinarySearchTree<int> binaryTree = new BinarySearchTree<int>();
+		int GridSize;
 
 		public MainWindow()
 		{
 			InitializeComponent();
-			coordinateCalculator = new CoordinateCalculator(new Coordinate(1500, 800), 50);
+			GridSize = 75;
+			coordinateCalculator = new CoordinateCalculator(new Coordinate(1500, 800), GridSize);
+			NodeGUI<int>.Calculator = coordinateCalculator;
 		}
 
 		public void InitialConfig()
-		{
-
-		}
-
-		private void OnCanvasClick(object sender, MouseButtonEventArgs e)
-		{
-
-		}
-
-		private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-
-		}
-
-		private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-
-		}
-
-		private void createNodeBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-
-		}
-
-		private void createNodeBtn_Click(object sender, RoutedEventArgs e)
-		{
-			/*
-			
-			*/
-		}
-
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void Frame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
-		{
-
-		}
-
-		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 
 		}
@@ -83,30 +46,65 @@ namespace TreeManagementApplication
 			}
 		}
 
+		private void CreateNode(object sender)
+		{
+			try
+			{
+				String inp = ValAddInp.Text.Replace(" ", "");
+				List<String> inpList = inp.Split(",").ToList();
+				foreach (var item in inpList)
+				{
+					int nodeVal = int.Parse(item);
+					binaryTree.InsertNode(nodeVal);
+					Console.WriteLine("Inserted Node");
+				}
+
+				binaryTree.GenerateGridIndex();
+				NodeCanvas.Width = (binaryTree.GetLargestX(binaryTree.Root!) + 1) * GridSize;
+				Console.WriteLine($"Total NodeCanvas Size: {binaryTree.GetLargestX(binaryTree.Root!) + 1}");
+				TreeGUI<int> treeGUI = new TreeGUI<int>();
+				treeGUI.DrawTree(binaryTree.Root!, ref NodeCanvas, coordinateCalculator);
+				Canvas.SetLeft(NodeCanvas, (canvas.Width - NodeCanvas.Width) / 2);
+			}
+			catch (ArgumentNullException ex)
+			{
+				Console.WriteLine("Input Cannot Null");
+			}
+			catch (FormatException ex)
+			{
+				Console.WriteLine("Input Format Exception");
+			}
+			catch (OverflowException ex)
+			{
+				Console.WriteLine("Out of limit Exception");
+			}
+		}
+
 		private void CreateNodeBtn_Click_1(object sender, RoutedEventArgs e)
 		{
-			int row = int.Parse(RowInp.Text);
-			int col = int.Parse(ColInp.Text);
+			CreateNode(e.Source);
+		}
 
-			Ellipse ellipse = new Ellipse
+		private void RowInp_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
 			{
-				Width = 50,
-				Height = 50,
-				Fill = Brushes.Red,
-				Stroke = Brushes.Black,
-				StrokeThickness = 2,
+				CreateNode(e.Source);
+				ValAddInp.Text = "";
+			}
+		}
 
-			};
+		private void ValAddInp_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (ValAddInp.Text.ToLower().Equals("value"))
+			{
+				ValAddInp.Text = "";
+			}
+		}
 
-			// Set the position of Child = Mouse Position
-			//Canvas.SetLeft(ellipse, coordinateCalculator.gridCoordinateMap[col][row].X - ellipse.Width / 2);
-			//Canvas.SetTop(ellipse, coordinateCalculator.gridCoordinateMap[col][row].Y - ellipse.Height / 2);
-			Canvas.SetLeft(ellipse, coordinateCalculator.gridCoordinateMap[col][row].X);
-			Canvas.SetTop(ellipse, coordinateCalculator.gridCoordinateMap[col][row].Y);
+		private void RowInp_TextChanged(object sender, TextChangedEventArgs e)
+		{
 
-			// Add Child
-			canvas.Children.Add(ellipse);
-			Console.WriteLine("Node Created");
 		}
 	}
 }

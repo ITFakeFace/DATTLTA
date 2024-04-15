@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Xml.Linq;
 using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.Interface;
+using TreeManagementApplication.Model.VisualModel;
 
 namespace TreeManagementApplication.Model.BinarySearchTree
 {
@@ -144,5 +146,43 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 		}
 
 
+		public void PrintIndexConsole()
+		{
+			PrintNodeIndexToConsole(Root, 2);
+		}
+
+		public void PrintNodeIndexToConsole(BSNode<T>? Node, int Space)
+		{
+			if (Node == null)
+				return;
+
+			PrintNodeIndexToConsole(Node.LNode, Space + 1);
+			string BlankSpace = "";
+			for (int i = 0; i < Space * 4; i++)
+			{
+				BlankSpace += " ";
+			}
+			Console.WriteLine(BlankSpace + $"({Node.Value},{Node.XIndex},{Node.Level})");
+			PrintNodeIndexToConsole(Node.RNode, Space + 1);
+		}
+
+		public void GenerateGridIndex()
+		{
+			if (Root == null) { return; }
+			int pos = 0;
+			Root.CalcX(ref pos);
+			pos = 0;
+			Root.CalcY(pos);
+		}
+
+		public int GetLargestX(INode<T> Node)
+		{
+			if (Node.GetRNode() == null)
+			{
+				return Node.GetXIndex();
+			}
+			return GetLargestX(Node.GetRNode()!);
+
+		}
 	}
 }
