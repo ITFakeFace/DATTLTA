@@ -12,7 +12,6 @@ namespace TreeManagementApplication.Model.Interface
         void PrintNRL(INode<T>? Node);
         void PrintRLN(INode<T>? Node);
         void PrintRNL(INode<T>? Node);
-        INode<T>? FindNode(T Value);
         INode<T>? GetRoot();
         void SetRoot(INode<T> Node);
     }
