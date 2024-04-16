@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.GUI;
+using TreeManagementApplication.Model.Interface;
 using TreeManagementApplication.Model.VisualModel;
 namespace TreeManagementApplication
 {
@@ -121,9 +122,17 @@ namespace TreeManagementApplication
         {
 
             Point mousePosition = e.GetPosition((UIElement)sender);
-            node.FindNode(mousePosition);
+            Console.WriteLine(mousePosition.ToString());
+            //node.FindNode(mousePosition);
 
+            Coordinate coordinate = new Coordinate(mousePosition.X, mousePosition.Y);
+            GridCoordinate gridCoordinate = coordinateCalculator!.GetGridCoordinate(coordinate);
+            INode<int>? node = binaryTree.FindNode(gridCoordinate.X, gridCoordinate.Y);
 
+            if (node != null)
+            {
+                ValAddInp.Text = node.GetValue() + "";
+            }
         }
     }
 }

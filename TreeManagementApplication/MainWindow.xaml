@@ -6,11 +6,15 @@
         xmlns:local="clr-namespace:TreeManagementApplication"
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920">
-    <Canvas x:Name="Main" MouseLeftButtonDown="Rectangle_MouseDown">
+    <Canvas x:Name="Main" >
         <Image Height="100" Canvas.Right="10" Canvas.Top="10" Width="100" MouseLeftButtonDown="Image_MouseLeftButtonDown" Panel.ZIndex="2" Source="/Resources/Static/Images/Settings_512px.png" Canvas.Left="1810"/>
         <Canvas Name="canvas" Width="1500" Height="800" Canvas.Left="210" Canvas.Top="140">
             <Rectangle Fill="Transparent" Stroke="Black" StrokeThickness="2" Width="1500" Height="800" RenderTransformOrigin="0.496,0.525" HorizontalAlignment="Left" VerticalAlignment="Center" />
-            <Canvas Name="NodeCanvas" Width="1500" Height="800" Canvas.Left="0" Canvas.Top="0"></Canvas>
+            <Canvas Name="NodeCanvas" Width="1500" Height="800" Canvas.Left="0" Canvas.Top="0" MouseRightButtonDown="NodeCanvas_MouseDown">
+
+                
+                
+            </Canvas>
         </Canvas>
         <Canvas x:Name="SettingMenu" Height="600" Width="1000" HorizontalAlignment="Center" Canvas.Top="240" VerticalAlignment="Top" Canvas.Left="460" Visibility="Hidden" >
             <Rectangle Fill="Transparent" Stroke="Black" StrokeThickness="2" Width="1000" Height="600"  />

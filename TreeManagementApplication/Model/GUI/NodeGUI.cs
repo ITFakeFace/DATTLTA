@@ -65,14 +65,11 @@ namespace TreeManagementApplication.Model.VisualModel
         }
         public void GUI_Click(object sender, MouseEventArgs e)
         {
-
             Ellipse ellipse = (Ellipse)sender;
             Coordinate coordinate = new Coordinate(Canvas.GetLeft(ellipse), Canvas.GetTop(ellipse));
-            Console.WriteLine(coordinate);
+            Console.WriteLine($"NodePos ={coordinate}");
             GridCoordinate gridCoordinate = Calculator!.GetGridCoordinate(coordinate);
-            Console.WriteLine(gridCoordinate + "\n");
-
-
+            Console.WriteLine($"NodePos ={gridCoordinate}\n");
         }
         public void GUI_Hover(object sender, MouseEventArgs e)
         {
@@ -81,8 +78,8 @@ namespace TreeManagementApplication.Model.VisualModel
                 Ellipse ellipse = (Ellipse)sender;
                 ellipse.Fill = Brushes.Yellow;
                 ellipse.StrokeThickness = 4;
-                Coordinate coordinate = new Coordinate(Canvas.GetLeft(ellipse), Canvas.GetTop(ellipse));
-                GridCoordinate gridCoordinate = Calculator!.GetGridCoordinate(coordinate); Console.WriteLine($"{gridCoordinate.ToString()}");
+                //Coordinate coordinate = new Coordinate(Canvas.GetLeft(ellipse), Canvas.GetTop(ellipse));
+                // GridCoordinate gridCoordinate = Calculator!.GetGridCoordinate(coordinate); Console.WriteLine($"{gridCoordinate.ToString()}");
             }
         }
         public void GUI_UnHover(object sender, MouseEventArgs e)
@@ -106,10 +103,7 @@ namespace TreeManagementApplication.Model.VisualModel
                 ellipse.Fill = Brushes.LightGreen;
                 ellipse.StrokeThickness = 4;
                 isRightClick = true;
-                nodeGUI.Coordinate = Coordinate;
-                nodeGUI.GridCoordinate = Calculator!.GetGridCoordinate(Coordinate);
-                nodeGUI.Text = Text;
-                UpdateNode(nodeGUI);
+
             }
             else
             {
@@ -119,14 +113,9 @@ namespace TreeManagementApplication.Model.VisualModel
         }
         public NodeGUI<T>? UpdateNode(NodeGUI<T> node)
         {
-            NodeGUI<T> nodeGUI = new NodeGUI<T>();
-            nodeGUI.Coordinate = Coordinate;
-            nodeGUI.GridCoordinate = Calculator!.GetGridCoordinate(Coordinate);
-            nodeGUI.Text = Text;
-            return nodeGUI;
-
 
         }
+
 
         public void DrawNode(INode<T> Node, ref Canvas canvas, CoordinateCalculator calculator)
         {
