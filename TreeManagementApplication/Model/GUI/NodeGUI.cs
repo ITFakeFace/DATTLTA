@@ -16,6 +16,7 @@ namespace TreeManagementApplication.Model.VisualModel
         public int GridY { get; set; }
         public double CoorX { get; set; }
         public double CoorY { get; set; }
+        private bool isRightClick = false;
         public Ellipse LNode = new Ellipse
         {
             Width = 75,
@@ -60,29 +61,71 @@ namespace TreeManagementApplication.Model.VisualModel
             Shape.MouseEnter += GUI_Hover;
             Shape.MouseLeave += GUI_UnHover;
             Shape.MouseLeftButtonDown += GUI_Click;
+            Shape.MouseRightButtonDown += GUI_RClick;
         }
         public void GUI_Click(object sender, MouseEventArgs e)
         {
+
             Ellipse ellipse = (Ellipse)sender;
             Coordinate coordinate = new Coordinate(Canvas.GetLeft(ellipse), Canvas.GetTop(ellipse));
             Console.WriteLine(coordinate);
             GridCoordinate gridCoordinate = Calculator!.GetGridCoordinate(coordinate);
             Console.WriteLine(gridCoordinate + "\n");
+
+
         }
         public void GUI_Hover(object sender, MouseEventArgs e)
         {
-            Ellipse ellipse = (Ellipse)sender;
-            ellipse.Fill = Brushes.Yellow;
-            ellipse.StrokeThickness = 4;
-            Coordinate coordinate = new Coordinate(Canvas.GetLeft(ellipse), Canvas.GetTop(ellipse));
-            GridCoordinate gridCoordinate = Calculator!.GetGridCoordinate(coordinate);
+            if (!isRightClick)
+            {
+                Ellipse ellipse = (Ellipse)sender;
+                ellipse.Fill = Brushes.Yellow;
+                ellipse.StrokeThickness = 4;
+                Coordinate coordinate = new Coordinate(Canvas.GetLeft(ellipse), Canvas.GetTop(ellipse));
+                GridCoordinate gridCoordinate = Calculator!.GetGridCoordinate(coordinate); Console.WriteLine($"{gridCoordinate.ToString()}");
+            }
         }
         public void GUI_UnHover(object sender, MouseEventArgs e)
         {
-            Ellipse ellipse = (Ellipse)sender;
-            ellipse.Fill = Brushes.White;
-            ellipse.StrokeThickness = 2;
-            ellipse.StrokeThickness = 2;
+            if (!isRightClick)
+            {
+                Ellipse ellipse = (Ellipse)sender;
+                ellipse.Fill = Brushes.White;
+                ellipse.StrokeThickness = 2;
+                ellipse.StrokeThickness = 2;
+            }
+
+        }
+
+        public void GUI_RClick(object sender, MouseEventArgs e)
+        {
+            NodeGUI<T> nodeGUI = new NodeGUI<T>();
+            if (!isRightClick)
+            {
+                Ellipse ellipse = (Ellipse)sender;
+                ellipse.Fill = Brushes.LightGreen;
+                ellipse.StrokeThickness = 4;
+                isRightClick = true;
+                nodeGUI.Coordinate = Coordinate;
+                nodeGUI.GridCoordinate = Calculator!.GetGridCoordinate(Coordinate);
+                nodeGUI.Text = Text;
+                UpdateNode(nodeGUI);
+            }
+            else
+            {
+                isRightClick = false;
+            }
+
+        }
+        public NodeGUI<T>? UpdateNode(NodeGUI<T> node)
+        {
+            NodeGUI<T> nodeGUI = new NodeGUI<T>();
+            nodeGUI.Coordinate = Coordinate;
+            nodeGUI.GridCoordinate = Calculator!.GetGridCoordinate(Coordinate);
+            nodeGUI.Text = Text;
+            return nodeGUI;
+
+
         }
 
         public void DrawNode(INode<T> Node, ref Canvas canvas, CoordinateCalculator calculator)
