@@ -1,4 +1,4 @@
-using TreeManagementApplication.Model.BinaryTree;
+﻿using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinarySearchTree
@@ -52,6 +52,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 }
             }
         }
+
 
         public void PrintNode(BNode<T>? Node, int space)
         {
@@ -121,14 +122,93 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             PrintLNR(Node.GetLNode());
         }
 
-        public void UpdateNode(T Value)
+        public bool UpdateNode(INode<T> node, T value)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < this.Values!.Count; i++)
+            {
+                if (Values![i].CompareTo(node.GetValue()) == 0 && Values![i].CompareTo(value) != 0)
+                {
+                    Values![i] = value;
+                    return true;
+                }
+            }
+            node.SetValue(value);
+            return false;
         }
 
-        public void RemoveNode(T Value)
+        public INode<T>? FindAndDeleteNode(T? value, INode<T>? node = null)
         {
-            throw new NotImplementedException();
+            if (node is null)
+            {// Tìm node có giá trị value 
+                INode<T>? nodeToDelete = FindNode(value);
+
+                if (nodeToDelete != null)
+                {
+                    // Xóa node và trả về node đã xóa 
+                    Root = DeleteNode(Root, value);
+                    return nodeToDelete;
+                }
+            }
+            else
+            {
+                if (node.GetLNode() is null)
+                {
+
+                }
+            }
+
+            // Trả về null nếu không tìm thấy node 
+            return null;
+        }
+        private BSNode<T>? DeleteNode(BSNode<T>? root, T value)
+        {
+            if (root == null)
+                return null;
+
+            int compare = value.CompareTo(root.Value);
+
+            if (compare < 0)
+            {
+                root.LNode = DeleteNode(root.LNode, value);
+            }
+            else if (compare > 0)
+            {
+                root.RNode = DeleteNode(root.RNode, value);
+            }
+            else
+            {
+                // Node found with value equals 'value' 
+
+                // Case 1: No child or only one child 
+                if (root.LNode == null)
+                {
+                    return root.RNode;
+                }
+                else if (root.RNode == null)
+                {
+                    return root.LNode;
+                }
+
+                // Case 2: Node with two children 
+                // Get the inorder successor (smallest in the right subtree) 
+                root.Value = MinValue(root.RNode);
+
+                // Delete the inorder successor 
+                root.RNode = DeleteNode(root.RNode, root.Value);
+            }
+
+            return root;
+        }
+
+        private T MinValue(BSNode<T> node)
+        {
+            T minValue = node.Value;
+            while (node.LNode != null)
+            {
+                minValue = node.LNode.Value;
+                node = node.LNode;
+            }
+            return minValue;
         }
 
         public INode<T>? FindNode(T Value)

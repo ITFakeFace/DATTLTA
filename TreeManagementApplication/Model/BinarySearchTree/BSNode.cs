@@ -192,5 +192,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             this.Level = Level;
         }
 
+
     }
 }

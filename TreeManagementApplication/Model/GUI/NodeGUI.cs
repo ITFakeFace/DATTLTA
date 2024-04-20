@@ -111,10 +111,6 @@ namespace TreeManagementApplication.Model.VisualModel
             }
 
         }
-        public NodeGUI<T>? UpdateNode(NodeGUI<T> node)
-        {
-
-        }
 
 
         public void DrawNode(INode<T> Node, ref Canvas canvas, CoordinateCalculator calculator)
@@ -173,6 +169,9 @@ namespace TreeManagementApplication.Model.VisualModel
                 DrawNode(Node.GetRNode()!, ref canvas, calculator);
             }
         }
+
+
+
         private Size MeasureString(TextBlock candidate)
         {
             var formattedText = new FormattedText(

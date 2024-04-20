@@ -1,10 +1,11 @@
-﻿
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.GUI;
+using TreeManagementApplication.Model.Interface;
 using TreeManagementApplication.Model.VisualModel;
+
 namespace TreeManagementApplication
 {
     /// <summary>
@@ -12,13 +13,10 @@ namespace TreeManagementApplication
     /// </summary>
     public partial class MainWindow : Window
     {
-        bool createNodeMode = false;
         CoordinateCalculator coordinateCalculator;
         BinarySearchTree<int> binaryTree = new BinarySearchTree<int>();
         NodeGUI<int> node = new NodeGUI<int>();
-
         int GridSize;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -29,7 +27,7 @@ namespace TreeManagementApplication
 
         public void InitialConfig()
         {
-
+            ValAddInp.GotFocus += ValAddInp_GotFocus;
         }
 
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -90,6 +88,7 @@ namespace TreeManagementApplication
                 CreateNode(e.Source);
                 ValAddInp.Text = "";
             }
+
         }
 
         private void ValAddInp_GotFocus(object sender, RoutedEventArgs e)
@@ -105,33 +104,63 @@ namespace TreeManagementApplication
 
         }
 
-        private void EditNodeInp_TextChanged(object sender, TextChangedEventArgs e)
+
+        private void NodeCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
-        }
-
-
-
-        private void EditNodeInp_GotFocus(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-            Point mousePosition = e.GetPosition((UIElement)sender);
-            Console.WriteLine(mousePosition.ToString());
-            //node.FindNode(mousePosition);
-
+            System.Windows.Point mousePosition = e.GetPosition((UIElement)sender);
             Coordinate coordinate = new Coordinate(mousePosition.X, mousePosition.Y);
             GridCoordinate gridCoordinate = coordinateCalculator!.GetGridCoordinate(coordinate);
+            ChangeNodeWindow changeNodeWindow = new ChangeNodeWindow();
+            changeNodeWindow.ShowDialog();
+            string changeNodeVal = changeNodeWindow.value.Replace(" ", "").TrimEnd(',');
+            int changeNodeNum = int.Parse(changeNodeVal);
+            string createNewTree = null;
             INode<int>? node = binaryTree.FindNode(gridCoordinate.X, gridCoordinate.Y);
-
-            if (node != null)
+            if (!(changeNodeVal == ""))
             {
-                ValAddInp.Text = node.GetValue() + "";
+                if (binaryTree.UpdateNode(node!, changeNodeNum))
+                {
+                    TreeGUI<int> treeGUI = new TreeGUI<int>();
+                    treeGUI.DeleteAllNode(ref NodeCanvas);
+                    UpdateTree();
+                    CreateNode(sender);
+                }
+                else
+                {
+                    Console.WriteLine("Your value may exist in tree");
+                }
             }
+
         }
+        public void UpdateTree()
+        {
+            string? nodes = null;
+            int count = binaryTree.Values!.Count();
+            for (int i = 0; i < binaryTree.Values!.Count; i++)
+            {
+                if (i == (binaryTree.Values!.Count - 1))
+                {
+                    nodes += binaryTree.Values![i];
+                }
+                else
+                {
+                    nodes += binaryTree.Values![i] + ",";
+                }
+            }
+
+            ValAddInp.Text = nodes;
+            Console.WriteLine(ValAddInp.Text!.ToString());
+        }
+        public void DeleteTree()
+        {
+
+        }
+
+
+
+
+
+
+
     }
 }
