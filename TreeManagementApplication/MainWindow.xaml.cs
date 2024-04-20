@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.GUI;
-using TreeManagementApplication.Model.Interface;
 using TreeManagementApplication.Model.VisualModel;
 namespace TreeManagementApplication
 {
