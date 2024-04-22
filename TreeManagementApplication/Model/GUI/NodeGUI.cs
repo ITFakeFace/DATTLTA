@@ -86,8 +86,7 @@ namespace TreeManagementApplication.Model.VisualModel
 		{
 			Ellipse ellipse = (Ellipse)sender;
 			ellipse.Fill = Brushes.White;
-			ellipse.StrokeThickness = 4;
-			ellipse.StrokeThickness = 4;
+			ellipse.StrokeThickness = 2;
 		}
 
 		public void DrawNode(INode<T> Node, ref Canvas canvas, CoordinateCalculator calculator)
@@ -102,7 +101,6 @@ namespace TreeManagementApplication.Model.VisualModel
 			nodeGUI.Text.FontSize = 24;
 			//nodeGUI.Text.Background = Brushes.Yellow;
 			Console.WriteLine($"Coordinate: (value: {Node.GetValue()},X:{nodeGUI.Coordinate.X},Y:{nodeGUI.Coordinate.Y})");
-
 			Canvas.SetLeft(nodeGUI.Shape, calculator.GridCoordinateMap[Y][X].X);
 			Canvas.SetTop(nodeGUI.Shape, calculator.GridCoordinateMap[Y][X].Y);
 			Canvas.SetZIndex(nodeGUI.Shape, 10);

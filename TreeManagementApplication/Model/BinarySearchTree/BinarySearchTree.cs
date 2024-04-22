@@ -24,7 +24,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 
 		public INode<T>? GetRoot()
 		{
-			return this.GetRoot();
+			return this.Root;
 		}
 
 		public void SetRoot(INode<T> Node)
