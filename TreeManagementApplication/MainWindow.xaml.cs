@@ -24,7 +24,7 @@ namespace TreeManagementApplication
 		CoordinateCalculator coordinateCalculator;
 		ITree<int> Tree = new BinarySearchTree<int>();
 		int GridSize;
-
+		int a;
 		public MainWindow()
 		{
 			InitializeComponent();
