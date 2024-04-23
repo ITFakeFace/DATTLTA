@@ -14,10 +14,17 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             return this.Root == null;
         }
 
+<<<<<<< HEAD
         public INode<T>? GetRoot()
         {
             return this.GetRoot();
         }
+=======
+		public INode<T>? GetRoot()
+		{
+			return this.Root;
+		}
+>>>>>>> origin/Hùng
 
         public void DeleteTree(BSNode<T> root)
         {
