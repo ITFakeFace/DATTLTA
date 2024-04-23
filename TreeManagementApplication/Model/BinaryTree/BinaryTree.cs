@@ -287,6 +287,10 @@ namespace TreeManagementApplication.Model.BinaryTree
 			return this.Values;
 		}
 
+		INode<T>? ITree<T>.FindNode(T Value)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
 

@@ -104,6 +104,7 @@ namespace TreeManagementApplication
 		{
 
 		}
+		/*
 		private void NodeCanvas_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 			System.Windows.Point mousePosition = e.GetPosition((UIElement)sender);
@@ -129,6 +130,7 @@ namespace TreeManagementApplication
 			}
 
 		}
+		*/
 		public void UpdateTree()
 		{
 			string? nodes = null;
