@@ -1,3 +1,4 @@
+using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.GUI;
 using TreeManagementApplication.Model.Interface;
 
@@ -15,6 +16,19 @@ namespace TreeManagementApplication.Model.BinaryTree
         {
             return Root == null;
         }
+
+        public void DeleteTree(BSNode<T> root)
+        {
+            if (root == null) return;
+
+            // Duyệt qua từng nút con và giải phóng bộ nhớ
+            DeleteTree(root.LNode);
+            DeleteTree(root.RNode);
+
+            // Giải phóng bộ nhớ của nút hiện tại
+            root = null;
+        }
+
         public void InsertNode(INode<T>? Node, T Value)
         {
             if (Node == null)
@@ -184,6 +198,8 @@ namespace TreeManagementApplication.Model.BinaryTree
                     FindNodeRecursive(node.RNode, value, found);
             }
         }
+
+
         public void editNode(T nodeValue, T valueReplaced)
         {
             if (nodeValue == null) { return; }

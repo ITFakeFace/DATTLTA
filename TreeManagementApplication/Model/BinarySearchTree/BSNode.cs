@@ -33,6 +33,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             }
             return false;
         }
+
         public bool InsertNode(T Value)
         {
             bool result = false;

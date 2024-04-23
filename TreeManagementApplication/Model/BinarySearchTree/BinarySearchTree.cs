@@ -19,6 +19,30 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             return this.GetRoot();
         }
 
+        public void DeleteTree(BSNode<T> root)
+        {
+            if (root == null)
+            {
+                Values = null;
+                return;
+            }
+
+            // Duyệt qua từng nút con và giải phóng bộ nhớ
+            if (root.LNode == null)
+            {
+                DeleteTree(root.LNode!);
+            }
+            if (root.RNode == null)
+            {
+                DeleteTree(root.RNode!);
+            }
+
+            // Giải phóng bộ nhớ của nút hiện tại
+            root = null;
+        }
+
+
+
         public void SetRoot(INode<T> Node)
         {
             if (Node is BSNode<T>)
@@ -132,7 +156,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                     return true;
                 }
             }
-            node.SetValue(value);
             return false;
         }
 

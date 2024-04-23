@@ -170,7 +170,13 @@ namespace TreeManagementApplication.Model.VisualModel
             }
         }
 
-
+        public void DeleteNodeList()
+        {
+            for (int i = 0; i < NodeList.Count; i++)
+            {
+                NodeList[i] = null!;
+            }
+        }
 
         private Size MeasureString(TextBlock candidate)
         {

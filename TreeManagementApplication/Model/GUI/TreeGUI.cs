@@ -7,6 +7,8 @@ namespace TreeManagementApplication.Model.GUI
 {
     internal class TreeGUI<T> where T : IComparable<T>
     {
+        NodeGUI<T>? nodeGUI;
+
         public void Print(Window window)
         {
 
@@ -19,12 +21,13 @@ namespace TreeManagementApplication.Model.GUI
 
         public void DrawTree(INode<T> Root, ref Canvas canvas, CoordinateCalculator calculator)
         {
-            NodeGUI<T> nodeGUI = new NodeGUI<T>();
+            nodeGUI = new NodeGUI<T>();
             canvas.Children.Clear();
             nodeGUI.DrawNode(Root, ref canvas, calculator);
         }
-        public void DeleteAllNode(ref Canvas canvas)
+        public void DeleteTree(ref Canvas canvas)
         {
+            nodeGUI = null;
             canvas.Children.Clear();
         }
     }

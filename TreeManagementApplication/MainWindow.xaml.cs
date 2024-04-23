@@ -17,6 +17,7 @@ namespace TreeManagementApplication
         BinarySearchTree<int> binaryTree = new BinarySearchTree<int>();
         NodeGUI<int> node = new NodeGUI<int>();
         int GridSize;
+        TreeGUI<int> treeGUI = new TreeGUI<int>();
         public MainWindow()
         {
             InitializeComponent();
@@ -46,6 +47,7 @@ namespace TreeManagementApplication
         {
             try
             {
+                Console.WriteLine(ValAddInp.Text.ToString());
                 String inp = ValAddInp.Text.Replace(" ", "");
                 List<String> inpList = inp.Split(",").ToList();
                 foreach (var item in inpList)
@@ -58,7 +60,10 @@ namespace TreeManagementApplication
                 binaryTree.GenerateGridIndex();
                 NodeCanvas.Width = (binaryTree.GetLargestX(binaryTree.Root!) + 1) * GridSize;
                 Console.WriteLine($"Total NodeCanvas Size: {binaryTree.GetLargestX(binaryTree.Root!) + 1}");
-                TreeGUI<int> treeGUI = new TreeGUI<int>();
+                if (treeGUI == null)
+                {
+                    treeGUI = new TreeGUI<int>();
+                }
                 treeGUI.DrawTree(binaryTree.Root!, ref NodeCanvas, coordinateCalculator);
                 Canvas.SetLeft(NodeCanvas, (canvas.Width - NodeCanvas.Width) / 2);
             }
@@ -114,15 +119,13 @@ namespace TreeManagementApplication
             changeNodeWindow.ShowDialog();
             string changeNodeVal = changeNodeWindow.value.Replace(" ", "").TrimEnd(',');
             int changeNodeNum = int.Parse(changeNodeVal);
-            string createNewTree = null;
             INode<int>? node = binaryTree.FindNode(gridCoordinate.X, gridCoordinate.Y);
             if (!(changeNodeVal == ""))
             {
                 if (binaryTree.UpdateNode(node!, changeNodeNum))
                 {
-                    TreeGUI<int> treeGUI = new TreeGUI<int>();
-                    treeGUI.DeleteAllNode(ref NodeCanvas);
                     UpdateTree();
+                    treeGUI = null!;
                     CreateNode(sender);
                 }
                 else
@@ -147,11 +150,11 @@ namespace TreeManagementApplication
                     nodes += binaryTree.Values![i] + ",";
                 }
             }
-
+            ValAddInp.Text = "";
             ValAddInp.Text = nodes;
             Console.WriteLine(ValAddInp.Text!.ToString());
         }
-        public void DeleteTree()
+        public void DeleteNode()
         {
 
         }

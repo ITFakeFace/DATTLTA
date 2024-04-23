@@ -47,6 +47,7 @@ namespace TreeManagementApplication
         private void OKBtn_Click(object sender, RoutedEventArgs e)
         {
             value = InpChangeVal.Text.ToString();
+
             this.Close();
         }
     }
