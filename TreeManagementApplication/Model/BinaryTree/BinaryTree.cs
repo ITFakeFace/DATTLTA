@@ -8,43 +8,24 @@ namespace TreeManagementApplication.Model.BinaryTree
 	{
 		public BNode<T>? Root { get; set; } = null;
 
-		public List<T>? Values { get; set; }
+		public List<T>? Values { get; set; } = new List<T>();
 
-		public TreeGUI<T> GUI { get; set; } = new TreeGUI<T>();
-
-<<<<<<< HEAD
-        public bool IsEmpty()
-        {
-            return Root == null;
-        }
-
-        public void DeleteTree(BSNode<T> root)
-        {
-            if (root == null) return;
-
-            // Duyệt qua từng nút con và giải phóng bộ nhớ
-            DeleteTree(root.LNode);
-            DeleteTree(root.RNode);
-
-            // Giải phóng bộ nhớ của nút hiện tại
-            root = null;
-        }
-
-        public void InsertNode(INode<T>? Node, T Value)
-        {
-            if (Node == null)
-            {
-                Root = new BNode<T>(Value);
-                return;
-            }
-            Queue<INode<T>> queue = new Queue<INode<T>>();
-            queue.Enqueue(Node);
-=======
 		public bool IsEmpty()
 		{
 			return Root == null;
 		}
->>>>>>> origin/Hùng
+
+		public void DeleteTree(BSNode<T> root)
+		{
+			if (root == null) return;
+
+			// Duyệt qua từng nút con và giải phóng bộ nhớ
+			DeleteTree(root.LNode);
+			DeleteTree(root.RNode);
+
+			// Giải phóng bộ nhớ của nút hiện tại
+			root = null;
+		}
 
 		public ITree<T> GenerateRandomTree(int Count, int Min, int Max)
 		{
@@ -113,12 +94,6 @@ namespace TreeManagementApplication.Model.BinaryTree
 			{
 				Node = queue.Peek();
 				queue.Dequeue();
-
-<<<<<<< HEAD
-        public void PrintLNR(INode<T>? Node)
-        {
-            if (Node == null) { return; }
-=======
 				if (Node.GetLNode() == null)
 				{
 					Node.SetLNode(new BNode<T>(Value));
@@ -170,8 +145,6 @@ namespace TreeManagementApplication.Model.BinaryTree
 		public void PrintLNR(INode<T>? Node)
 		{
 			if (Node == null) { return; }
->>>>>>> origin/Hùng
-
 			PrintLNR(Node.GetLNode());
 			Console.Write(Node.GetValue()!.ToString() + "  ");
 			PrintLNR(Node.GetRNode());
@@ -217,31 +190,18 @@ namespace TreeManagementApplication.Model.BinaryTree
 			PrintLNR(Node.GetLNode());
 		}
 
-<<<<<<< HEAD
-
-=======
-		public bool FindNode(INode<T>? Node, T Value)
+		public INode<T> FindNode(INode<T>? Node, T Value)
 		{
 			if (Node == null)
 			{
-				return false;
+				return null;
 			}
 			if (Node.GetValue()!.CompareTo(Value) == 0)
 			{
-				return true;
+				return Node;
 			}
-			return FindNode(Node.GetLNode(), Value) || FindNode(Node.GetRNode(), Value);
+			return FindNode(Node.GetLNode(), Value) ?? FindNode(Node.GetRNode(), Value);
 		}
-
-		public INode<T>? FindNode(T Value)
-		{
-			if (this.Root == null)
-			{
-				return null;
-			}
-			return this.Root.FindChildNode(this.Root, Value);
-		}
->>>>>>> origin/Hùng
 
 		public INode<T>? GetRoot()
 		{
@@ -287,152 +247,46 @@ namespace TreeManagementApplication.Model.BinaryTree
 			return GetLargestX(Node.GetRNode()!);
 
 		}
-
-<<<<<<< HEAD
-        public List<BNode<T>>? FindNode(T value)
-        {
-            List<BNode<T>>? found = new List<BNode<T>>();
-            FindNodeRecursive(Root, value, found);
-            return found;
-        }
-
-
-        public void FindNodeRecursive(BNode<T>? node, T value, List<BNode<T>> found)
-        {
-            if (node == null)
-            {
-                return;
-
-            }
-            int? isEqual = node.GetValue()?.CompareTo(value);
-            if (isEqual == 0 && !found.Contains(node))
-            {
-            }
-            found.Add(node);
-
-            {
-                if (node.GetLNode() != null)
-                    FindNodeRecursive(node.LNode, value, found);
-                {
-                }
-                if (node.GetRNode() != null)
-                    FindNodeRecursive(node.RNode, value, found);
-            }
-        }
-
-
-        public void editNode(T nodeValue, T valueReplaced)
-        {
-            if (nodeValue == null) { return; }
-            ConsoleBinaryTreePrinter<T> printer = new ConsoleBinaryTreePrinter<T>();
-            {
-                List<BNode<T>>? found = new List<BNode<T>>();
-                found = FindNode(nodeValue);
-                if (found == null)
-                    return;
-                else if (found.Count == 1)
-                {
-                    found[0].setValue(valueReplaced);
-                }
-                else
-                {
-                    for (int i = 0; i < found.Count; i++)
-                    {
-                        printer.Print(found[i]);
-                    }
-                    for (int i = 0; i < found.Count; i++)
-                    {
-                        Console.WriteLine($"Choose node to delete(input -1 to exit)");
-                        Console.WriteLine($"{i + 1}: Delete {i + 1} node");
-                    }
-                    try
-                    {
-                        int choose = -1;
-=======
-		public List<BNode<T>>? findNode(T value)
+		public List<BNode<T>>? FindNode(T value)
 		{
 			List<BNode<T>>? found = new List<BNode<T>>();
-			findNodeRecursive(Root, value, found);
+			FindNodeRecursive(Root, value, found);
 			return found;
 		}
 
-
-		public void findNodeRecursive(BNode<T>? node, T value, List<BNode<T>> found)
+		public void FindNodeRecursive(BNode<T>? node, T value, List<BNode<T>> found)
 		{
 			if (node == null)
 			{
 				return;
-
 			}
-			int isEqual = node.GetValue().CompareTo(value);
+			int? isEqual = node.GetValue()?.CompareTo(value);
 			if (isEqual == 0 && !found.Contains(node))
 			{
+				found.Add(node);
 			}
-			found.Add(node);
 
-			{
-				if (node.GetLNode() != null)
-					findNodeRecursive(node.LNode, value, found);
-				{
-				}
-				if (node.GetRNode() != null)
-					findNodeRecursive(node.RNode, value, found);
-			}
+			if (node.GetLNode() != null)
+				FindNodeRecursive(node.LNode, value, found);
+			if (node.GetRNode() != null)
+				FindNodeRecursive(node.RNode, value, found);
 		}
-		public void editNode(T nodeValue, T valueReplaced)
+
+		public bool UpdateNode(INode<T> node, T value)
 		{
-			if (nodeValue == null) { return; }
-			ConsoleBinaryTreePrinter<T> printer = new ConsoleBinaryTreePrinter<T>();
-			{
-				List<BNode<T>> found = new List<BNode<T>>();
-				found = findNode(nodeValue);
-				if (found == null)
-					return;
-				else if (found.Count == 1)
-				{
-					found[0].setValue(valueReplaced);
-				}
-				else
-				{
-					for (int i = 0; i < found.Count; i++)
-					{
-						printer.Print(found[i]);
-					}
-					for (int i = 0; i < found.Count; i++)
-					{
-						Console.WriteLine($"Choose node to delete(input -1 to exit)");
-						Console.WriteLine($"{i + 1}: Delete {i + 1} node");
-					}
-					try
-					{
-						int choose = -1;
->>>>>>> origin/Hùng
-
-						if (choose >= 0 && choose < found.Count)
-							choose = int.Parse(s: Console.ReadLine());
-						choose = choose - 1;
-						{
-
-						}
-						found[choose].setValue(valueReplaced);
-						printer.Print(Root);
-					}
-					catch (FormatException)
-					{
-						Console.WriteLine("Dữ liệu không hợp lệ. Vui lòng nhập lại số nguyên.");
-					}
-					catch (NullReferenceException)
-					{
-						Console.WriteLine("Dữ liệu nhập vào không được null.");
-
-					}
-
-				}
-
-			}
-
+			throw new NotImplementedException();
 		}
-	}
 
+		public INode<T> DeleteNode(T Value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public List<T>? GetValues()
+		{
+			return this.Values;
+		}
+
+	}
 }
 

@@ -29,7 +29,6 @@
         <TextBox x:Name="MaxValInp" Canvas.Left="608" TextWrapping="Wrap" Text="Max" Canvas.Top="77" Width="82" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center" GotFocus="MaxValInp_GotFocus" LostFocus="MaxValInp_LostFocus"/>
         <TextBox x:Name="MinValInp" Canvas.Left="498" TextWrapping="Wrap" Text="Min" Canvas.Top="77" Width="82" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center" LostFocus="MinValInp_LostFocus" GotFocus="MinValInp_GotFocus"/>
         <Button x:Name="TreeGenerateBtn" Content="Generate" Canvas.Left="725" Canvas.Top="71" Height="57" Width="199" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Top" Click="TreeGenerateBtn_Click"/>
-        <UserControls:NodeUserControl Canvas.Left="47" Canvas.Top="492"/>
 
     </Canvas>
 </Window>
