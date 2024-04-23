@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TreeManagementApplication"
-        xmlns:CustomControls="clr-namespace:TreeManagementApplication.CustomControls" x:Class="TreeManagementApplication.MainWindow"
+        xmlns:UserControls="clr-namespace:TreeManagementApplication.UserControls" x:Class="TreeManagementApplication.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920">
     <Canvas x:Name="Main">
@@ -27,8 +27,7 @@
         <TextBox x:Name="MaxValInp" Canvas.Left="608" TextWrapping="Wrap" Text="Max" Canvas.Top="77" Width="82" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center" GotFocus="MaxValInp_GotFocus" LostFocus="MaxValInp_LostFocus"/>
         <TextBox x:Name="MinValInp" Canvas.Left="498" TextWrapping="Wrap" Text="Min" Canvas.Top="77" Width="82" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center" LostFocus="MinValInp_LostFocus" GotFocus="MinValInp_GotFocus"/>
         <Button x:Name="TreeGenerateBtn" Content="Generate" Canvas.Left="725" Canvas.Top="71" Height="57" Width="199" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Top" Click="TreeGenerateBtn_Click"/>
-        <CustomControls:HalfCreateNodeControl Canvas.Left="65" Canvas.Top="183"/>
-        <CustomControls:NodeUI Canvas.Left="65" Canvas.Top="358"/>
+        <UserControls:NodeUserControl Canvas.Left="47" Canvas.Top="492"/>
 
     </Canvas>
 </Window>
