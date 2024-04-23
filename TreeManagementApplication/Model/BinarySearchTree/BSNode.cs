@@ -33,6 +33,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             }
             return false;
         }
+
         public bool InsertNode(T Value)
         {
             bool result = false;
@@ -73,6 +74,23 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         public INode<T>? FindChildNode(INode<T> Node, T Value)
         {
             throw new NotImplementedException();
+        }
+        public INode<T>? FindNode(int XIndex, int Level)
+        {
+            if (this == null) { return null; }
+            if (this.XIndex == XIndex)
+            {
+                return this;
+            }
+            if (XIndex < this.XIndex)
+            {
+                return this.LNode!.FindNode(XIndex, Level);
+            }
+            else if (XIndex > this.XIndex)
+            {
+                return this.RNode!.FindNode(XIndex, Level);
+            }
+            return null;
         }
 
         public void CalcX(ref int CurrentX)
@@ -174,6 +192,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         {
             this.Level = Level;
         }
+
 
     }
 }

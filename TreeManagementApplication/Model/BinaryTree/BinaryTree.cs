@@ -1,3 +1,4 @@
+using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.GUI;
 using TreeManagementApplication.Model.Interface;
 
@@ -15,6 +16,19 @@ namespace TreeManagementApplication.Model.BinaryTree
         {
             return Root == null;
         }
+
+        public void DeleteTree(BSNode<T> root)
+        {
+            if (root == null) return;
+
+            // Duyệt qua từng nút con và giải phóng bộ nhớ
+            DeleteTree(root.LNode);
+            DeleteTree(root.RNode);
+
+            // Giải phóng bộ nhớ của nút hiện tại
+            root = null;
+        }
+
         public void InsertNode(INode<T>? Node, T Value)
         {
             if (Node == null)
@@ -57,28 +71,6 @@ namespace TreeManagementApplication.Model.BinaryTree
             ConsoleBinaryTreePrinter<T> Printer = new ConsoleBinaryTreePrinter<T>();
             Printer.Print(Root);
         }
-
-        /*
-		public void PrintConsole2()
-		{
-			PrintNodeToConsole(Root, 2);
-		}
-
-		public void PrintNodeToConsole(BNode<T>? Node, int Space)
-		{
-			if (Node == null)
-				return;
-
-			PrintNodeToConsole(Node.LNode, Space + 1);
-			string BlankSpace = "";
-			for (int i = 0; i < Space * 4; i++)
-			{
-				BlankSpace += " ";
-			}
-			Console.WriteLine(BlankSpace + Node.Value);
-			PrintNodeToConsole(Node.RNode, Space + 1);
-		}
-		*/
 
         public void PrintLNR(INode<T>? Node)
         {
@@ -129,27 +121,7 @@ namespace TreeManagementApplication.Model.BinaryTree
             PrintLNR(Node.GetLNode());
         }
 
-        public bool FindNode(INode<T>? Node, T Value)
-        {
-            if (Node == null)
-            {
-                return false;
-            }
-            if (Node.GetValue()!.CompareTo(Value) == 0)
-            {
-                return true;
-            }
-            return FindNode(Node.GetLNode(), Value) || FindNode(Node.GetRNode(), Value);
-        }
 
-        public INode<T>? FindNode(T Value)
-        {
-            if (this.Root == null)
-            {
-                return null;
-            }
-            return this.Root.FindChildNode(this.Root, Value);
-        }
 
         public INode<T>? GetRoot()
         {
@@ -196,22 +168,22 @@ namespace TreeManagementApplication.Model.BinaryTree
 
         }
 
-        public List<BNode<T>>? findNode(T value)
+        public List<BNode<T>>? FindNode(T value)
         {
             List<BNode<T>>? found = new List<BNode<T>>();
-            findNodeRecursive(Root, value, found);
+            FindNodeRecursive(Root, value, found);
             return found;
         }
 
 
-        public void findNodeRecursive(BNode<T>? node, T value, List<BNode<T>> found)
+        public void FindNodeRecursive(BNode<T>? node, T value, List<BNode<T>> found)
         {
             if (node == null)
             {
                 return;
 
             }
-            int isEqual = node.GetValue().CompareTo(value);
+            int? isEqual = node.GetValue()?.CompareTo(value);
             if (isEqual == 0 && !found.Contains(node))
             {
             }
@@ -219,20 +191,22 @@ namespace TreeManagementApplication.Model.BinaryTree
 
             {
                 if (node.GetLNode() != null)
-                    findNodeRecursive(node.LNode, value, found);
+                    FindNodeRecursive(node.LNode, value, found);
                 {
                 }
                 if (node.GetRNode() != null)
-                    findNodeRecursive(node.RNode, value, found);
+                    FindNodeRecursive(node.RNode, value, found);
             }
         }
+
+
         public void editNode(T nodeValue, T valueReplaced)
         {
             if (nodeValue == null) { return; }
             ConsoleBinaryTreePrinter<T> printer = new ConsoleBinaryTreePrinter<T>();
             {
-                List<BNode<T>> found = new List<BNode<T>>();
-                found = findNode(nodeValue);
+                List<BNode<T>>? found = new List<BNode<T>>();
+                found = FindNode(nodeValue);
                 if (found == null)
                     return;
                 else if (found.Count == 1)
