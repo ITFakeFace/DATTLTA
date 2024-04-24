@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <StartupObject>TreeManagementApplication.Program</StartupObject>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Model\System\**" />
+    <EmbeddedResource Remove="Model\System\**" />
+    <None Remove="Model\System\**" />
+    <Page Remove="Model\System\**" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Resources\Static\Images\Settings_512px.png" />
+	</ItemGroup>
+
+
+</Project>
