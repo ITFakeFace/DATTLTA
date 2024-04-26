@@ -297,6 +297,22 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			Root.CalcY(pos);
 		}
 
+		public ITree<T> GenerateRandomTree(int Count, int Min, int Max)
+		{
+			BinarySearchTree<int> Tree = new BinarySearchTree<int>();
+			HashSet<int> valueList = new HashSet<int>();
+			Random rand = new Random();
+			while (valueList.Count < Count)
+			{
+				valueList.Add(rand.Next(Min, Max));
+			}
+			foreach (var ele in valueList)
+			{
+				Tree.InsertNode(ele);
+			}
+			return (ITree<T>)Tree;
+		}
+
 		public int GetLargestX(INode<T> Node)
 		{
 			if (Node.GetRNode() == null)

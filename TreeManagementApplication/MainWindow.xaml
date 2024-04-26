@@ -42,8 +42,8 @@
                     </StackPanel>
                     <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center"> 
                         <TextBox x:Name="NodeCountInp" Margin="10,0,10,0" TextWrapping="Wrap" Text="Node Count" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" GotFocus="NodeCountInp_GotFocus" LostFocus="NodeCountInp_LostFocus" KeyDown="NodeCountInp_KeyDown"/>
-                        <TextBox x:Name="MaxValInp" Margin="10,0,10,0" TextWrapping="Wrap" Text="Max" Width="100" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center" GotFocus="MaxValInp_GotFocus" LostFocus="MaxValInp_LostFocus"/>
                         <TextBox x:Name="MinValInp" Margin="10,0,10,0" TextWrapping="Wrap" Text="Min" Width="100" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center" LostFocus="MinValInp_LostFocus" GotFocus="MinValInp_GotFocus"/>
+                        <TextBox x:Name="MaxValInp" Margin="10,0,10,0" TextWrapping="Wrap" Text="Max" Width="100" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center" GotFocus="MaxValInp_GotFocus" LostFocus="MaxValInp_LostFocus"/>
                         <Button x:Name="TreeGenerateBtn" Content="Generate" Canvas.Left="725" Canvas.Top="71" Height="57" Width="199" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Top" Click="TreeGenerateBtn_Click"/>
                     </StackPanel>
                 </Grid>

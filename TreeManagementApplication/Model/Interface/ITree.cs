@@ -21,5 +21,7 @@ namespace TreeManagementApplication.Model.Interface
 
 		bool InsertNode(T Value);
 		List<T>? GetValues();
+
+		ITree<T> GenerateRandomTree(int Count, int Min, int Max);
 	}
 }

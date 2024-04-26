@@ -234,7 +234,7 @@ namespace TreeManagementApplication
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("Unable to Convert Node Count in Generate Tree Function");
+				Console.WriteLine("Unable to Convert Node Min in Generate Tree Function");
 			}
 
 			try
@@ -243,10 +243,10 @@ namespace TreeManagementApplication
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("Unable to Convert Node Count in Generate Tree Function");
+				Console.WriteLine("Unable to Convert Node Max in Generate Tree Function");
 			}
 
-			Tree = ((BinaryTree<int>)Tree).GenerateRandomTree(Count, Min, Max);
+			Tree = Tree.GenerateRandomTree(Count, Min, Max);
 			RerenderTree();
 		}
 	}
