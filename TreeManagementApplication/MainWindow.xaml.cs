@@ -21,12 +21,15 @@ namespace TreeManagementApplication
 		public MainWindow()
 		{
 			InitializeComponent();
-			GridSize = 75;
-			coordinateCalculator = new CoordinateCalculator(new Coordinate(1500, 800), GridSize);
-			NodeGUI<int>.Calculator = coordinateCalculator;
+			InitialConfig();
 		}
+
 		public void InitialConfig()
 		{
+			GridSize = 75;
+
+			coordinateCalculator = new CoordinateCalculator(new Coordinate(NodeContainerParent.ActualWidth, NodeContainerParent.ActualHeight), GridSize);
+			NodeGUI<int>.Calculator = coordinateCalculator;
 		}
 		private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
@@ -59,15 +62,19 @@ namespace TreeManagementApplication
 		{
 			try
 			{
+				bool success = false;
 				String inp = ValAddInp.Text.Replace(" ", "");
 				List<String> inpList = inp.Split(",").ToList();
 				foreach (var item in inpList)
 				{
 					int nodeVal = int.Parse(item);
-					Tree.InsertNode(nodeVal);
+					success = Tree.InsertNode(nodeVal);
 					Console.WriteLine("Inserted Node");
 				}
-				RerenderTree();
+				if (success)
+				{
+					RerenderTree();
+				}
 			}
 			catch (ArgumentNullException ex)
 			{
@@ -89,7 +96,7 @@ namespace TreeManagementApplication
 			NodeCanvas.Width = (Tree.GetLargestX(Tree.GetRoot()!) + 1) * GridSize;
 			Console.WriteLine($"Total NodeCanvas Size: {Tree.GetLargestX(Tree.GetRoot()!) + 1}");
 			TreeGUI<int> treeGUI = new TreeGUI<int>();
-			treeGUI.DrawTree(Tree.GetRoot()!, ref NodeCanvas, coordinateCalculator);
+			treeGUI.DrawTree(Tree.GetRoot()!, ref NodeCanvas);
 			Canvas.SetLeft(NodeCanvas, (canvas.Width - NodeCanvas.Width) / 2);
 		}
 		private void ValAddInp_GotFocus(object sender, RoutedEventArgs e)

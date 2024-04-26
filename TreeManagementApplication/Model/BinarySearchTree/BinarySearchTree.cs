@@ -62,19 +62,22 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			printer.Print(Root);
 		}
 
-		public void InsertNode(T Value)
+		public bool InsertNode(T Value)
 		{
 			if (this.Root == null)
 			{
 				this.Root = new BSNode<T>(Value);
 				Values!.Add(Value);
+				return true;
 			}
 			else
 			{
-				if (this.Root.InsertNode(Value))
+				bool result = this.Root.InsertNode(Value);
+				if (result)
 				{
 					Values!.Add(Value);
 				}
+				return result;
 			}
 		}
 

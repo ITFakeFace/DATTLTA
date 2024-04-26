@@ -73,18 +73,19 @@ namespace TreeManagementApplication.Model.BinaryTree
 			return (ITree<T>)Tree;
 		}
 
-		public void InsertNode(T Value)
+		public bool InsertNode(T Value)
 		{
-			InsertNode(Root, Value);
+			return InsertNode(Root, Value);
 		}
 
-		public void InsertNode(INode<T>? Node, T Value)
+		public bool InsertNode(INode<T>? Node, T Value)
 		{
 			if (Node == null)
 			{
 				Root = new BNode<T>(Value);
-				return;
+				return true;
 			}
+			bool result = false;
 			Queue<INode<T>> queue = new Queue<INode<T>>();
 			queue.Enqueue(Node);
 
@@ -97,6 +98,7 @@ namespace TreeManagementApplication.Model.BinaryTree
 				if (Node.GetLNode() == null)
 				{
 					Node.SetLNode(new BNode<T>(Value));
+					result = true;
 					break;
 				}
 				else
@@ -107,11 +109,15 @@ namespace TreeManagementApplication.Model.BinaryTree
 				if (Node.GetRNode() == null)
 				{
 					Node.SetRNode(new BNode<T>(Value));
+					result = true;
 					break;
 				}
 				else
+				{
 					queue.Enqueue(Node.GetRNode()!);
+				}
 			}
+			return result;
 		}
 
 		public void PrintConsole()

@@ -25,8 +25,8 @@ namespace TreeManagementApplication.UserControls
 		public NodeUserControl()
 		{
 			InitializeComponent();
-			InitializeEvents();
 			InitializeProperties();
+			InitializeEvents();
 		}
 
 		public void InitializeProperties()
@@ -102,7 +102,6 @@ namespace TreeManagementApplication.UserControls
 				new NumberSubstitution(),
 				VisualTreeHelper.GetDpi(candidate).PixelsPerDip
 			);
-
 			return new Size(formattedText.Width, formattedText.Height);
 		}
 	}

@@ -19,7 +19,7 @@ namespace TreeManagementApplication.Model.Interface
 		void GenerateGridIndex();
 		int GetLargestX(INode<T> Node);
 
-		void InsertNode(T Value);
+		bool InsertNode(T Value);
 		List<T>? GetValues();
 	}
 }

@@ -4,31 +4,70 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TreeManagementApplication"
-        xmlns:UserControls="clr-namespace:TreeManagementApplication.UserControls" x:Class="TreeManagementApplication.MainWindow"
+        xmlns:UserControls="clr-namespace:TreeManagementApplication.UserControls" 
+        x:Class="TreeManagementApplication.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920">
-    <Canvas x:Name="Main">
-        <Image Height="100" Canvas.Right="10" Canvas.Top="10" Width="100" MouseLeftButtonDown="Image_MouseLeftButtonDown" Panel.ZIndex="2" Source="/Resources/Static/Images/Settings_512px.png" Canvas.Left="1810"/>
-        <Canvas x:Name="canvas" Width="1500" Height="800" Canvas.Left="210" Canvas.Top="140">
-            <Rectangle Fill="Transparent" Stroke="Black" StrokeThickness="2" Width="1500" Height="800" />
-            <Canvas Name="NodeCanvas" Width="1500" Height="800" Canvas.Left="10" Canvas.Top="10"/>
-        </Canvas>
+    <Grid x:Name="Main" Background="White" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid x:Name="header" Grid.Row="0" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1800"/>
+                <ColumnDefinition Width="119"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                        <TextBox x:Name="ValAddInp" TextWrapping="Wrap" Text="Value" Width="400" FontSize="36" InputScope="Number" TextChanged="RowInp_TextChanged" KeyDown="RowInp_KeyDown" GotFocus="ValAddInp_GotFocus" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <Button x:Name="CreateNodeBtn" Content="Create Node" Canvas.Left="642" Canvas.Top="13" RenderTransformOrigin="-0.905,-0.246" FontSize="36" Click="CreateNodeBtn_Click_1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center"> 
+                        <TextBox x:Name="NodeCountInp" Margin="10,0,10,0" TextWrapping="Wrap" Text="Node Count" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" GotFocus="NodeCountInp_GotFocus" LostFocus="NodeCountInp_LostFocus" KeyDown="NodeCountInp_KeyDown"/>
+                        <TextBox x:Name="MaxValInp" Margin="10,0,10,0" TextWrapping="Wrap" Text="Max" Width="100" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center" GotFocus="MaxValInp_GotFocus" LostFocus="MaxValInp_LostFocus"/>
+                        <TextBox x:Name="MinValInp" Margin="10,0,10,0" TextWrapping="Wrap" Text="Min" Width="100" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center" LostFocus="MinValInp_LostFocus" GotFocus="MinValInp_GotFocus"/>
+                        <Button x:Name="TreeGenerateBtn" Content="Generate" Canvas.Left="725" Canvas.Top="71" Height="57" Width="199" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Top" Click="TreeGenerateBtn_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <Image Grid.Row="0" Grid.Column="1"  Height="100" Canvas.Right="10" Canvas.Top="10" Width="100" MouseLeftButtonDown="Image_MouseLeftButtonDown" Panel.ZIndex="2" Source="/Resources/Static/Images/Settings_512px.png" Canvas.Left="1810"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <Border x:Name="NodeContainerParent" Grid.Column="1"  BorderBrush="Black" BorderThickness="2">
+                <Canvas x:Name="canvas" Canvas.Left="210" Canvas.Top="140">
+                    <Canvas x:Name="NodeCanvas" Canvas.Left="0" Canvas.Top="0"/>
+                </Canvas>
+            </Border>
+        </Grid>
 
-       
         <Canvas x:Name="SettingMenu" Height="600" Width="1000" HorizontalAlignment="Center" Canvas.Top="240" VerticalAlignment="Top" Canvas.Left="460" Visibility="Hidden" >
             <Rectangle Fill="Transparent" Stroke="Black" StrokeThickness="2" Width="1000" Height="600"  />
             <Button Content="Binary Search Tree" Canvas.Left="150" Canvas.Top="200" HorizontalAlignment="Left" VerticalAlignment="Center" Width="300" Height="200" FontSize="36"/>
             <Button Content="Binary Tree" Canvas.Right="150" Canvas.Top="200" Width="300" Height="200" FontSize="36" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         </Canvas>
-        <TextBox x:Name="ValAddInp" Canvas.Left="142" TextWrapping="Wrap" Text="Value" Canvas.Top="13" Width="468" FontSize="36" InputScope="Number" TextChanged="RowInp_TextChanged" KeyDown="RowInp_KeyDown" GotFocus="ValAddInp_GotFocus" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <Button x:Name="CreateNodeBtn" Content="Create Node" Canvas.Left="642" Canvas.Top="13" RenderTransformOrigin="-0.905,-0.246" FontSize="36" Click="CreateNodeBtn_Click_1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <TextBlock Canvas.Left="22" TextWrapping="Wrap" Text="Value" Canvas.Top="12" FontSize="36"/>
 
-        <TextBlock Canvas.Left="22" TextWrapping="Wrap" Text="Generate Tree" Canvas.Top="71" FontSize="36" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <TextBox x:Name="NodeCountInp" Canvas.Left="277" TextWrapping="Wrap" Text="Node Count" Canvas.Top="77" Width="198" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="30" GotFocus="NodeCountInp_GotFocus" LostFocus="NodeCountInp_LostFocus" KeyDown="NodeCountInp_KeyDown"/>
-        <TextBox x:Name="MaxValInp" Canvas.Left="608" TextWrapping="Wrap" Text="Max" Canvas.Top="77" Width="82" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center" GotFocus="MaxValInp_GotFocus" LostFocus="MaxValInp_LostFocus"/>
-        <TextBox x:Name="MinValInp" Canvas.Left="498" TextWrapping="Wrap" Text="Min" Canvas.Top="77" Width="82" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center" LostFocus="MinValInp_LostFocus" GotFocus="MinValInp_GotFocus"/>
-        <Button x:Name="TreeGenerateBtn" Content="Generate" Canvas.Left="725" Canvas.Top="71" Height="57" Width="199" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Top" Click="TreeGenerateBtn_Click"/>
-
-    </Canvas>
+    </Grid>
 </Window>

@@ -11,6 +11,7 @@ namespace TreeManagementApplication.Model.GUI
 
 		public void Print(Window window)
 		{
+			Grid grid = new Grid();
 
 		}
 
@@ -19,11 +20,11 @@ namespace TreeManagementApplication.Model.GUI
 
 		}
 
-		public void DrawTree(INode<T> Root, ref Canvas canvas, CoordinateCalculator calculator)
+		public void DrawTree(INode<T> Root, ref Canvas canvas)
 		{
 			nodeGUI = new NodeGUI<T>();
 			canvas.Children.Clear();
-			nodeGUI.DrawNode(Root, ref canvas, calculator);
+			nodeGUI.DrawNode(Root, ref canvas);
 		}
 		public void DeleteTree(ref Canvas canvas)
 		{
