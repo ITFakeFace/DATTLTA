@@ -7,21 +7,31 @@ namespace TreeManagementApplication.Model.BinaryTree
     {
         public BNode<T>? Root { get; set; } = null;
 
+<<<<<<< HEAD
         public List<T>? Values { get; set; } = new List<T>();
 
         public bool IsEmpty()
         {
             return Root == null;
         }
+=======
+		public List<T>? Values { get; set; } = new List<T>();
 
-        public void DeleteTree(BSNode<T> root)
-        {
-            if (root == null) return;
+		public bool IsEmpty()
+		{
+			return Root == null;
+		}
+>>>>>>> Hùng1
 
-            // Duyệt qua từng nút con và giải phóng bộ nhớ
-            DeleteTree(root.LNode);
-            DeleteTree(root.RNode);
+		public void DeleteTree(BSNode<T> root)
+		{
+			if (root == null) return;
 
+			// Duyệt qua từng nút con và giải phóng bộ nhớ
+			DeleteTree(root.LNode);
+			DeleteTree(root.RNode);
+
+<<<<<<< HEAD
             // Giải phóng bộ nhớ của nút hiện tại
             root = null;
         }
@@ -86,6 +96,11 @@ namespace TreeManagementApplication.Model.BinaryTree
             }
             Queue<INode<T>> queue = new Queue<INode<T>>();
             queue.Enqueue(Node);
+=======
+			// Giải phóng bộ nhớ của nút hiện tại
+			root = null;
+		}
+>>>>>>> Hùng1
 
             // Do level order traversal until we find
             // an empty place.
@@ -103,6 +118,7 @@ namespace TreeManagementApplication.Model.BinaryTree
                     queue.Enqueue(Node.GetLNode()!);
                 }
 
+<<<<<<< HEAD
                 if (Node.GetRNode() == null)
                 {
                     Node.SetRNode(new BNode<T>(Value));
@@ -120,6 +136,62 @@ namespace TreeManagementApplication.Model.BinaryTree
         }
 
         /*
+=======
+		public bool InsertNode(T Value)
+		{
+			return InsertNode(Root, Value);
+		}
+
+		public bool InsertNode(INode<T>? Node, T Value)
+		{
+			if (Node == null)
+			{
+				Root = new BNode<T>(Value);
+				return true;
+			}
+			bool result = false;
+			Queue<INode<T>> queue = new Queue<INode<T>>();
+			queue.Enqueue(Node);
+
+			// Do level order traversal until we find
+			// an empty place.
+			while (queue.Count != 0)
+			{
+				Node = queue.Peek();
+				queue.Dequeue();
+				if (Node.GetLNode() == null)
+				{
+					Node.SetLNode(new BNode<T>(Value));
+					result = true;
+					break;
+				}
+				else
+				{
+					queue.Enqueue(Node.GetLNode()!);
+				}
+
+				if (Node.GetRNode() == null)
+				{
+					Node.SetRNode(new BNode<T>(Value));
+					result = true;
+					break;
+				}
+				else
+				{
+					queue.Enqueue(Node.GetRNode()!);
+				}
+			}
+			return result;
+		}
+
+		public void PrintConsole()
+		{
+			ConsoleBinaryTreePrinter<T> Printer = new ConsoleBinaryTreePrinter<T>();
+			Printer.Print(Root);
+		}
+
+		/*
+>>>>>>> Hùng1
 		public void PrintConsole2()
 		{
 			PrintNodeToConsole(Root, 2);
@@ -141,6 +213,7 @@ namespace TreeManagementApplication.Model.BinaryTree
 		}
 		*/
 
+<<<<<<< HEAD
         public void PrintLNR(INode<T>? Node)
         {
             if (Node == null) { return; }
@@ -159,6 +232,18 @@ namespace TreeManagementApplication.Model.BinaryTree
         public void PrintNLR(INode<T>? Node)
         {
             if (Node == null) { return; }
+=======
+		public void PrintLNR(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+			PrintLNR(Node.GetLNode());
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+			PrintLNR(Node.GetRNode());
+		}
+		public void PrintLRN(INode<T>? Node)
+		{
+			if (Node == null) { return; }
+>>>>>>> Hùng1
 
             Console.Write(Node.GetValue()!.ToString() + "  ");
             PrintLNR(Node.GetLNode());
@@ -202,6 +287,7 @@ namespace TreeManagementApplication.Model.BinaryTree
             return FindNode(Node.GetLNode(), Value) ?? FindNode(Node.GetRNode(), Value);
         }
 
+<<<<<<< HEAD
         public INode<T>? GetRoot()
         {
             return this.Root;
@@ -244,6 +330,25 @@ namespace TreeManagementApplication.Model.BinaryTree
             pos = 0;
             Root.CalcY(pos);
         }
+=======
+		public INode<T> FindNode(INode<T>? Node, T Value)
+		{
+			if (Node == null)
+			{
+				return null;
+			}
+			if (Node.GetValue()!.CompareTo(Value) == 0)
+			{
+				return Node;
+			}
+			return FindNode(Node.GetLNode(), Value) ?? FindNode(Node.GetRNode(), Value);
+		}
+
+		public INode<T>? GetRoot()
+		{
+			return this.Root;
+		}
+>>>>>>> Hùng1
 
         public int GetLargestX(INode<T> Node)
         {
@@ -253,6 +358,7 @@ namespace TreeManagementApplication.Model.BinaryTree
             }
             return GetLargestX(Node.GetRNode()!);
 
+<<<<<<< HEAD
         }
         public List<BNode<T>>? FindNode(T value)
         {
@@ -315,5 +421,75 @@ namespace TreeManagementApplication.Model.BinaryTree
             throw new NotImplementedException();
         }
     }
+=======
+		public void RemoveNode(T Value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void GenerateGridIndex()
+		{
+			if (Root == null) { return; }
+			int pos = 0;
+			Root.CalcX(ref pos);
+			pos = 0;
+			Root.CalcY(pos);
+		}
+
+		public int GetLargestX(INode<T> Node)
+		{
+			if (Node.GetRNode() == null)
+			{
+				return Node.GetXIndex();
+			}
+			return GetLargestX(Node.GetRNode()!);
+
+		}
+		public List<BNode<T>>? FindNode(T value)
+		{
+			List<BNode<T>>? found = new List<BNode<T>>();
+			FindNodeRecursive(Root, value, found);
+			return found;
+		}
+
+		public void FindNodeRecursive(BNode<T>? node, T value, List<BNode<T>> found)
+		{
+			if (node == null)
+			{
+				return;
+			}
+			int? isEqual = node.GetValue()?.CompareTo(value);
+			if (isEqual == 0 && !found.Contains(node))
+			{
+				found.Add(node);
+			}
+
+			if (node.GetLNode() != null)
+				FindNodeRecursive(node.LNode, value, found);
+			if (node.GetRNode() != null)
+				FindNodeRecursive(node.RNode, value, found);
+		}
+
+		public bool UpdateNode(INode<T> node, T value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public INode<T> DeleteNode(T Value)
+		{
+			throw new NotImplementedException();
+		}
+
+		public List<T>? GetValues()
+		{
+			return this.Values;
+		}
+
+		INode<T>? ITree<T>.FindNode(T Value)
+		{
+			throw new NotImplementedException();
+		}
+	}
+>>>>>>> Hùng1
 }
 

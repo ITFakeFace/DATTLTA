@@ -5,20 +5,22 @@ using TreeManagementApplication.Model.VisualModel;
 
 namespace TreeManagementApplication.Model.GUI
 {
-    internal class TreeGUI<T> where T : IComparable<T>
-    {
-        NodeGUI<T>? nodeGUI;
+	internal class TreeGUI<T> where T : IComparable<T>
+	{
+		NodeGUI<T>? nodeGUI;
 
-        public void Print(Window window)
-        {
+		public void Print(Window window)
+		{
+			Grid grid = new Grid();
 
-        }
+		}
 
-        public void GenerateXIndex()
-        {
+		public void GenerateXIndex()
+		{
 
-        }
+		}
 
+<<<<<<< HEAD
         public void DrawTree(INode<T> Root, ref Canvas canvas, CoordinateCalculator calculator)
         {
             nodeGUI = new NodeGUI<T>();
@@ -31,4 +33,18 @@ namespace TreeManagementApplication.Model.GUI
         }
 
     }
+=======
+		public void DrawTree(INode<T> Root, ref Canvas canvas)
+		{
+			nodeGUI = new NodeGUI<T>();
+			canvas.Children.Clear();
+			nodeGUI.DrawNode(Root, ref canvas);
+		}
+		public void DeleteTree(ref Canvas canvas)
+		{
+			nodeGUI = null;
+			canvas.Children.Clear();
+		}
+	}
+>>>>>>> Hùng1
 }

@@ -17,16 +17,14 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace TreeManagementApplication.UserControls
 {
-	/// <summary>
-	/// Interaction logic for NodeUserControl.xaml
-	/// </summary>
 	public partial class NodeUserControl : UserControl
 	{
+		public CreateNodeUC? CreateNodeUC { get; set; }
 		public NodeUserControl()
 		{
 			InitializeComponent();
-			InitializeEvents();
 			InitializeProperties();
+			InitializeEvents();
 		}
 
 		public void InitializeProperties()
@@ -43,25 +41,44 @@ namespace TreeManagementApplication.UserControls
 
 			Node.Height = Height;
 			Node.Width = Width;
+
+			Canvas.SetZIndex(NodeShape, 10);
+			Canvas.SetZIndex(NodeValue, 11);
 		}
 
 		public void InitializeEvents()
 		{
 			Node.MouseEnter += OnHover;
 			Node.MouseLeave += OnUnHover;
-
 		}
 
 		public void OnHover(Object sender, MouseEventArgs e)
 		{
 			NodeShape.Fill = Brushes.Yellow;
 			NodeShape.StrokeThickness = 4;
+			if (CreateNodeUC != null)
+			{
+				Canvas.SetLeft(CreateNodeUC, 0);
+				Canvas.SetTop(CreateNodeUC, NodeShape.Height * 0.5);
+				Canvas.SetZIndex(CreateNodeUC, 9);
+				if (!Node.Children.Contains(CreateNodeUC))
+				{
+					Node.Children.Add(CreateNodeUC);
+				}
+				CreateNodeUC.Visibility = Visibility.Visible;
+			}
 		}
 
-		public void OnUnHover(Object sender, MouseEventArgs e)
+		public async void OnUnHover(Object sender, MouseEventArgs e)
 		{
 			NodeShape.Fill = Brushes.White;
 			NodeShape.StrokeThickness = 2;
+			await Task.Delay(2000);
+			if (CreateNodeUC != null && !CreateNodeUC.IsMouseOver)
+			{
+				//CreateNodeUC.Visibility = Visibility.Hidden;
+				Node.Children.Remove(CreateNodeUC);
+			}
 		}
 
 		public void SetText(String value)
@@ -102,7 +119,6 @@ namespace TreeManagementApplication.UserControls
 				new NumberSubstitution(),
 				VisualTreeHelper.GetDpi(candidate).PixelsPerDip
 			);
-
 			return new Size(formattedText.Width, formattedText.Height);
 		}
 	}
