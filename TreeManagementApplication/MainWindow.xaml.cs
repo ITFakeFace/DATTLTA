@@ -16,6 +16,7 @@ namespace TreeManagementApplication
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		String str = "Test fast forward";
 		CoordinateCalculator coordinateCalculator;
 		ITree<int> Tree = new BinarySearchTree<int>();
 		int GridSize;
