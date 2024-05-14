@@ -6,6 +6,7 @@ using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.GUI;
 using TreeManagementApplication.Model.Interface;
 using TreeManagementApplication.Model.VisualModel;
+using TreeManagementApplication.UserControls;
 
 namespace TreeManagementApplication
 {
@@ -43,6 +44,35 @@ namespace TreeManagementApplication
 			}
 		}
 
+		/*
+		private void NodeCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			System.Windows.Point mousePosition = e.GetPosition((UIElement)sender);
+			Coordinate coordinate = new Coordinate(mousePosition.X, mousePosition.Y);
+			GridCoordinate gridCoordinate = coordinateCalculator!.GetGridCoordinate(coordinate);
+			ChangeNodeWindow changeNodeWindow = new ChangeNodeWindow();
+			changeNodeWindow.ShowDialog();
+			string changeNodeVal = changeNodeWindow.value.Replace(" ", "").TrimEnd(',');
+			int changeNodeNum = int.Parse(changeNodeVal);
+			INode<int>? node = Tree.FindNode(gridCoordinate.X, gridCoordinate.Y);
+			if (!(changeNodeVal == ""))
+			{
+				if (Tree.UpdateNode(node!, changeNodeNum))
+				{
+					UpdateTree();
+					Tree = null!;
+					CreateNode(sender);
+				}
+				else
+				{
+					Console.WriteLine("Your value may exist in tree");
+				}
+			}
+
+		}
+		*/
+
+		/*
 		private void CreateNodeBtn_Click_1(object sender, RoutedEventArgs e)
 		{
 			CreateNode(e.Source);
@@ -97,7 +127,7 @@ namespace TreeManagementApplication
 			Console.WriteLine($"Total NodeCanvas Size: {Tree.GetLargestX(Tree.GetRoot()!) + 1}");
 			TreeGUI<int> treeGUI = new TreeGUI<int>();
 			treeGUI.DrawTree(Tree.GetRoot()!, ref NodeCanvas);
-			Canvas.SetLeft(NodeCanvas, (canvas.Width - NodeCanvas.Width) / 2);
+			Canvas.SetLeft(NodeCanvas, (canvas.ActualWidth - NodeCanvas.ActualWidth) / 2);
 		}
 		private void ValAddInp_GotFocus(object sender, RoutedEventArgs e)
 		{
@@ -111,33 +141,7 @@ namespace TreeManagementApplication
 		{
 
 		}
-		/*
-		private void NodeCanvas_MouseDown(object sender, MouseButtonEventArgs e)
-		{
-			System.Windows.Point mousePosition = e.GetPosition((UIElement)sender);
-			Coordinate coordinate = new Coordinate(mousePosition.X, mousePosition.Y);
-			GridCoordinate gridCoordinate = coordinateCalculator!.GetGridCoordinate(coordinate);
-			ChangeNodeWindow changeNodeWindow = new ChangeNodeWindow();
-			changeNodeWindow.ShowDialog();
-			string changeNodeVal = changeNodeWindow.value.Replace(" ", "").TrimEnd(',');
-			int changeNodeNum = int.Parse(changeNodeVal);
-			INode<int>? node = Tree.FindNode(gridCoordinate.X, gridCoordinate.Y);
-			if (!(changeNodeVal == ""))
-			{
-				if (Tree.UpdateNode(node!, changeNodeNum))
-				{
-					UpdateTree();
-					Tree = null!;
-					CreateNode(sender);
-				}
-				else
-				{
-					Console.WriteLine("Your value may exist in tree");
-				}
-			}
 
-		}
-		*/
 		public void UpdateTree()
 		{
 			string? nodes = null;
@@ -249,5 +253,6 @@ namespace TreeManagementApplication
 			Tree = Tree.GenerateRandomTree(Count, Min, Max);
 			RerenderTree();
 		}
+		*/
 	}
 }

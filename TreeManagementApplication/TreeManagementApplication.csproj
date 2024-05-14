@@ -17,7 +17,24 @@
     <Page Remove="Model\System\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\Static\Images\NavBar\Add_100px.png" />
+    <None Remove="Resources\Static\Images\NavBar\Edit_100px.png" />
+    <None Remove="Resources\Static\Images\NavBar\Expand_100px.png" />
+    <None Remove="Resources\Static\Images\NavBar\Move_100px.png" />
+    <None Remove="Resources\Static\Images\NavBar\Remove_100px.png" />
+    <None Remove="Resources\Static\Images\NavBar\Save_100px.png" />
+    <None Remove="Resources\Static\Images\NavBar\Search_100px.png" />
+  </ItemGroup>
+
 	<ItemGroup>
+		<Resource Include="Resources\Static\Images\NavBar\Add_100px.png" />
+		<Resource Include="Resources\Static\Images\NavBar\Edit_100px.png" />
+		<Resource Include="Resources\Static\Images\NavBar\Expand_100px.png" />
+		<Resource Include="Resources\Static\Images\NavBar\Move_100px.png" />
+		<Resource Include="Resources\Static\Images\NavBar\Remove_100px.png" />
+		<Resource Include="Resources\Static\Images\NavBar\Save_100px.png" />
+		<Resource Include="Resources\Static\Images\NavBar\Search_100px.png" />
 		<Resource Include="Resources\Static\Images\Settings_512px.png" />
 	</ItemGroup>
 
