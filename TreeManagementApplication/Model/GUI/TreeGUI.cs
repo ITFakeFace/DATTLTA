@@ -20,31 +20,16 @@ namespace TreeManagementApplication.Model.GUI
 
 		}
 
-<<<<<<< HEAD
-        public void DrawTree(INode<T> Root, ref Canvas canvas, CoordinateCalculator calculator)
-        {
-            nodeGUI = new NodeGUI<T>();
-            canvas.Children.Clear();
-            nodeGUI.DrawNode(Root, ref canvas, calculator);
-        }
-        public void RemoveTree(ref Canvas canvas)
-        {
-            canvas.Children.Clear();
-        }
-
-    }
-=======
-		public void DrawTree(INode<T> Root, ref Canvas canvas)
+		public void DrawTree(INode<T> Root, ref Canvas canvas, CoordinateCalculator calculator)
 		{
 			nodeGUI = new NodeGUI<T>();
 			canvas.Children.Clear();
 			nodeGUI.DrawNode(Root, ref canvas);
 		}
-		public void DeleteTree(ref Canvas canvas)
+		public void RemoveTree(ref Canvas canvas)
 		{
-			nodeGUI = null;
 			canvas.Children.Clear();
 		}
+
 	}
->>>>>>> Hùng1
 }

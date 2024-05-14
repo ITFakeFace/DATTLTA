@@ -14,18 +14,10 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 		{
 			return this.Root == null;
 		}
-
-<<<<<<< HEAD
-        public INode<T>? GetRoot()
-        {
-            return this.Root;
-        }
-=======
 		public INode<T>? GetRoot()
 		{
 			return this.Root;
 		}
->>>>>>> Hùng1
 
 		public void DeleteTree(BSNode<T> root)
 		{
@@ -48,9 +40,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			// Giải phóng bộ nhớ của nút hiện tại
 			root = null;
 		}
-
-
-
 		public void SetRoot(INode<T> Node)
 		{
 			if (Node is BSNode<T>)
@@ -69,28 +58,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			printer.Print(Root);
 		}
 
-<<<<<<< HEAD
-        public void InsertNode(T Value)
-        {
-            if (this.Root == null)
-            {
-                this.Root = new BSNode<T>(Value);
-            }
-            else
-            {
-                if (this.Root.InsertNode(Value))
-                {
-                }
-            }
-        }
-
-
-
-        public void PrintNode(BNode<T>? Node, int space)
-        {
-            if (Node == null)
-                return;
-=======
 		public bool InsertNode(T Value)
 		{
 			if (this.Root == null)
@@ -115,7 +82,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 		{
 			if (Node == null)
 				return;
->>>>>>> Hùng1
 
 			PrintNode(Node.LNode, space + 1);
 			string blankSpace = "";
@@ -179,58 +145,38 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			Console.Write(Node.GetValue()!.ToString() + "  ");
 			PrintLNR(Node.GetLNode());
 		}
-
-<<<<<<< HEAD
-        public INode<T>? FindParentNode(INode<T> node)
-        {
-            int parentLevel = node.GetLevel() - 1;
-            int parentXIndex = node.GetXIndex();
-            INode<T>? parent = FindNode(parentXIndex - 1, parentLevel);
-            if (parent != null)
-            {
-                return parent;
-            }
-            else
-            {
-                parent = FindNode(parentXIndex + 1, parentLevel);
-                return parent;
-            }
-        }
-        public bool UpdateNode(INode<T> node, T value)
-        {
-            if (!node.Equals(Root))
-            {
-                var result = FindParentNode(node);
-                BSNode<T> parentNode = (BSNode<T>)result!;
-                DeleteNode(parentNode, node.GetValue()!);
-                parentNode.InsertNode(value);
-                return true;
-            }
-            else
-            {
-                INode<T> newNode = new BSNode<T>(value, (BSNode<T>)Root!.GetLNode()!, (BSNode<T>)Root!.GetRNode()!);
-                DeleteNode(Root!, node.GetValue()!);
-                SetRoot(newNode);
-                return true;
-            }
-        }
-        public INode<T>? FindAndDeleteNode(T? value, INode<T>? node = null)
-        {
-            if (node is null)
-            {// Tìm node có giá trị value 
-                INode<T>? nodeToDelete = FindNode(value);
-=======
+		public INode<T>? FindParentNode(INode<T> node)
+		{
+			int parentLevel = node.GetLevel() - 1;
+			int parentXIndex = node.GetXIndex();
+			INode<T>? parent = FindNode(parentXIndex - 1, parentLevel);
+			if (parent != null)
+			{
+				return parent;
+			}
+			else
+			{
+				parent = FindNode(parentXIndex + 1, parentLevel);
+				return parent;
+			}
+		}
 		public bool UpdateNode(INode<T> node, T value)
 		{
-			for (int i = 0; i < this.Values!.Count; i++)
+			if (!node.Equals(Root))
 			{
-				if (Values![i].CompareTo(node.GetValue()) == 0 && Values![i].CompareTo(value) != 0)
-				{
-					Values![i] = value;
-					return true;
-				}
+				var result = FindParentNode(node);
+				BSNode<T> parentNode = (BSNode<T>)result!;
+				DeleteNode(parentNode, node.GetValue()!);
+				parentNode.InsertNode(value);
+				return true;
 			}
-			return false;
+			else
+			{
+				INode<T> newNode = new BSNode<T>(value, (BSNode<T>)Root!.GetLNode()!, (BSNode<T>)Root!.GetRNode()!);
+				DeleteNode(Root!, node.GetValue()!);
+				SetRoot(newNode);
+				return true;
+			}
 		}
 
 		public INode<T>? FindAndDeleteNode(T? value, INode<T>? node = null)
@@ -238,7 +184,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			if (node is null)
 			{// Tìm node có giá trị value 
 				INode<T>? nodeToDelete = FindNode(value);
->>>>>>> Hùng1
 
 				if (nodeToDelete != null)
 				{
@@ -309,26 +254,11 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			return minValue;
 		}
 
-<<<<<<< HEAD
-        public INode<T>? FindNode(T Value)
-        {
-            if (this.GetRoot() == null) { return null; }
-            return this.GetRoot()!.FindChildNode(this.GetRoot()!, Value);
-        }
-
-
-
-        public INode<T>? FindChildNode(INode<T>? node, T value)
-        {
-            if (node == null) { return node; }
-            int isEqual = node.GetValue()!.CompareTo(value);
-=======
 		public INode<T>? FindNode(T Value)
 		{
 			if (this.GetRoot() == null) { return null; }
 			return this.GetRoot()!.FindChildNode(this.GetRoot()!, Value);
 		}
->>>>>>> Hùng1
 
 		public INode<T>? FindChildNode(INode<T>? node, T value)
 		{
@@ -383,21 +313,16 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			Root.CalcY(pos);
 		}
 
-<<<<<<< HEAD
-        }
+		public INode<T> DeleteNode(T Value)
+		{
+			throw new NotImplementedException();
+		}
 
-        public INode<T> DeleteNode(T Value)
-        {
-            throw new NotImplementedException();
-        }
+		public List<T>? GetValues()
+		{
+			return this.Values;
+		}
 
-        public List<T>? GetValues()
-        {
-            return this.Values;
-        }
-
-    }
-=======
 		public ITree<T> GenerateRandomTree(int Count, int Min, int Max)
 		{
 			BinarySearchTree<int> Tree = new BinarySearchTree<int>();
@@ -424,15 +349,5 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 
 		}
 
-		public INode<T> DeleteNode(T Value)
-		{
-			throw new NotImplementedException();
-		}
-
-		public List<T>? GetValues()
-		{
-			return this.Values;
-		}
 	}
->>>>>>> Hùng1
 }

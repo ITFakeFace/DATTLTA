@@ -21,11 +21,7 @@ namespace TreeManagementApplication.Model.VisualModel
 
 		}
 
-<<<<<<< HEAD
-		public NodeGUI(String text, Coordinate coordinate)
-=======
 		public NodeGUI(Coordinate coordinate)
->>>>>>> Hùng1
 		{
 			this.Coordinate = coordinate;
 		}
@@ -61,27 +57,6 @@ namespace TreeManagementApplication.Model.VisualModel
 			NodeUserControl node = new NodeUserControl();
 			node.SetText(Node.GetValue() + "");
 
-<<<<<<< HEAD
-			NodeGUI<T> nodeGUI = new NodeGUI<T>(Node.GetValue() + "", calculator.GetNodeCoordinate(Node.GetLevel(), Node.GetXIndex()));
-			nodeGUI.Text.HorizontalAlignment = HorizontalAlignment.Center;
-			nodeGUI.Text.VerticalAlignment = VerticalAlignment.Center;
-			nodeGUI.Text.FontSize = 24;
-
-			//nodeGUI.Text.Background = Brushes.Yellow;
-			Console.WriteLine($"Coordinate: (value: {Node.GetValue()},X:{nodeGUI.Coordinate.X},Y:{nodeGUI.Coordinate.Y})");
-			Canvas.SetLeft(nodeGUI.Shape, calculator.GridCoordinateMap[Y][X].X);
-			Canvas.SetTop(nodeGUI.Shape, calculator.GridCoordinateMap[Y][X].Y);
-			Canvas.SetZIndex(nodeGUI.Shape, 10);
-
-			Size TextSize = MeasureString(nodeGUI.Text);
-			Canvas.SetLeft(nodeGUI.Text, calculator.GridCoordinateMap[Y][X].X + nodeGUI.Shape.Width / 2 - TextSize.Width / 2);
-			Canvas.SetTop(nodeGUI.Text, calculator.GridCoordinateMap[Y][X].Y + nodeGUI.Shape.Height / 2 - TextSize.Height / 2);
-			Canvas.SetZIndex(nodeGUI.Text, 11);
-
-			canvas.Children.Add(nodeGUI.Shape);
-			canvas.Children.Add(nodeGUI.Text);
-			NodeList.Add(this);
-=======
 			Canvas.SetLeft(node, Calculator!.GetNodeCoordinate(X, Y).X);
 			Canvas.SetTop(node, Calculator.GetNodeCoordinate(X, Y).Y);
 			Console.WriteLine($"Coordinate: (value: {Node.GetValue()},X:{Canvas.GetLeft(node)},Y:{Canvas.GetTop(node)})");
@@ -109,7 +84,6 @@ namespace TreeManagementApplication.Model.VisualModel
 				}
 				node.CreateNodeUC.GenerateHalfNode();
 			}
->>>>>>> Hùng1
 			if (Node.GetLNode() != null)
 			{
 				Line LNodeLine = new Line();
