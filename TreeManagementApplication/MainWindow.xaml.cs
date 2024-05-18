@@ -1,7 +1,9 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.GUI;
@@ -16,19 +18,45 @@ namespace TreeManagementApplication
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		String str = "Test fast forward";
+
+		public static Dictionary<ToolBarMode, ToolBarItemUC> ModeMap;
+
 		CoordinateCalculator coordinateCalculator;
-		ITree<int> Tree = new BinarySearchTree<int>();
+		public static ITree<int> Tree = new BinarySearchTree<int>();
 		int GridSize;
 		public MainWindow()
 		{
 			InitializeComponent();
+			InitializeProperties();
+			InitializeEvents();
+		}
+		private void InitializeProperties()
+		{
 			GridSize = 75;
 			coordinateCalculator = new CoordinateCalculator(new Coordinate(1500, 800), GridSize);
 			NodeGUI<int>.Calculator = coordinateCalculator;
+			ModeMap = new Dictionary<ToolBarMode, ToolBarItemUC> {
+				{ ToolBarMode.Create, ModeCreate },
+				{ ToolBarMode.Update, ModeUpdate },
+				{ ToolBarMode.Delete, ModeDelete },
+				{ ToolBarMode.Move, ModeMove },
+				{ ToolBarMode.Save, ModeSave },
+				{ ToolBarMode.Search, ModeSearch },
+				//{ ToolBarMode.Load, ModeLoad },
+				//{ ToolBarMode.Select, ModeSelect },
+			};
 		}
-		public void InitialConfig()
+		private void InitializeEvents()
 		{
+			foreach (ToolBarItemUC item in ModeMap.Values)
+			{
+				item.OnModeChange += OnModeChange;
+			}
+		}
+
+		public void OnModeChange(object sender, EventArgs e)
+		{
+			Console.WriteLine("Mode Change");
 		}
 
 		private void NodeCanvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -40,7 +68,7 @@ namespace TreeManagementApplication
 			ChangeNodeWindow changeNodeWindow = new ChangeNodeWindow();
 			Main.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
 			changeNodeWindow.ShowDialog();
-			string? changeNodeVal = changeNodeWindow.InpValue;
+			String? changeNodeVal = changeNodeWindow.InpValue;
 			INode<int>? node = Tree.FindNode(gridCoordinate.X, gridCoordinate.Y);
 			if (!(changeNodeVal == null || node == null))
 			{
@@ -50,6 +78,12 @@ namespace TreeManagementApplication
 				//RerenderTree();
 			}
 		}
+
+		void CheckModeChange()
+		{
+
+		}
+
 		/*
 		private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{

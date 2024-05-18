@@ -10,11 +10,16 @@
     Width="1920"
     Height="1080"
     mc:Ignorable="d">
-    <Grid x:Name="Main" Background="White">
+
+    <Grid
+        x:Name="Main"
+        Width="1920"
+        Height="1080"
+        Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="120" />
-            <RowDefinition Height="*" />
             <RowDefinition Height="150" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="120" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -136,143 +141,37 @@
         Source="/Resources/Static/Images/Settings_512px.png" />
         </Grid>-->
         <!--  End Old NavBar  -->
-
-        <!--  New NavBar  -->
-        <Grid Grid.Row="0" Grid.Column="0">
-            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                <Border
-                    Width="75"
-                    Height="75"
-                    Margin="10,0,10,0"
-                    Padding="2"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="Transparent"
-                    BorderBrush="Black"
-                    BorderThickness="2"
-                    CornerRadius="15"
-                    RenderTransformOrigin="0.844,0.439">
-                    <Button
-                        Background="White"
-                        BorderBrush="Transparent"
-                        Cursor="Hand"
-                        FontSize="24"
-                        FontWeight="Bold"
-                        Foreground="Black">
-                        <Image
-                            Width="50"
-                            Height="50"
-                            Panel.ZIndex="2"
-                            Source="/Resources/Static/Images/NavBar/Add_100px.png" />
-                    </Button>
-                </Border>
-                <Border
-                    Width="75"
-                    Height="75"
-                    Margin="10,0,10,0"
-                    Padding="2"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="Transparent"
-                    BorderBrush="Black"
-                    BorderThickness="2"
-                    CornerRadius="15"
-                    RenderTransformOrigin="0.844,0.439">
-                    <Button
-                        Background="White"
-                        BorderBrush="Transparent"
-                        Cursor="Hand"
-                        FontSize="24"
-                        FontWeight="Bold"
-                        Foreground="Black">
-                        <Image
-                            Width="50"
-                            Height="50"
-                            Panel.ZIndex="2"
-                            Source="/Resources/Static/Images/NavBar/Edit_100px.png" />
-                    </Button>
-                </Border>
-                <Border
-                    Width="75"
-                    Height="75"
-                    Margin="10,0,10,0"
-                    Padding="2"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="Transparent"
-                    BorderBrush="Black"
-                    BorderThickness="2"
-                    CornerRadius="15"
-                    RenderTransformOrigin="0.844,0.439">
-                    <Button
-                        Background="White"
-                        BorderBrush="Transparent"
-                        Cursor="Hand"
-                        FontSize="24"
-                        FontWeight="Bold"
-                        Foreground="Black">
-                        <Image
-                            Width="50"
-                            Height="50"
-                            Panel.ZIndex="2"
-                            Source="/Resources/Static/Images/NavBar/Remove_100px.png" />
-                    </Button>
-                </Border>
-                <Border
-                    Width="75"
-                    Height="75"
-                    Margin="10,0,10,0"
-                    Padding="2"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="Transparent"
-                    BorderBrush="Black"
-                    BorderThickness="2"
-                    CornerRadius="15"
-                    RenderTransformOrigin="0.844,0.439">
-                    <Button
-                        Background="White"
-                        BorderBrush="Transparent"
-                        Cursor="Hand"
-                        FontSize="24"
-                        FontWeight="Bold"
-                        Foreground="Black">
-                        <Image
-                            Width="50"
-                            Height="50"
-                            Panel.ZIndex="2"
-                            Source="/Resources/Static/Images/NavBar/Save_100px.png" />
-                    </Button>
-                </Border>
-                <Border
-                    Width="75"
-                    Height="75"
-                    Margin="10,0,10,0"
-                    Padding="2"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="Transparent"
-                    BorderBrush="Black"
-                    BorderThickness="2"
-                    CornerRadius="15"
-                    RenderTransformOrigin="0.844,0.439">
-                    <Button
-                        Background="White"
-                        BorderBrush="Transparent"
-                        Cursor="Hand"
-                        FontSize="24"
-                        FontWeight="Bold"
-                        Foreground="Black">
-                        <Image
-                            Width="50"
-                            Height="50"
-                            Panel.ZIndex="2"
-                            Source="/Resources/Static/Images/NavBar/Expand_100px.png" />
-                    </Button>
-                </Border>
-            </StackPanel>
+        <Grid Panel.ZIndex="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="200" />
+            </Grid.ColumnDefinitions>
+            <!--  New NavBar  -->
+            <Grid Grid.Row="0" Grid.Column="1">
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <UserControls:ToolBarItemUC x:Name="ModeCreate" Mode="Create" />
+                    <UserControls:ToolBarItemUC x:Name="ModeUpdate" Mode="Update" />
+                    <UserControls:ToolBarItemUC x:Name="ModeDelete" Mode="Delete" />
+                    <UserControls:ToolBarItemUC x:Name="ModeMove" Mode="Move" />
+                    <UserControls:ToolBarItemUC x:Name="ModeSave" Mode="Save" />
+                    <UserControls:ToolBarItemUC x:Name="ModeSearch" Mode="Search" />
+                </StackPanel>
+            </Grid>
+            <!--  End New Navbar  -->
+            <Rectangle
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="100"
+                Height="100"
+                Stroke="Black"
+                StrokeThickness="2" />
         </Grid>
-        <!--  End New Navbar  -->
+
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
@@ -297,41 +196,6 @@
             </Border>
 
         </Grid>
-
-        <Canvas
-            x:Name="SettingMenu"
-            Canvas.Left="460"
-            Canvas.Top="240"
-            Width="1000"
-            Height="600"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Visibility="Hidden">
-            <Rectangle
-                Width="1000"
-                Height="600"
-                Fill="Transparent"
-                Stroke="Black"
-                StrokeThickness="2" />
-            <Button
-                Canvas.Left="150"
-                Canvas.Top="200"
-                Width="300"
-                Height="200"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Content="Binary Search Tree"
-                FontSize="36" />
-            <Button
-                Canvas.Top="200"
-                Canvas.Right="150"
-                Width="300"
-                Height="200"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Content="Binary Tree"
-                FontSize="36" />
-        </Canvas>
-
     </Grid>
+
 </Window>

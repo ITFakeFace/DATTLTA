@@ -20,6 +20,7 @@
   <ItemGroup>
     <None Remove="Resources\Static\Images\NavBar\Add_100px.png" />
     <None Remove="Resources\Static\Images\NavBar\Edit_100px.png" />
+    <None Remove="Resources\Static\Images\NavBar\Error_100px.png" />
     <None Remove="Resources\Static\Images\NavBar\Expand_100px.png" />
     <None Remove="Resources\Static\Images\NavBar\Move_100px.png" />
     <None Remove="Resources\Static\Images\NavBar\Remove_100px.png" />
@@ -27,9 +28,15 @@
     <None Remove="Resources\Static\Images\NavBar\Search_100px.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignColors" Version="3.0.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.0.0" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<Resource Include="Resources\Static\Images\NavBar\Add_100px.png" />
 		<Resource Include="Resources\Static\Images\NavBar\Edit_100px.png" />
+		<Resource Include="Resources\Static\Images\NavBar\Error_100px.png" />
 		<Resource Include="Resources\Static\Images\NavBar\Expand_100px.png" />
 		<Resource Include="Resources\Static\Images\NavBar\Move_100px.png" />
 		<Resource Include="Resources\Static\Images\NavBar\Remove_100px.png" />
@@ -49,6 +56,9 @@
 	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 	  </Page>
 	  <Page Update="MainWindow.xaml">
+	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+	  </Page>
+	  <Page Update="UserControls\CreateNodeUC.xaml">
 	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 	  </Page>
 	  <Page Update="UserControls\HalfNodeUserControl.xaml">

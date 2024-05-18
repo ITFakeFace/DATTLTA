@@ -1,6 +1,6 @@
 namespace TreeManagementApplication.Model.Interface
 {
-	interface ITree<T> where T : IComparable<T>
+	public interface ITree<T> where T : IComparable<T>
 	{
 		bool IsEmpty();
 		void PrintConsole();
