@@ -1,4 +1,4 @@
-﻿using TreeManagementApplication.Model.BinaryTree;
+using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinarySearchTree
@@ -172,6 +172,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 }
                 else return null;
             }
+
             else if (isEqual > 0)
             {
                 INode<T> lNode = node.GetLNode();
@@ -189,8 +190,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 }
             }
             return node;
-
-
         }
         public bool UpdateNode(INode<T> node, T value)
         {
@@ -384,6 +383,32 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         public INode<T>? FindParentNode(INode<T> node)
         {
             throw new NotImplementedException();
+        }
+
+        public List<String> Serialize()
+        {
+            List<String> serializeString = new List<String>();
+            Serialize(Root!, serializeString);
+            foreach (var item in serializeString)
+            {
+                Console.WriteLine(item.ToString());
+            }
+
+
+            return serializeString;
+
+        }
+
+        private void Serialize(BSNode<T> bSNode, List<String> serializeString)
+        {
+            if (bSNode == null)
+            {
+                serializeString.Add("#");
+                return;
+            }
+            serializeString.Add(bSNode.GetValue().ToString());
+            Serialize(bSNode.LNode, serializeString);
+            Serialize(bSNode.RNode, serializeString);
         }
     }
 }
