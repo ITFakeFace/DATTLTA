@@ -1,6 +1,9 @@
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.GUI;
@@ -9,55 +12,129 @@ using TreeManagementApplication.Model.VisualModel;
 
 namespace TreeManagementApplication
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
-        CoordinateCalculator coordinateCalculator;
-        ITree<int> Tree = new BinarySearchTree<int>();
-        int GridSize;
-        public MainWindow()
-        {
-            InitializeComponent();
-            GridSize = 75;
-            coordinateCalculator = new CoordinateCalculator(new Coordinate(1500, 800), GridSize);
-            NodeGUI<int>.Calculator = coordinateCalculator;
-        }
-        public void InitialConfig()
-        {
-        }
+	/// <summary>
+	/// Interaction logic for MainWindow.xaml
+	/// </summary>
+	public partial class MainWindow : Window
+	{
 
-        private void NodeCanvas_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            System.Windows.Point mousePosition = e.GetPosition((UIElement)sender);
-            Coordinate coordinate = new Coordinate(mousePosition.X, mousePosition.Y);
-            GridCoordinate gridCoordinate = coordinateCalculator!.GetGridCoordinate(coordinate);
-            Console.WriteLine(gridCoordinate);
-            ChangeNodeWindow changeNodeWindow = new ChangeNodeWindow();
-            changeNodeWindow.ShowDialog();
-            string? changeNodeVal = changeNodeWindow.InpValue;
-            INode<int>? node = Tree.FindNode(gridCoordinate.X, gridCoordinate.Y);
-            if (!(changeNodeVal == null || node == null))
-            {
-                int nodeNewVal = int.Parse(changeNodeVal.Replace(" ", ""));
-                Console.WriteLine("Rerender Tree");
-                Tree.UpdateNode(node, nodeNewVal);
-                RerenderTree();
-            }
-        }
+		public static Dictionary<ToolBarMode, ToolBarItemUC> ModeMap;
 
-        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (SettingMenu.Visibility == Visibility.Visible)
-            {
-                SettingMenu.Visibility = Visibility.Hidden;
-            }
-            else if (SettingMenu.Visibility == Visibility.Hidden)
-            {
-                SettingMenu.Visibility = Visibility.Visible;
-            }
-        }
+		CoordinateCalculator coordinateCalculator;
+		public static ITree<int> Tree = new BinarySearchTree<int>();
+		int GridSize;
+		public MainWindow()
+		{
+			InitializeComponent();
+			InitializeProperties();
+			InitializeEvents();
+		}
+		private void InitializeProperties()
+		{
+			GridSize = 75;
+			coordinateCalculator = new CoordinateCalculator(new Coordinate(1500, 800), GridSize);
+			NodeGUI<int>.Calculator = coordinateCalculator;
+			ModeMap = new Dictionary<ToolBarMode, ToolBarItemUC> {
+				{ ToolBarMode.Create, ModeCreate },
+				{ ToolBarMode.Update, ModeUpdate },
+				{ ToolBarMode.Delete, ModeDelete },
+				{ ToolBarMode.Move, ModeMove },
+				{ ToolBarMode.Save, ModeSave },
+				{ ToolBarMode.Search, ModeSearch },
+				//{ ToolBarMode.Load, ModeLoad },
+				//{ ToolBarMode.Select, ModeSelect },
+			};
+		}
+		private void InitializeEvents()
+		{
+			foreach (ToolBarItemUC item in ModeMap.Values)
+			{
+				item.OnModeChange += OnModeChange;
+			}
+		}
+
+		public void OnModeChange(object sender, EventArgs e)
+		{
+			ToolBarMode? currentMode = ToolBarMode.None;
+			foreach (ToolBarMode mode in ModeMap.Keys)
+			{
+				if (ModeMap[mode].isActive)
+				{
+					currentMode = mode;
+					break;
+				}
+			}
+			int index = -1;
+			switch (currentMode)
+			{
+				case ToolBarMode.Create:
+					index = 0;
+					break;
+				case ToolBarMode.Update:
+					index = 1;
+					break;
+				case ToolBarMode.Delete:
+					index = 2;
+					break;
+				case ToolBarMode.Move:
+					index = 3;
+					break;
+				case ToolBarMode.Save:
+					index = 4;
+					break;
+				case ToolBarMode.Search:
+					index = 5;
+					break;
+				case ToolBarMode.None:
+					index = -1;
+					break;
+				default:
+					index = -1;
+					break;
+			}
+			if (index >= 0)
+			{
+				ToolBarMenu.Visibility = Visibility.Visible;
+				Canvas.SetLeft(ToolBarCursor, 417.5 + 95 * index);
+			}
+			else
+			{
+				ToolBarMenu.Visibility = Visibility.Hidden;
+			}
+		}
+
+		private void NodeCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			System.Windows.Point mousePosition = e.GetPosition((UIElement)sender);
+			Coordinate coordinate = new Coordinate(mousePosition.X, mousePosition.Y);
+			GridCoordinate gridCoordinate = coordinateCalculator!.GetGridCoordinate(coordinate);
+
+			ChangeNodeWindow changeNodeWindow = new ChangeNodeWindow();
+			Main.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
+			changeNodeWindow.ShowDialog();
+			String? changeNodeVal = changeNodeWindow.InpValue;
+			INode<int>? node = Tree.FindNode(gridCoordinate.X, gridCoordinate.Y);
+			if (!(changeNodeVal == null || node == null))
+			{
+				int nodeNewVal = int.Parse(changeNodeVal.Replace(" ", ""));
+				Console.WriteLine("Rerender Tree");
+				Tree.UpdateNode(node, nodeNewVal);
+				//RerenderTree();
+			}
+		}
+
+		/*
+		private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			if (SettingMenu.Visibility == Visibility.Visible)
+			{
+				SettingMenu.Visibility = Visibility.Hidden;
+			}
+			else if (SettingMenu.Visibility == Visibility.Hidden)
+			{
+				SettingMenu.Visibility = Visibility.Visible;
+			}
+		}
 
         private void CreateNodeBtn_Click_1(object sender, RoutedEventArgs e)
         {
@@ -199,18 +276,10 @@ namespace TreeManagementApplication
                 Console.WriteLine("Unable to Convert Node Count in Generate Tree Function");
             }
 
-            try
-            {
-                Max = int.Parse(MaxValInp.Text);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Unable to Convert Node Count in Generate Tree Function");
-            }
+			Tree = ((BinaryTree<int>)Tree).GenerateRandomTree(Count, Min, Max);
+			RerenderTree();
+		}
+		*/
 
-            Tree = ((BinaryTree<int>)Tree).GenerateRandomTree(Count, Min, Max);
-            RerenderTree();
-        }
-
-    }
+	}
 }

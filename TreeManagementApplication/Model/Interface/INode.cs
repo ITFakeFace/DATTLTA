@@ -7,7 +7,11 @@ using TreeManagementApplication.Model.VisualModel;
 
 namespace TreeManagementApplication.Model.Interface
 {
-	interface INode<T> where T : IComparable<T>
+	public enum NodeType
+	{
+		General, BinarySearch, AVL, RedBlack
+	}
+	public interface INode<T> where T : IComparable<T>
 	{
 		//Get-Set LNode
 		void SetLNode(INode<T> Node);
