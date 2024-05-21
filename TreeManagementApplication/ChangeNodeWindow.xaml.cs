@@ -8,11 +8,11 @@ namespace TreeManagementApplication
     /// </summary>
     public partial class ChangeNodeWindow : Window
     {
-        public string value;
+        public string? InpValue = null;
         public ChangeNodeWindow()
         {
             InitializeComponent();
-
+            Loaded += InpChangeVal_GotFocus;
         }
 
         private void InpChangeVal_GotFocus(object sender, RoutedEventArgs e)
@@ -28,7 +28,7 @@ namespace TreeManagementApplication
             {
                 if (e.Key == Key.Enter)
                 {
-                    value = InpChangeVal.Text.ToString();
+                    InpValue = InpChangeVal.Text.ToString();
                 }
 
             }
@@ -40,14 +40,13 @@ namespace TreeManagementApplication
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            value = "";
+            InpValue = null;
             this.Close();
         }
 
         private void OKBtn_Click(object sender, RoutedEventArgs e)
         {
-            value = InpChangeVal.Text.ToString();
-
+            InpValue = InpChangeVal.Text.ToString();
             this.Close();
         }
     }
