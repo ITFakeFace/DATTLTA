@@ -370,15 +370,155 @@ namespace TreeManagementApplication.Model.BinaryTree
             }
         }
 
-        INode<T>? ITree<T>.FindNode(T Value)
+		INode<T>? ITree<T>.FindNode(T Value)
+		{
+			throw new NotImplementedException();
+		}
+
+        ///------------------------------	
+        private INode<T>? GetInOrderSuccessor(INode<T>? Node)
+        {
+            if (Node == null)
+            {
+                return null;
+            }
+
+            while (Node.GetLNode() != null)
+            {
+                Node = Node.GetLNode();
+            }
+
+            return Node;
+        }
+
+        public List<T>? values = new List<T>();
+
+        // Các phương thức khác đã được bỏ qua
+        public BNode<T>? FindNode(BNode<T>? node, T value)
+        {
+            if (node == null)
+                return null;
+
+            int compare = value.CompareTo(node.Value);
+
+            if (compare == 0)
+                return node;
+            else if (compare < 0)
+                return FindNode(node.LNode, value);
+            else
+                return FindNode(node.RNode, value);
+        }
+        public BNode<T>? FindAndDeleteNode(T value)
+        {
+            // Tìm node có giá trị value
+            Console.WriteLine(1);
+            BNode<T>? nodeToDelete = FindNode(Root, value);
+
+            if (nodeToDelete != null)
+            {
+                // Tìm node kế tiếp trong thứ tự tăng dần (node 70)
+                BNode<T>? successor = FindInOrderSuccessor(nodeToDelete);
+                if (successor != null)
+                {
+                    // Thay đổi giá trị của node 50 thành giá trị của node 70
+                    nodeToDelete.Value = successor.Value;
+                    // Xóa node 70 khỏi cây
+                    //Root = DeleteNode(Root, successor);
+
+
+                }
+
+                Console.WriteLine(9);
+
+                return nodeToDelete;
+            }
+
+            // Trả về null nếu không tìm thấy node
+            return null;
+        }
+
+
+        /*   private BNode<T>? DeleteNode(BNode<T>? root, BNode<T> nodeToDelete)
+           {
+               if (root == null)
+                   return null;
+
+               int compare = nodeToDelete.Value.CompareTo(root.Value);
+
+               if (compare > 0)
+               {
+                   root.LNode = DeleteNode(root.LNode, nodeToDelete);
+               }
+               else if (compare < 0)
+               {
+                   root.RNode = DeleteNode(root.RNode, nodeToDelete);
+               }
+               else
+               {
+                   // Node found with value equals 'value'
+                   // Case 1: No child or only one child
+                   if (root.LNode == null)
+                   {
+                       return root.RNode;
+                   }
+                   else if (root.RNode == null)
+                   {
+                       return root.LNode;
+                   }
+
+                   // Case 2: Node with two children
+                   // Get the inorder successor (smallest in the right subtree)
+                   BNode<T>? successor = FindInOrderSuccessor(root);
+                   root.Value = successor.Value;
+                   successor = null;
+
+                   // Delete the inorder successor
+
+                   root.RNode = DeleteNode(root.RNode, successor);
+               }
+
+               return root;
+           }
+        */
+        private BNode<T>? FindInOrderSuccessor(BNode<T> node)
+        {
+            /* BNode<T>? current = node.RNode;
+			 while (current != null && current.LNode != null)
+			 {
+				 current = current.LNode;
+
+			 }
+			 return current;
+			 */
+
+            node.GetLevel();
+            return null;
+        }
+
+
+        private T MinValue(BNode<T> node)
+        {
+            Console.WriteLine(6);
+            T minValue = node.Value;
+            while (node.LNode != null)
+            {
+                minValue = node.LNode.Value;
+                node = node.LNode;
+            }
+            Console.WriteLine(minValue);
+            return minValue;
+        }
+
+
+
+        INode<T> ITree<T>.DeleteNode(T Value)
         {
             throw new NotImplementedException();
         }
 
-        public List<String> Serialize()
-        {
-            throw new NotImplementedException();
-        }
+
     }
+
+
 }
 
