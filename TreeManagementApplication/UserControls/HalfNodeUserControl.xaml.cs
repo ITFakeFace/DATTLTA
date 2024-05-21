@@ -18,16 +18,16 @@ using System.Windows.Shapes;
 
 namespace TreeManagementApplication.UserControls
 {
-	public enum NodeType { Left, Right }
+	public enum HalfNodeType { Left, Right }
 
 	public partial class HalfNodeUserControl : UserControl
 	{
 		bool isActive = true;
-		public static readonly DependencyProperty NodeTypeProperty = DependencyProperty.Register("NodeType", typeof(NodeType), typeof(HalfNodeUserControl), new PropertyMetadata(NodeType.Left, NodeTypePropertyChanged));
+		public static readonly DependencyProperty NodeTypeProperty = DependencyProperty.Register("HalfNodeType", typeof(HalfNodeType), typeof(HalfNodeUserControl), new PropertyMetadata(HalfNodeType.Left, NodeTypePropertyChanged));
 
-		public NodeType NodeType
+		public HalfNodeType NodeType
 		{
-			get { return (NodeType)GetValue(NodeTypeProperty); }
+			get { return (HalfNodeType)GetValue(NodeTypeProperty); }
 			set { SetValue(NodeTypeProperty, value); }
 		}
 
@@ -39,11 +39,11 @@ namespace TreeManagementApplication.UserControls
 
 		public void UpdateCornerRadius()
 		{
-			if (NodeType == NodeType.Left)
+			if (NodeType == HalfNodeType.Left)
 			{
 				NodeBorder.CornerRadius = new CornerRadius(37.5, 0, 0, 37.5);
 			}
-			else if (NodeType == NodeType.Right)
+			else if (NodeType == HalfNodeType.Right)
 			{
 				NodeBorder.CornerRadius = new CornerRadius(0, 37.5, 37.5, 0);
 			}

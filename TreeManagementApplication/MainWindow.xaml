@@ -10,192 +10,232 @@
     Width="1920"
     Height="1080"
     mc:Ignorable="d">
-
-    <Grid
-        x:Name="Main"
-        Width="1920"
-        Height="1080"
-        Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="150" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="120" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <!--  Start Old NavBar  -->
-        <!--<Grid
-        x:Name="header"
-        Grid.Row="0"
-        Grid.Column="0">
-        <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="1800" />
-        <ColumnDefinition Width="119" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-        <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-
-        <Grid Grid.Row="0" Grid.Column="0">
-        <Grid>
-        <Grid.RowDefinitions>
-        <RowDefinition Height="*" />
-        <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <StackPanel
-        Grid.Row="0"
-        Grid.Column="0"
-        Orientation="Horizontal">
-        <TextBox
-        x:Name="ValAddInp"
-        Width="400"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Center"
-        FontSize="36"
-        GotFocus="ValAddInp_GotFocus"
-        InputScope="Number"
-        KeyDown="RowInp_KeyDown"
-        Text="Value"
-        TextChanged="RowInp_TextChanged"
-        TextWrapping="Wrap" />
-        <Button
-        x:Name="CreateNodeBtn"
-        Canvas.Left="642"
-        Canvas.Top="13"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Center"
-        Click="CreateNodeBtn_Click_1"
-        Content="Create Node"
-        FontSize="36"
-        RenderTransformOrigin="-0.905,-0.246" />
-        </StackPanel>
-        <StackPanel
-        Grid.Row="1"
-        Grid.Column="0"
-        VerticalAlignment="Center"
-        Orientation="Horizontal">
-        <TextBox
-        x:Name="NodeCountInp"
-        Width="200"
-        Margin="10,0,10,0"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Center"
-        FontSize="30"
-        GotFocus="NodeCountInp_GotFocus"
-        KeyDown="NodeCountInp_KeyDown"
-        LostFocus="NodeCountInp_LostFocus"
-        Text="Node Count"
-        TextWrapping="Wrap" />
-        <TextBox
-        x:Name="MinValInp"
-        Width="100"
-        Margin="10,0,10,0"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Center"
-        FontSize="30"
-        GotFocus="MinValInp_GotFocus"
-        LostFocus="MinValInp_LostFocus"
-        Text="Min"
-        TextWrapping="Wrap" />
-        <TextBox
-        x:Name="MaxValInp"
-        Width="100"
-        Margin="10,0,10,0"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Center"
-        FontSize="30"
-        GotFocus="MaxValInp_GotFocus"
-        LostFocus="MaxValInp_LostFocus"
-        Text="Max"
-        TextWrapping="Wrap" />
-        <Button
-        x:Name="TreeGenerateBtn"
-        Canvas.Left="725"
-        Canvas.Top="71"
-        Width="199"
-        Height="57"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Top"
-        Click="TreeGenerateBtn_Click"
-        Content="Generate"
-        FontSize="36" />
-        </StackPanel>
-        </Grid>
-        </Grid>
-        <Image
-        Grid.Row="0"
-        Grid.Column="1"
-        Canvas.Left="1810"
-        Canvas.Top="10"
-        Canvas.Right="10"
-        Width="100"
-        Height="100"
-        Panel.ZIndex="2"
-        MouseLeftButtonDown="Image_MouseLeftButtonDown"
-        Source="/Resources/Static/Images/Settings_512px.png" />
-        </Grid>-->
-        <!--  End Old NavBar  -->
-        <Grid Panel.ZIndex="3">
+    <Canvas Width="1920" Height="1080">
+        <Grid
+            x:Name="Main"
+            Canvas.Left="0"
+            Canvas.Top="0"
+            Width="1920"
+            Height="1080"
+            Panel.ZIndex="5"
+            Background="White">
             <Grid.RowDefinitions>
+                <RowDefinition Height="150" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="120" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="200" />
             </Grid.ColumnDefinitions>
-            <!--  New NavBar  -->
-            <Grid Grid.Row="0" Grid.Column="1">
-                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <UserControls:ToolBarItemUC x:Name="ModeCreate" Mode="Create" />
-                    <UserControls:ToolBarItemUC x:Name="ModeUpdate" Mode="Update" />
-                    <UserControls:ToolBarItemUC x:Name="ModeDelete" Mode="Delete" />
-                    <UserControls:ToolBarItemUC x:Name="ModeMove" Mode="Move" />
-                    <UserControls:ToolBarItemUC x:Name="ModeSave" Mode="Save" />
-                    <UserControls:ToolBarItemUC x:Name="ModeSearch" Mode="Search" />
-                </StackPanel>
-            </Grid>
-            <!--  End New Navbar  -->
-            <Rectangle
-                Grid.Row="1"
-                Grid.Column="1"
-                Width="100"
-                Height="100"
-                Stroke="Black"
-                StrokeThickness="2" />
-        </Grid>
 
-        <Grid Grid.Row="1">
+            <!--  Start Old NavBar  -->
+            <!--<Grid
+            x:Name="header"
+            Grid.Row="0"
+            Grid.Column="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="1800" />
+            <ColumnDefinition Width="119" />
             </Grid.ColumnDefinitions>
-            <Border
-                x:Name="NodeContainerParent"
-                Grid.Column="1"
-                BorderBrush="Black"
-                BorderThickness="2">
-                <Canvas
-                    x:Name="canvas"
-                    Canvas.Left="210"
-                    Canvas.Top="140"
-                    ClipToBounds="True">
+            <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+
+            <Grid Grid.Row="0" Grid.Column="0">
+            <Grid>
+            <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel
+            Grid.Row="0"
+            Grid.Column="0"
+            Orientation="Horizontal">
+            <TextBox
+            x:Name="ValAddInp"
+            Width="400"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontSize="36"
+            GotFocus="ValAddInp_GotFocus"
+            InputScope="Number"
+            KeyDown="RowInp_KeyDown"
+            Text="Value"
+            TextChanged="RowInp_TextChanged"
+            TextWrapping="Wrap" />
+            <Button
+            x:Name="CreateNodeBtn"
+            Canvas.Left="642"
+            Canvas.Top="13"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Click="CreateNodeBtn_Click_1"
+            Content="Create Node"
+            FontSize="36"
+            RenderTransformOrigin="-0.905,-0.246" />
+            </StackPanel>
+            <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <TextBox
+            x:Name="NodeCountInp"
+            Width="200"
+            Margin="10,0,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontSize="30"
+            GotFocus="NodeCountInp_GotFocus"
+            KeyDown="NodeCountInp_KeyDown"
+            LostFocus="NodeCountInp_LostFocus"
+            Text="Node Count"
+            TextWrapping="Wrap" />
+            <TextBox
+            x:Name="MinValInp"
+            Width="100"
+            Margin="10,0,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontSize="30"
+            GotFocus="MinValInp_GotFocus"
+            LostFocus="MinValInp_LostFocus"
+            Text="Min"
+            TextWrapping="Wrap" />
+            <TextBox
+            x:Name="MaxValInp"
+            Width="100"
+            Margin="10,0,10,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontSize="30"
+            GotFocus="MaxValInp_GotFocus"
+            LostFocus="MaxValInp_LostFocus"
+            Text="Max"
+            TextWrapping="Wrap" />
+            <Button
+            x:Name="TreeGenerateBtn"
+            Canvas.Left="725"
+            Canvas.Top="71"
+            Width="199"
+            Height="57"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Click="TreeGenerateBtn_Click"
+            Content="Generate"
+            FontSize="36" />
+            </StackPanel>
+            </Grid>
+            </Grid>
+            <Image
+            Grid.Row="0"
+            Grid.Column="1"
+            Canvas.Left="1810"
+            Canvas.Top="10"
+            Canvas.Right="10"
+            Width="100"
+            Height="100"
+            Panel.ZIndex="2"
+            MouseLeftButtonDown="Image_MouseLeftButtonDown"
+            Source="/Resources/Static/Images/Settings_512px.png" />
+            </Grid>-->
+            <!--  End Old NavBar  -->
+            <Grid Panel.ZIndex="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+                <!--  New NavBar  -->
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <UserControls:ToolBarItemUC x:Name="ModeCreate" Mode="Create" />
+                        <UserControls:ToolBarItemUC x:Name="ModeUpdate" Mode="Update" />
+                        <UserControls:ToolBarItemUC x:Name="ModeDelete" Mode="Delete" />
+                        <UserControls:ToolBarItemUC x:Name="ModeMove" Mode="Move" />
+                        <UserControls:ToolBarItemUC x:Name="ModeSave" Mode="Save" />
+                        <UserControls:ToolBarItemUC x:Name="ModeSearch" Mode="Search" />
+                    </StackPanel>
+                </Grid>
+                <!--  End New Navbar  -->
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+                <Border
+                    x:Name="NodeContainerParent"
+                    Grid.Column="1"
+                    BorderBrush="Black"
+                    BorderThickness="2">
                     <Canvas
-                        x:Name="NodeCanvas"
-                        Canvas.Left="0"
-                        Canvas.Top="0" />
-                </Canvas>
-            </Border>
-
+                        x:Name="canvas"
+                        Canvas.Left="210"
+                        Canvas.Top="140"
+                        ClipToBounds="True">
+                        <Canvas
+                            x:Name="NodeCanvas"
+                            Canvas.Left="0"
+                            Canvas.Top="0" />
+                    </Canvas>
+                </Border>
+            </Grid>
         </Grid>
-    </Grid>
+        <Border
+            x:Name="ToolBarMenu"
+            Canvas.Left="250"
+            Canvas.Top="130"
+            Width="1400"
+            Height="150"
+            Margin="10,0,10,0"
+            Padding="2"
+            Panel.ZIndex="10"
+            Background="White"
+            BorderBrush="Black"
+            BorderThickness="2"
+            CornerRadius="15"
+            RenderTransformOrigin="0.844,0.439"
+            Visibility="Hidden">
 
+            <Canvas Width="1500" Height="200">
+                <!--  417.5 + 95x (x<6)  -->
+                <Canvas x:Name="ToolBarCursor" Canvas.Left="702.5">
+                    <Line
+                        Stroke="Black"
+                        StrokeThickness="2"
+                        X1="0"
+                        X2="40"
+                        Y1="0"
+                        Y2="-15" />
+                    <Line
+                        Stroke="Black"
+                        StrokeThickness="2"
+                        X1="40"
+                        X2="80"
+                        Y1="-15"
+                        Y2="0" />
+                    <Line
+                        Stroke="White"
+                        StrokeThickness="8"
+                        X1="0"
+                        X2="80"
+                        Y1="0"
+                        Y2="0" />
+                </Canvas>
+            </Canvas>
+        </Border>
+    </Canvas>
 </Window>

@@ -20,7 +20,7 @@ namespace TreeManagementApplication.UserControls
 	/// </summary>
 	public enum ToolBarMode
 	{
-		Create, Update, Delete, Move, Save, Load, Select, Search
+		Create, Update, Delete, Move, Save, Load, Select, Search, None
 	}
 	public partial class ToolBarItemUC : UserControl
 	{
@@ -38,7 +38,7 @@ namespace TreeManagementApplication.UserControls
 			var control = (ToolBarItemUC)d;
 			control.UpdateItemImage();
 		}
-		bool isActive = false;
+		public bool isActive = false;
 
 		public void UpdateItemImage()
 		{
@@ -86,8 +86,6 @@ namespace TreeManagementApplication.UserControls
 
 		public void OnClick(object sender, MouseEventArgs e)
 		{
-			if (this.OnModeChange != null)
-				this.OnModeChange(this, new EventArgs());
 			if (!isActive)
 			{
 				Enable();
@@ -96,6 +94,8 @@ namespace TreeManagementApplication.UserControls
 			{
 				Disable();
 			}
+			if (this.OnModeChange != null)
+				this.OnModeChange(this, new EventArgs());
 		}
 
 		private void Enable()
@@ -107,9 +107,11 @@ namespace TreeManagementApplication.UserControls
 			//GradientBrush.GradientStops.Add(new GradientStop(Colors.Blue, 1));
 			//GradientBrush.GradientStops.Add(new GradientStop(Colors.Pink, 1));
 			LinearGradientBrush linearGradientBrush = new LinearGradientBrush();
-			linearGradientBrush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#12c2e9"), 0.2));
-			linearGradientBrush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#c471ed"), 0.6));
-			linearGradientBrush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#f64f59"), 1));
+			//linearGradientBrush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#12c2e9"), 0.2));
+			//linearGradientBrush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#c471ed"), 0.6));
+			//linearGradientBrush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#f64f59"), 1));
+			linearGradientBrush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#00d2ff"), 0.3));
+			linearGradientBrush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#928DAB"), 1));
 			ItemBorder.Background = linearGradientBrush;
 		}
 		private void Disable()

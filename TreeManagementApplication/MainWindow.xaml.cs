@@ -56,7 +56,52 @@ namespace TreeManagementApplication
 
 		public void OnModeChange(object sender, EventArgs e)
 		{
-			Console.WriteLine("Mode Change");
+			ToolBarMode? currentMode = ToolBarMode.None;
+			foreach (ToolBarMode mode in ModeMap.Keys)
+			{
+				if (ModeMap[mode].isActive)
+				{
+					currentMode = mode;
+					break;
+				}
+			}
+			int index = -1;
+			switch (currentMode)
+			{
+				case ToolBarMode.Create:
+					index = 0;
+					break;
+				case ToolBarMode.Update:
+					index = 1;
+					break;
+				case ToolBarMode.Delete:
+					index = 2;
+					break;
+				case ToolBarMode.Move:
+					index = 3;
+					break;
+				case ToolBarMode.Save:
+					index = 4;
+					break;
+				case ToolBarMode.Search:
+					index = 5;
+					break;
+				case ToolBarMode.None:
+					index = -1;
+					break;
+				default:
+					index = -1;
+					break;
+			}
+			if (index >= 0)
+			{
+				ToolBarMenu.Visibility = Visibility.Visible;
+				Canvas.SetLeft(ToolBarCursor, 417.5 + 95 * index);
+			}
+			else
+			{
+				ToolBarMenu.Visibility = Visibility.Hidden;
+			}
 		}
 
 		private void NodeCanvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -77,11 +122,6 @@ namespace TreeManagementApplication
 				Tree.UpdateNode(node, nodeNewVal);
 				//RerenderTree();
 			}
-		}
-
-		void CheckModeChange()
-		{
-
 		}
 
 		/*
@@ -250,5 +290,6 @@ namespace TreeManagementApplication
 			RerenderTree();
 		}
 		*/
+
 	}
 }
