@@ -449,21 +449,23 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             {
                 serializeQueue.Enqueue(item.ToString());
             }
-
             int rootVal = int.Parse(serializeQueue.Dequeue());
             BSNode<int> Root = new BSNode<int>(rootVal);
-            Deserialize(Root, serializeQueue);
 
-            return;
-        }
 
-        private void Deserialize(BSNode<int> bSNode, Queue<string> serializeQueue)
-        {
-            if (serializeQueue is null)
+            while (serializeQueue.Count > 0)
             {
-                return;
+                int nodeVal = 0;
+                if (int.TryParse(serializeQueue.Dequeue(), out nodeVal))
+                {
+                    Root.InsertNode(nodeVal);
+                }
+                else
+                {
+                    continue;
+                }
             }
-
+            return;
         }
     }
 }
