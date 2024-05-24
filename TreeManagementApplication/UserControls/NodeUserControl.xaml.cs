@@ -1,4 +1,8 @@
-﻿using System.Globalization;
+using System.Globalization;
+using System.Linq;
+using System.Printing.Interop;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -41,22 +45,22 @@ namespace TreeManagementApplication.UserControls
             Node.MouseLeave += OnUnHover;
         }
 
-        public void OnHover(Object sender, MouseEventArgs e)
-        {
-            NodeShape.Fill = Brushes.Yellow;
-            NodeShape.StrokeThickness = 4;
-            if (CreateNodeUC != null)
-            {
-                Canvas.SetLeft(CreateNodeUC, 0);
-                Canvas.SetTop(CreateNodeUC, NodeShape.Height * 0.5);
-                Canvas.SetZIndex(CreateNodeUC, 9);
-                if (!Node.Children.Contains(CreateNodeUC))
-                {
-                    Node.Children.Add(CreateNodeUC);
-                }
-                CreateNodeUC.Visibility = Visibility.Visible;
-            }
-        }
+		public void OnHover(Object sender, MouseEventArgs e)
+		{
+			NodeShape.Fill = Brushes.Yellow;
+			NodeShape.StrokeThickness = 4;
+			if (CreateNodeUC != null && MainWindow.ModeMap[ToolBarMode.Create].isActive)
+			{
+				Canvas.SetLeft(CreateNodeUC, 0);
+				Canvas.SetTop(CreateNodeUC, NodeShape.Height * 0.5);
+				Canvas.SetZIndex(CreateNodeUC, 9);
+				if (!Node.Children.Contains(CreateNodeUC))
+				{
+					Node.Children.Add(CreateNodeUC);
+				}
+				CreateNodeUC.Visibility = Visibility.Visible;
+			}
+		}
 
         public async void OnUnHover(Object sender, MouseEventArgs e)
         {

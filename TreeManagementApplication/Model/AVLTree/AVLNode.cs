@@ -3,12 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinaryTree
 {
 	internal class AVLNode<T> : INode<T> where T : IComparable<T>
 	{
+		public T key;
+		public int height;
+		public AVLNode<T> left, right;
+
+		public AVLNode(T d)
+		{
+			key = d;
+			height = 1;
+		}
 		public INode<T>? FindChildNode(INode<T> node, T value)
 		{
 			throw new NotImplementedException();

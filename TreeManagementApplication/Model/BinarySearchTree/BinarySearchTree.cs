@@ -334,6 +334,18 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             Console.WriteLine(BlankSpace + $"({Node.Value},{Node.XIndex},{Node.Level})");
             PrintNodeIndexToConsole(Node.RNode, Space + 1);
         }
+		public int GetLargestX(INode<T> Node)
+		{
+			if (Node.GetRNode() == null)
+			{
+				return Node.GetXIndex();
+			}
+			return GetLargestX(Node.GetRNode()!);
+		}
+		public int GetLargestY()
+		{
+			return GetLargestY(Root);
+		}
 
         public void GenerateGridIndex()
         {
@@ -410,5 +422,32 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             Serialize(bSNode.LNode, serializeString);
             Serialize(bSNode.RNode, serializeString);
         }
-    }
+		public int GetLargestY(INode<T>? Node)
+		{
+
+			if (Node.GetLNode() == null && Node.GetRNode() == null)
+			{
+				return Node.GetLevel();
+			}
+			else if (Node.GetLNode() != null && Node.GetRNode() != null)
+			{
+				if (Node.GetLNode().GetLevel() > Node.GetRNode().GetLevel())
+				{
+					return GetLargestY(Node.GetLNode());
+				}
+				else
+				{
+					return GetLargestY(Node.GetRNode());
+				}
+			}
+			else if (Node.GetLNode() != null)
+			{
+				return GetLargestY(Node.GetLNode());
+			}
+			else
+			{
+				return GetLargestY(Node.GetRNode());
+			}
+		}
+	}
 }
