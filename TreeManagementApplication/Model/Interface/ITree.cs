@@ -17,9 +17,12 @@ namespace TreeManagementApplication.Model.Interface
 		void SetRoot(INode<T> Node);
 		void GenerateGridIndex();
 		int GetLargestX(INode<T> Node);
+		int GetLargestY(INode<T> Node);
 		bool InsertNode(T Value);
 		List<T>? GetValues();
 		public INode<T>? FindParentNode(INode<T> node);
 		public bool UpdateNode(INode<T> Node, T value);
+
+		ITree<T> GenerateRandomTree(int Count, int Min, int Max);
 	}
 }

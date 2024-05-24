@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Printing.Interop;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -56,7 +57,7 @@ namespace TreeManagementApplication.UserControls
 		{
 			NodeShape.Fill = Brushes.Yellow;
 			NodeShape.StrokeThickness = 4;
-			if (CreateNodeUC != null)
+			if (CreateNodeUC != null && MainWindow.ModeMap[ToolBarMode.Create].isActive)
 			{
 				Canvas.SetLeft(CreateNodeUC, 0);
 				Canvas.SetTop(CreateNodeUC, NodeShape.Height * 0.5);

@@ -374,6 +374,11 @@ namespace TreeManagementApplication.Model.BinaryTree
 		{
 			throw new NotImplementedException();
 		}
+
+		public int GetLargestY(INode<T> Node)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
 

@@ -9,8 +9,10 @@
     Title="MainWindow"
     Width="1920"
     Height="1080"
+    ResizeMode="NoResize"
     mc:Ignorable="d">
     <Canvas Width="1920" Height="1080">
+
         <Grid
             x:Name="Main"
             Canvas.Left="0"
@@ -198,21 +200,23 @@
             x:Name="ToolBarMenu"
             Canvas.Left="250"
             Canvas.Top="130"
-            Width="1400"
-            Height="150"
             Margin="10,0,10,0"
             Padding="2"
             Panel.ZIndex="10"
             Background="White"
             BorderBrush="Black"
             BorderThickness="2"
+            ClipToBounds="False"
             CornerRadius="15"
             RenderTransformOrigin="0.844,0.439"
             Visibility="Hidden">
 
-            <Canvas Width="1500" Height="200">
+            <Canvas
+                x:Name="ToolBarMenuCanvas"
+                Width="1400"
+                Height="150">
                 <!--  417.5 + 95x (x<6)  -->
-                <Canvas x:Name="ToolBarCursor" Canvas.Left="702.5">
+                <Canvas x:Name="ToolBarCursor" Canvas.Left="417.5">
                     <Line
                         Stroke="Black"
                         StrokeThickness="2"
@@ -235,6 +239,362 @@
                         Y1="0"
                         Y2="0" />
                 </Canvas>
+                <StackPanel
+                    x:Name="NavMenyPanel"
+                    Canvas.Left="0"
+                    Canvas.Top="15"
+                    Orientation="Vertical">
+
+                    <Canvas Width="1400" Height="120">
+                        <StackPanel
+                            x:Name="AddMenu"
+                            Canvas.Left="50"
+                            Canvas.Top="0"
+                            Width="1300"
+                            Height="120"
+                            VerticalAlignment="Center"
+                            LostFocus="AddMenu_LostFocus"
+                            Orientation="Horizontal">
+                            <TextBox
+                                x:Name="AddField"
+                                Width="300"
+                                Height="55"
+                                Margin="0,0,0,0"
+                                Padding="20,0,20,0"
+                                Background="White"
+                                BorderThickness="2"
+                                FontSize="32"
+                                Foreground="Black"
+                                GotFocus="AddField_GotFocus"
+                                GotKeyboardFocus="AddField_GotKeyboardFocus"
+                                KeyDown="AddField_KeyDown"
+                                LostFocus="AddField_LostFocus"
+                                Text="Insert">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="10,0,0,10" />
+                                    </Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                                    <Border
+                                                        x:Name="border"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        SnapsToDevicePixels="True">
+                                                        <ScrollViewer
+                                                            x:Name="PART_ContentHost"
+                                                            Focusable="false"
+                                                            HorizontalScrollBarVisibility="Hidden"
+                                                            VerticalScrollBarVisibility="Hidden" />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsEnabled" Value="false">
+                                                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="False">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                                                        </Trigger>
+                                                        <DataTrigger Binding="{Binding ElementName=BtnAdd, Path=IsFocused}" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </DataTrigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <Button
+                                x:Name="BtnAdd"
+                                Width="150"
+                                Height="55"
+                                Margin="-1,0,0,0"
+                                Background="White"
+                                BorderBrush="Black"
+                                BorderThickness="2"
+                                Content="Add"
+                                FontSize="32"
+                                Foreground="Black"
+                                GotFocus="BtnAdd_GotFocus"
+                                LostFocus="BtnAdd_LostFocus">
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="0,10,10,0" />
+                                    </Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                                    <Border
+                                                        x:Name="border"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        SnapsToDevicePixels="True">
+                                                        <ScrollViewer
+                                                            x:Name="PART_ContentHost"
+                                                            Focusable="false"
+                                                            HorizontalScrollBarVisibility="Hidden"
+                                                            VerticalScrollBarVisibility="Hidden" />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsEnabled" Value="false">
+                                                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="False">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <TextBox
+                                x:Name="AmountGenField"
+                                Width="150"
+                                Height="55"
+                                Margin="100,0,20,0"
+                                Padding="15,0,15,0"
+                                Background="White"
+                                BorderBrush="Black"
+                                BorderThickness="2"
+                                FontSize="32"
+                                Foreground="Black"
+                                GotFocus="AmountGenField_GotFocus"
+                                LostFocus="AmountGenField_LostFocus"
+                                Text="Amount"
+                                TextAlignment="Center">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="10" />
+                                    </Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                                    <Border
+                                                        x:Name="border"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        SnapsToDevicePixels="True">
+                                                        <ScrollViewer
+                                                            x:Name="PART_ContentHost"
+                                                            Focusable="false"
+                                                            HorizontalScrollBarVisibility="Hidden"
+                                                            VerticalScrollBarVisibility="Hidden" />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsEnabled" Value="false">
+                                                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="False">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                                                        </Trigger>
+                                                        <DataTrigger Binding="{Binding ElementName=MinGenField, Path=IsFocused}" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ElementName=MaxGenField, Path=IsFocused}" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ElementName=BtnGenerate, Path=IsFocused}" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </DataTrigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <TextBox
+                                x:Name="MinGenField"
+                                Width="150"
+                                Height="55"
+                                Margin="10,0,20,0"
+                                Padding="15,0,15,0"
+                                BorderBrush="Black"
+                                BorderThickness="2"
+                                FontSize="32"
+                                GotFocus="MinGenField_GotFocus"
+                                LostFocus="MinGenField_LostFocus"
+                                Text="Min"
+                                TextAlignment="Center">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="10" />
+                                    </Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                                    <Border
+                                                        x:Name="border"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        SnapsToDevicePixels="True">
+                                                        <ScrollViewer
+                                                            x:Name="PART_ContentHost"
+                                                            Focusable="false"
+                                                            HorizontalScrollBarVisibility="Hidden"
+                                                            VerticalScrollBarVisibility="Hidden" />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsEnabled" Value="false">
+                                                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="False">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                                                        </Trigger>
+                                                        <DataTrigger Binding="{Binding ElementName=AmountGenField, Path=IsFocused}" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ElementName=MaxGenField, Path=IsFocused}" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ElementName=BtnGenerate, Path=IsFocused}" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </DataTrigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <TextBox
+                                x:Name="MaxGenField"
+                                Width="150"
+                                Height="55"
+                                Margin="10,0,20,0"
+                                Padding="15,0,15,0"
+                                BorderBrush="Black"
+                                BorderThickness="2"
+                                FontSize="32"
+                                GotFocus="MaxGenField_GotFocus"
+                                LostFocus="MaxGenField_LostFocus"
+                                Text="Max"
+                                TextAlignment="Center">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="10" />
+                                    </Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                                    <Border
+                                                        x:Name="border"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        SnapsToDevicePixels="True">
+                                                        <ScrollViewer
+                                                            x:Name="PART_ContentHost"
+                                                            Focusable="false"
+                                                            HorizontalScrollBarVisibility="Hidden"
+                                                            VerticalScrollBarVisibility="Hidden" />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsEnabled" Value="false">
+                                                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused" Value="False">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                                                        </Trigger>
+                                                        <DataTrigger Binding="{Binding ElementName=AmountGenField, Path=IsFocused}" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ElementName=MinGenField, Path=IsFocused}" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ElementName=BtnGenerate, Path=IsFocused}" Value="True">
+                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
+                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        </DataTrigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+                            <Button
+                                x:Name="BtnGenerate"
+                                Width="200"
+                                Height="55"
+                                Padding="0,0,0,0"
+                                Background="White"
+                                BorderBrush="Black"
+                                BorderThickness="2"
+                                Click="BtnGenerate_Click"
+                                Content="Generate"
+                                FontSize="32"
+                                Foreground="Black"
+                                GotFocus="BtnGenerate_GotFocus"
+                                LostFocus="BtnGenerate_LostFocus">
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius" Value="10" />
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </StackPanel>
+                    </Canvas>
+                </StackPanel>
+                <Button
+                    x:Name="MenuResizeButton"
+                    Canvas.Right="2"
+                    Canvas.Bottom="4"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Click="Button_Click">
+                    <Image
+                        x:Name="MenuResizeButtonImg"
+                        Width="40"
+                        Height="40"
+                        Source="pack://application:,,,/Resources/Static/Images/NavBar/Up_100px.png" />
+                </Button>
             </Canvas>
         </Border>
     </Canvas>
