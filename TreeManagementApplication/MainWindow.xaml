@@ -182,12 +182,13 @@
                     x:Name="NodeContainerParent"
                     Grid.Column="1"
                     BorderBrush="Black"
-                    BorderThickness="2">
+                    BorderThickness="2"
+                    ClipToBounds="True">
                     <Canvas
                         x:Name="canvas"
                         Canvas.Left="210"
                         Canvas.Top="140"
-                        ClipToBounds="True">
+                        ClipToBounds="False">
                         <Canvas
                             x:Name="NodeCanvas"
                             Canvas.Left="0"

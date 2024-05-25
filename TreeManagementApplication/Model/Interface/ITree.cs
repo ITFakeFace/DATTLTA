@@ -24,6 +24,6 @@ namespace TreeManagementApplication.Model.Interface
 		public bool UpdateNode(INode<T> Node, T value);
 
 		ITree<T> GenerateRandomTree(int Count, int Min, int Max);
-        List<String> Serialize();
-    }
+		List<String> Serialize();
+	}
 }

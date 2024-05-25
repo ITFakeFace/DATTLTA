@@ -23,12 +23,12 @@ namespace TreeManagementApplication.Model
         }
 
         /*
-		public static void Print(BSNode<int>? root, int topMargin = 2, int leftMargin = 2)
+		public static void Print(BSNode<int>? Root, int topMargin = 2, int leftMargin = 2)
 		{
-			if (root == null) return;
+			if (Root == null) return;
 			int rootTop = Console.CursorTop + topMargin;
 			var last = new List<NodeInfo>();
-			var next = root;
+			var next = Root;
 			for (int level = 0; next != null; level++)
 			{
 				var item = new NodeInfo { Node = next, Text = next.value.ToString(" 0 ") };
@@ -47,12 +47,12 @@ namespace TreeManagementApplication.Model
 					item.Parent = last[level - 1];
 					if (next == item.Parent.Node.lNode)
 					{
-						item.Parent.Left = item;
+						item.Parent.LNode = item;
 						item.EndPos = Math.Max(item.EndPos, item.Parent.StartPos);
 					}
 					else
 					{
-						item.Parent.Right = item;
+						item.Parent.RNode = item;
 						item.StartPos = Math.Max(item.StartPos, item.Parent.EndPos);
 					}
 				}
@@ -61,14 +61,14 @@ namespace TreeManagementApplication.Model
 				{
 					Print(item, rootTop + 2 * level);
 					if (--level < 0) break;
-					if (item == item.Parent.Left)
+					if (item == item.Parent.LNode)
 					{
 						item.Parent.StartPos = item.EndPos;
 						next = item.Parent.Node.rNode;
 					}
 					else
 					{
-						if (item.Parent.Left == null)
+						if (item.Parent.LNode == null)
 							item.Parent.EndPos = item.StartPos;
 						else
 							item.Parent.StartPos += (item.StartPos - item.Parent.EndPos) / 2;

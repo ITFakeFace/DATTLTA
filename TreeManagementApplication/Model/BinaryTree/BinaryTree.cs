@@ -277,14 +277,14 @@ namespace TreeManagementApplication.Model.BinaryTree
             }
             else
             {
-                Console.WriteLine("Node is not root of Binary Tree");
+                Console.WriteLine("Node is not Root of Binary Tree");
             }
         }
         public bool UpdateNode(INode<T> node, T value)
         {
             try
             {
-                node!.setValue(value);
+                node!.SetValue(value);
                 return true;
             }
             catch
