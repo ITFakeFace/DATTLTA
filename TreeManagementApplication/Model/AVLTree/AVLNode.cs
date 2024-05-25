@@ -11,14 +11,15 @@ namespace TreeManagementApplication.Model.BinaryTree
 {
 	internal class AVLNode<T> : INode<T> where T : IComparable<T>
 	{
-		public T key;
-		public int height;
-		public AVLNode<T> left, right;
-
+		public T Key;
+		public int Height;
+		public AVLNode<T>? LNode, RNode;
+		public int Level { get; set; } = 0;
+		public int XIndex { get; set; } = 0;
 		public AVLNode(T d)
 		{
-			key = d;
-			height = 1;
+			Key = d;
+			Height = 1;
 		}
 		public INode<T>? FindChildNode(INode<T> node, T value)
 		{
@@ -27,62 +28,82 @@ namespace TreeManagementApplication.Model.BinaryTree
 
 		public int GetLevel()
 		{
-			throw new NotImplementedException();
+			return Level;
 		}
 
 		public INode<T>? GetLNode()
 		{
-			throw new NotImplementedException();
+			return this.LNode;
 		}
 
 		public INode<T>? GetRNode()
 		{
-			throw new NotImplementedException();
+			return this.RNode;
 		}
 
 		public T? GetValue()
 		{
-			throw new NotImplementedException();
+			return this.Key;
 		}
 
 		public int GetXIndex()
 		{
-			throw new NotImplementedException();
+			return this.XIndex;
 		}
 
 		public bool IsLeftest()
 		{
-			throw new NotImplementedException();
+			if (LNode != null)
+				return false;
+			return true;
 		}
 
 		public void SetLevel(int Level)
 		{
-			throw new NotImplementedException();
+			this.Level = Level;
 		}
 
 		public void SetLNode(INode<T> Node)
 		{
-			throw new NotImplementedException();
+			this.LNode = (AVLNode<T>?)Node;
 		}
 
 		public void SetRNode(INode<T> Node)
 		{
-			throw new NotImplementedException();
-		}
-
-		public void setValue(T? value)
-		{
-			throw new NotImplementedException();
+			this.RNode = (AVLNode<T>)Node;
 		}
 
 		public void SetValue(T? Value)
 		{
-			throw new NotImplementedException();
+			this.Key = Value;
 		}
 
 		public void SetXIndex(int XIndex)
 		{
-			throw new NotImplementedException();
+			this.XIndex = XIndex;
+		}
+
+		public void CalcX(ref int CurrentX)
+		{
+			if (this == null)
+			{
+				return;
+			}
+			this.LNode?.CalcX(ref CurrentX);
+
+			this.SetXIndex(CurrentX);
+			CurrentX++;
+			this.RNode?.CalcX(ref CurrentX);
+		}
+		public void CalcY(int CurrentY)
+		{
+			if (this == null)
+			{
+				return;
+			}
+			this.SetLevel(CurrentY++);
+			this.LNode?.CalcY(CurrentY);
+			this.RNode?.CalcY(CurrentY);
 		}
 	}
 }

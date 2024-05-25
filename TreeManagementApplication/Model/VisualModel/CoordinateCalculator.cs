@@ -45,8 +45,8 @@ namespace TreeManagementApplication.Model.VisualModel
 
 		public Coordinate GetNodeCoordinate(int X, int Y)
 		{
-			Console.WriteLine($"Padding: X:{paddingX}, Y:{paddingY}");
-			Console.WriteLine($"GridSize: X:{GridSize.X}, Y:{GridSize.Y}");
+			//Console.WriteLine($"Padding: X:{paddingX}, Y:{paddingY}");
+			//Console.WriteLine($"GridSize: X:{GridSize.X}, Y:{GridSize.Y}");
 			return new Coordinate(paddingX + X * GridSize.X, paddingY + Y * GridSize.Y);
 		}
 
@@ -57,7 +57,7 @@ namespace TreeManagementApplication.Model.VisualModel
 
 		public double CalculatePaddingX()
 		{
-			Console.WriteLine($"Padding Cal: MapSize:{MapSize}, GridSize:{GridSize}");
+			//Console.WriteLine($"Padding Cal: MapSize:{MapSize}, GridSize:{GridSize}");
 			return (MapSize.X != double.NaN ? MapSize.X : 0) % GridSize.X / 2;
 		}
 

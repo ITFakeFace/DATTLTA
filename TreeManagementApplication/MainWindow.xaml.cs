@@ -6,11 +6,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
+using System.Windows.Shapes;
 using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.GUI;
 using TreeManagementApplication.Model.Interface;
 using TreeManagementApplication.Model.VisualModel;
+using TreeManagementApplication.UserControls;
 
 namespace TreeManagementApplication
 {
@@ -19,11 +21,14 @@ namespace TreeManagementApplication
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-
+		private double _zoom = 0.1;
+		private bool _isUpdatingZoom = false;
+		private Point _cursorPrevPos;
+		private bool _isRightMousePressed = false;
 		public static Dictionary<ToolBarMode, ToolBarItemUC> ModeMap;
-
+		public static ToolBarMode BeforeMode { get; set; }
 		CoordinateCalculator coordinateCalculator;
-		public static ITree<int> Tree = new BinarySearchTree<int>();
+		public static ITree<int> Tree = new AVLTree<int>();
 		int GridSize;
 		public MainWindow()
 		{
@@ -52,6 +57,186 @@ namespace TreeManagementApplication
 			foreach (ToolBarItemUC item in ModeMap.Values)
 			{
 				item.OnModeChange += OnModeChange;
+			}
+
+			//zoom
+			MouseWheel += OnMouseWheelEvent;
+			//move
+			PreviewMouseDown += OnMouseEvent;
+			PreviewMouseUp += OnMouseEvent;
+			MouseMove += OnMouseMoveEvent;
+			canvas.Loaded += InkCanvas_Loaded;
+			KeyDown += OnKeyDown;
+			KeyUp += OnKeyUp;
+		}
+
+		public static ToolBarMode GetCurrentMode()
+		{
+			foreach (ToolBarMode key in ModeMap.Keys)
+			{
+				if (ModeMap[key].isActive)
+				{
+					return key;
+				}
+			}
+			return ToolBarMode.None;
+		}
+
+		void OnKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+			{
+				if (BeforeMode == ToolBarMode.None)
+				{
+					BeforeMode = GetCurrentMode();
+				}
+				ToolBarItemUC.DisableAll();
+				ModeMove.Enable();
+				ChangeMode();
+			}
+		}
+
+		void OnKeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+			{
+				ToolBarItemUC.DisableAll();
+				if (BeforeMode != ToolBarMode.None)
+				{
+					ModeMap[BeforeMode].Enable();
+					BeforeMode = ToolBarMode.None;
+				}
+				ChangeMode();
+				Console.WriteLine("Up");
+			}
+		}
+
+		void OnMouseWheelEvent(object sender, MouseWheelEventArgs e)
+		{
+			if (ModeMap[ToolBarMode.Move].isActive)
+			{
+				var diff = e.Delta > 0 ? 0.1 : -0.1;
+				_zoom = Math.Clamp(_zoom + diff, 0.1, 10);
+
+				var pos = e.GetPosition(canvas);
+				UpdateZoom(pos);
+			}
+		}
+
+		private void UpdateZoom(Point pos)
+		{
+			if (ModeMap[ToolBarMode.Move].isActive)
+			{
+				_isUpdatingZoom = true;
+
+				var matrix = canvas.RenderTransform.Value;
+
+				var targetWidth = canvas.ActualWidth * _zoom * 10d;
+				var targetHeight = canvas.ActualHeight * _zoom * 10d;
+
+				var topLeft = canvas.TranslatePoint(new Point(0, 0), this);
+				var bottomRight = canvas.TranslatePoint(new Point(canvas.ActualWidth, canvas.ActualHeight), this);
+
+				var renderWidth = bottomRight.X - topLeft.X;
+				var renderHeight = bottomRight.Y - topLeft.Y;
+
+				var scaleX = targetWidth / renderWidth;
+				var scaleY = targetHeight / renderHeight;
+
+				matrix.ScaleAtPrepend(scaleX, scaleY, pos.X, pos.Y);
+				if (matrix.OffsetX > 0)
+					matrix.Translate(-matrix.OffsetX, 0);
+				if (matrix.OffsetY > 0)
+					matrix.Translate(0, -matrix.OffsetY);
+				if (matrix.OffsetX + targetWidth < NodeContainerParent.ActualWidth)
+					matrix.Translate(NodeContainerParent.ActualWidth - (matrix.OffsetX + targetWidth), 0);
+				if (matrix.OffsetY + targetHeight < NodeContainerParent.ActualHeight)
+					matrix.Translate(0, NodeContainerParent.ActualHeight - (matrix.OffsetY + targetHeight));
+
+				canvas.RenderTransform = new MatrixTransform(matrix);
+			}
+		}
+
+		private void InkCanvas_Loaded(object sender, RoutedEventArgs e)
+		{
+			var matrix = canvas.RenderTransform.Value;
+			matrix.ScaleAtPrepend(1, 1, NodeContainerParent.ActualWidth / 2, NodeContainerParent.ActualHeight / 2);
+			canvas.RenderTransform = new MatrixTransform(matrix);
+		}
+
+		void OnMouseMoveEvent(object sender, MouseEventArgs e)
+		{
+			if (_isRightMousePressed && ModeMap[ToolBarMode.Move].isActive)
+			{
+				var cursorPoint = e.GetPosition(this);
+				var vector = cursorPoint - _cursorPrevPos;
+				_cursorPrevPos = cursorPoint;
+				//canvas.Strokes.Transform(new Matrix(1, 0, 0, 1, vector.X * (0.1 / _zoom), vector.Y * (0.1 / _zoom)), false);
+				Canvas.SetLeft(NodeCanvas, Canvas.GetLeft(NodeCanvas) + vector.X);
+				Canvas.SetTop(NodeCanvas, Canvas.GetTop(NodeCanvas) + vector.Y);
+			}
+		}
+
+		private void OnMouseEvent(object sender, MouseButtonEventArgs e)
+		{
+			if (e.RightButton == MouseButtonState.Pressed && !_isRightMousePressed && ModeMap[ToolBarMode.Move].isActive)
+			{
+				_isRightMousePressed = true;
+				_cursorPrevPos = e.GetPosition(this);
+			}
+			else if (e.RightButton == MouseButtonState.Released && ModeMap[ToolBarMode.Move].isActive)
+				_isRightMousePressed = false;
+		}
+
+		private void ChangeMode()
+		{
+			ToolBarMode? currentMode = ToolBarMode.None;
+			foreach (ToolBarMode mode in ModeMap.Keys)
+			{
+				if (ModeMap[mode].isActive)
+				{
+					currentMode = mode;
+					break;
+				}
+			}
+			AddMenu.Visibility = Visibility.Hidden;
+			int index = -1;
+			switch (currentMode)
+			{
+				case ToolBarMode.Create:
+					index = 0;
+					AddMenu.Visibility = Visibility.Visible;
+					break;
+				case ToolBarMode.Update:
+					index = 1;
+					break;
+				case ToolBarMode.Delete:
+					index = 2;
+					break;
+				case ToolBarMode.Move:
+					index = -1;
+					break;
+				case ToolBarMode.Save:
+					index = 4;
+					break;
+				case ToolBarMode.Search:
+					index = 5;
+					break;
+				case ToolBarMode.None:
+					index = -1;
+					break;
+				default:
+					index = -1;
+					break;
+			}
+			if (index >= 0)
+			{
+				ToolBarMenu.Visibility = Visibility.Visible;
+				Canvas.SetLeft(ToolBarCursor, 417.5 + 95 * index);
+			}
+			else
+			{
+				ToolBarMenu.Visibility = Visibility.Hidden;
 			}
 		}
 
@@ -199,22 +384,22 @@ namespace TreeManagementApplication
 					else
 					{
 						new Thread(() =>
-							 {
-								 String oldValue = "";
-								 this.Dispatcher.Invoke(() =>
-												 {
-													 oldValue = AddField.Text;
-													 AddField.Text = "Error";
-												 });
-								 Thread.Sleep(2000);
-								 this.Dispatcher.Invoke(() =>
-													 {
-														 if (AddField.Text.Trim().CompareTo("Error") == 0)
-														 {
-															 AddField.Text = oldValue;
-														 }
-													 });
-							 }).Start();
+						{
+							String oldValue = "";
+							this.Dispatcher.Invoke(() =>
+							{
+								oldValue = AddField.Text;
+								AddField.Text = "Error";
+							});
+							Thread.Sleep(2000);
+							this.Dispatcher.Invoke(() =>
+							{
+								if (AddField.Text.Trim().CompareTo("Error") == 0)
+								{
+									AddField.Text = oldValue;
+								}
+							});
+						}).Start();
 					}
 					break;
 				case Key.Tab:
@@ -279,22 +464,22 @@ namespace TreeManagementApplication
 			{
 				Console.WriteLine("Unable to Convert Node Count in Generate Tree Function");
 				new Thread(() =>
-											 {
-												 String oldValue = "";
-												 this.Dispatcher.Invoke(() =>
-																								 {
-																									 oldValue = AddField.Text;
-																									 AmountGenField.Text = "Error";
-																								 });
-												 Thread.Sleep(2000);
-												 this.Dispatcher.Invoke(() =>
-																									 {
-																										 if (AmountGenField.Text.Trim().CompareTo("Error") == 0)
-																										 {
-																											 AmountGenField.Text = oldValue;
-																										 }
-																									 });
-											 }).Start();
+				{
+					String oldValue = "";
+					this.Dispatcher.Invoke(() =>
+					{
+						oldValue = AddField.Text;
+						AmountGenField.Text = "Error";
+					});
+					Thread.Sleep(2000);
+					this.Dispatcher.Invoke(() =>
+					{
+						if (AmountGenField.Text.Trim().CompareTo("Error") == 0)
+						{
+							AmountGenField.Text = oldValue;
+						}
+					});
+				}).Start();
 				return;
 			}
 
@@ -306,22 +491,22 @@ namespace TreeManagementApplication
 			{
 				Console.WriteLine("Unable to Convert Node Count in Generate Tree Function");
 				new Thread(() =>
-														 {
-															 String oldValue = "";
-															 this.Dispatcher.Invoke(() =>
-																														 {
-																															 oldValue = AddField.Text;
-																															 MinGenField.Text = "Error";
-																														 });
-															 Thread.Sleep(2000);
-															 this.Dispatcher.Invoke(() =>
-																															 {
-																																 if (AmountGenField.Text.Trim().CompareTo("Error") == 0)
-																																 {
-																																	 MinGenField.Text = oldValue;
-																																 }
-																															 });
-														 }).Start();
+				{
+					String oldValue = "";
+					this.Dispatcher.Invoke(() =>
+					{
+						oldValue = AddField.Text;
+						MinGenField.Text = "Error";
+					});
+					Thread.Sleep(2000);
+					this.Dispatcher.Invoke(() =>
+					{
+						if (AmountGenField.Text.Trim().CompareTo("Error") == 0)
+						{
+							MinGenField.Text = oldValue;
+						}
+					});
+				}).Start();
 				return;
 			}
 
@@ -333,22 +518,22 @@ namespace TreeManagementApplication
 			{
 				Console.WriteLine("Unable to Convert Node Count in Generate Tree Function");
 				new Thread(() =>
-																	 {
-																		 String oldValue = "";
-																		 this.Dispatcher.Invoke(() =>
-																																				 {
-																																					 oldValue = AddField.Text;
-																																					 MaxGenField.Text = "Error";
-																																				 });
-																		 Thread.Sleep(2000);
-																		 this.Dispatcher.Invoke(() =>
-																																					 {
-																																						 if (MaxGenField.Text.Trim().CompareTo("Error") == 0)
-																																						 {
-																																							 MaxGenField.Text = oldValue;
-																																						 }
-																																					 });
-																	 }).Start();
+				{
+					String oldValue = "";
+					this.Dispatcher.Invoke(() =>
+					{
+						oldValue = AddField.Text;
+						MaxGenField.Text = "Error";
+					});
+					Thread.Sleep(2000);
+					this.Dispatcher.Invoke(() =>
+					{
+						if (MaxGenField.Text.Trim().CompareTo("Error") == 0)
+						{
+							MaxGenField.Text = oldValue;
+						}
+					});
+				}).Start();
 				return;
 			}
 
@@ -366,7 +551,6 @@ namespace TreeManagementApplication
 			brush.Color = (Color)ColorConverter.ConvertFromString("#00d2ff");
 			BtnGenerate.BorderBrush = brush;
 			BtnGenerate.BorderThickness = new Thickness(4);
-
 		}
 
 		private void AmountGenField_LostFocus(object sender, RoutedEventArgs e)

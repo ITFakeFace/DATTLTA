@@ -16,7 +16,6 @@ namespace TreeManagementApplication.Model.Interface
 		//Get-Set LNode
 		void SetLNode(INode<T> Node);
 		INode<T>? GetLNode();
-		void setValue(T? value);
 
 		//Get-Set RNode
 		INode<T>? GetRNode();

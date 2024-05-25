@@ -98,7 +98,7 @@ namespace TreeManagementApplication.UserControls
 				this.OnModeChange(this, new EventArgs());
 		}
 
-		private void Enable()
+		public void Enable()
 		{
 			isActive = true;
 			DisableAll();
@@ -114,7 +114,7 @@ namespace TreeManagementApplication.UserControls
 			linearGradientBrush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#928DAB"), 1));
 			ItemBorder.Background = linearGradientBrush;
 		}
-		private void Disable()
+		public void Disable()
 		{
 			isActive = false;
 			MainWindow.ModeMap[Mode].isActive = false;
@@ -123,7 +123,7 @@ namespace TreeManagementApplication.UserControls
 			ItemBorder.Background = SolidBrush;
 		}
 
-		private void DisableAll()
+		public static void DisableAll()
 		{
 			foreach (ToolBarMode Mode in MainWindow.ModeMap.Keys)
 			{

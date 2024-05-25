@@ -133,10 +133,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 		}
 
 		void INode<T>.SetLNode(INode<T> Node) { }
-		public void setValue(T? value)
-		{
-			this.Value = value;
-		}
 
 		/*public override String ToString()
 		{
