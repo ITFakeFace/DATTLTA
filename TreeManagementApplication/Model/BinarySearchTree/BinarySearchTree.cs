@@ -231,59 +231,59 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 				}
 			}
 
-			// Trả về null nếu không tìm thấy node 
-			return null;
-		}
-		private BSNode<T>? DeleteNode(BSNode<T>? root, T value)
-		{
-			if (root == null)
-				return null;
+            // Trả về null nếu không tìm thấy node 
+            return null;
+        }
+        private INode<T>? DeleteNode(INode<T>? root, T value)
+        {
+            if (root == null)
+                return null;
 
-			int compare = value.CompareTo(root.Value);
+            int compare = value.CompareTo(root.GetValue());
 
-			if (compare < 0)
-			{
-				root.LNode = DeleteNode(root.LNode, value);
-			}
-			else if (compare > 0)
-			{
-				root.RNode = DeleteNode(root.RNode, value);
-			}
-			else
-			{
-				// Node found with value equals 'value' 
+            if (compare < 0)
+            {
+                root.SetLNode(DeleteNode(root.GetLNode(), value));
+            }
+            else if (compare > 0)
+            {
+                root.SetRNode(DeleteNode(root.GetRNode(), value));
+            }
+            else
+            {
+                // Node found with value equals 'value' 
 
-				// Case 1: No child or only one child 
-				if (root.LNode == null)
-				{
-					return root.RNode;
-				}
-				else if (root.RNode == null)
-				{
-					return root.LNode;
-				}
+                // Case 1: No child or only one child 
+                if (root.GetLNode() == null)
+                {
+                    return root.GetRNode();
+                }
+                else if (root.GetRNode() == null)
+                {
+                    return root.GetLNode();
+                }
 
-				// Case 2: Node with two children 
-				// Get the inorder successor (smallest in the RNode subtree) 
-				root.Value = MinValue(root.RNode);
+                // Case 2: Node with two children 
+                // Get the inorder successor (smallest in the right subtree) 
+                root.SetValue(MinValue(root.GetRNode()));
 
-				// Delete the inorder successor 
-				root.RNode = DeleteNode(root.RNode, root.Value);
-			}
+                // Delete the inorder successor 
+                root.SetRNode(DeleteNode(root.GetRNode(), root.GetValue()));
+            }
 
 			return root;
 		}
 
-		private T MinValue(BSNode<T> node)
-		{
-			T minValue = node.Value;
-			while (node.LNode != null)
-			{
-				minValue = node.LNode.Value;
-				node = node.LNode;
-			}
-			return minValue;
-		}
+        private T MinValue(INode<T> node)
+        {
+            T minValue = node.GetValue();
+            while (node.GetLNode() != null)
+            {
+                minValue = node.GetLNode().GetValue();
+                node = node.GetLNode();
+            }
+            return minValue;
+        }
 
 		public INode<T>? FindNode(T Value)
 		{

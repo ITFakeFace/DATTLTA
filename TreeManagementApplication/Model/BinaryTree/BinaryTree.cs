@@ -14,16 +14,10 @@ namespace TreeManagementApplication.Model.BinaryTree
             return Root == null;
         }
 
-        public void DeleteTree(BSNode<T> root)
+        public void DeleteTree(INode<T> node)
         {
-            if (root == null) return;
-
-            // Duyệt qua từng nút con và giải phóng bộ nhớ
-            DeleteTree(root.LNode);
-            DeleteTree(root.RNode);
-
             // Giải phóng bộ nhớ của nút hiện tại
-            root = null;
+            node = null;
         }
 
         public ITree<T> GenerateRandomTree(int Count, int Min, int Max)
@@ -354,28 +348,85 @@ namespace TreeManagementApplication.Model.BinaryTree
         {
             return Root!.FindNode(XIndex, Level);
         }
-        public INode<T>? FindParentNode(INode<T> node)
+
+		INode<T>? ITree<T>.FindNode(T Value)
+		{
+			throw new NotImplementedException();
+		}
+
+        ///------------------------------	
+
+
+        public INode<T>? FindParentNode(INode<T> node, int XIndex)
         {
-            int parentLevel = node.GetLevel() - 1;
-            int parentXIndex = node.GetXIndex();
-            INode<T>? parent = FindNode(parentXIndex - 1, parentLevel);
-            if (parent != null)
+            if (node == null)
             {
-                return parent;
+                return node;
             }
-            else
+
+            int isEqual = node.GetXIndex().CompareTo(XIndex);
+
+            if (isEqual < 0)
             {
-                parent = FindNode(parentXIndex + 1, parentLevel);
-                return parent;
+                INode<T> rNode = node.GetRNode();
+                if (rNode != null)
+                {
+                    bool flag = node.GetRNode()!.GetXIndex().Equals(XIndex);
+                    if (flag is true)
+                    {
+                        return node;
+                    }
+                    else
+                    {
+                        return FindParentNode(rNode, XIndex);
+                    }
+                }
+                else return null;
             }
+
+            else if (isEqual > 0)
+            {
+                INode<T> lNode = node.GetLNode();
+                if (lNode != null)
+                {
+                    bool flag = lNode!.GetXIndex().Equals(XIndex);
+                    if (flag is true)
+                    {
+                        return node;
+                    }
+                    else
+                    {
+                        return FindParentNode(lNode, XIndex);
+                    }
+                }
+            }
+            return node;
         }
 
-        INode<T>? ITree<T>.FindNode(T Value)
+        public void DeleteBnode(INode<T> node)
+        {
+             if (node == null) { return; }
+
+            INode<T>  DadNode=  FindParentNode(node, node.GetXIndex());
+            if (node == DadNode.GetLNode())
+                DeleteTree(DadNode.GetLNode());
+            else DeleteTree(DadNode.GetRNode());
+            return ;
+
+        }
+
+
+        INode<T> ITree<T>.DeleteNode(T Value)
         {
             throw new NotImplementedException();
         }
 
-        public List<String> Serialize()
+        public INode<T>? FindParentNode(INode<T> node)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> Serialize()
         {
             throw new NotImplementedException();
         }
