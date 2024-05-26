@@ -467,5 +467,31 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             }
             return;
         }
+
+        public void Deserialize(String readFromFile)
+        {
+            DeleteTree(this.Root!);
+            string[] serializeString = readFromFile.Split(",");
+            Queue<string> serializeQueue = new Queue<string>();
+            foreach (var item in serializeString)
+            {
+                serializeQueue.Enqueue(item.ToString());
+            }
+
+            int rootVal = int.Parse(serializeQueue.Dequeue());
+            BSNode<int> Root = new BSNode<int>(rootVal);
+            Deserialize(Root, serializeQueue);
+
+            return;
+        }
+
+        private void Deserialize(BSNode<int> bSNode, Queue<string> serializeQueue)
+        {
+            if (serializeQueue is null)
+            {
+                return;
+            }
+
+        }
     }
 }
