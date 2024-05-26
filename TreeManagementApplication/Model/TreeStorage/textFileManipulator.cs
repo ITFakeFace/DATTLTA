@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,6 +18,10 @@ namespace TreeManagementApplication.Model.TreeStorage
         public string currentDirectory { get; set; }
         public string folderPath { get; set; }
         public string fullPath { get; set; }
+        private FileMode modeOpen = FileMode.Open;
+        private FileMode modeOpenOrCreate = FileMode.OpenOrCreate;
+        private FileAccess accessRead = FileAccess.Read;
+        private FileAccess accessWrite = FileAccess.Write;
         public textFileManipulator(string fileName = "savedTree.txt", string? folderPath = null)
         {
             this.fileName = fileName;
@@ -34,11 +39,11 @@ namespace TreeManagementApplication.Model.TreeStorage
                 Console.WriteLine("Folder was create at  " + folderPath);
             }
 
-            string fullPath = Path.Combine(folderPath, fileName);
+            string filePath = Path.Combine(folderPath, fileName);
 
-            using (FileStream fileStream = new FileStream(fullPath, FileMode.OpenOrCreate, FileAccess.Write))
+            using (FileStream fileStream = new FileStream(filePath, modeOpenOrCreate, accessWrite))
             {
-                Console.WriteLine("File was create at  " + fullPath);
+                Console.WriteLine("File was create at  " + filePath);
                 using (StreamWriter streamWriter = new StreamWriter(fileStream))
                 {
                     foreach (var item in treeVal)
@@ -49,22 +54,21 @@ namespace TreeManagementApplication.Model.TreeStorage
             }
         }
 
-        public List<object>? fileReader(string? fullPath = null)
+        public Queue<object>? fileReader(string? fullPath = null)
         {
-            string[] result;
-            List<object> listVal = new List<object>();
+            Queue<object> listVal = new Queue<object>();
             try
             {
                 using (FileStream fileStream = (fullPath is null)
-                    ? new FileStream(this.fullPath, FileMode.Open, FileAccess.Read)
-                    : new FileStream(fullPath, FileMode.Open, FileAccess.Read))
+                        ? new FileStream(this.fullPath, modeOpen, accessRead)
+                        : new FileStream(fullPath, modeOpen, accessRead))
                 {
                     using (StreamReader streamReader = new StreamReader(fileStream))
                     {
-                        result = streamReader.ReadLine()!.TrimEnd(',').Split(',');
+                        string[] result = streamReader.ReadLine()!.TrimEnd(',').Split(',');
                         foreach (var item in result)
                         {
-                            listVal.Add(item);
+                            listVal.Enqueue(item);
                         }
                         return listVal;
                     }

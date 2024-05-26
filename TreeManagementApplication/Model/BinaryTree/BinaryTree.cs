@@ -349,13 +349,10 @@ namespace TreeManagementApplication.Model.BinaryTree
             return Root!.FindNode(XIndex, Level);
         }
 
-		INode<T>? ITree<T>.FindNode(T Value)
-		{
-			throw new NotImplementedException();
-		}
-
-        ///------------------------------	
-
+        INode<T>? ITree<T>.FindNode(T Value)
+        {
+            throw new NotImplementedException();
+        }
 
         public INode<T>? FindParentNode(INode<T> node, int XIndex)
         {
@@ -405,13 +402,13 @@ namespace TreeManagementApplication.Model.BinaryTree
 
         public void DeleteBnode(INode<T> node)
         {
-             if (node == null) { return; }
+            if (node == null) { return; }
 
-            INode<T>  DadNode=  FindParentNode(node, node.GetXIndex());
+            INode<T> DadNode = FindParentNode(node, node.GetXIndex());
             if (node == DadNode.GetLNode())
                 DeleteTree(DadNode.GetLNode());
             else DeleteTree(DadNode.GetRNode());
-            return ;
+            return;
 
         }
 
@@ -421,19 +418,19 @@ namespace TreeManagementApplication.Model.BinaryTree
             throw new NotImplementedException();
         }
 
-        public INode<T>? FindParentNode(INode<T> node)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<string> Serialize()
         {
             throw new NotImplementedException();
         }
-		public int GetLargestY(INode<T> Node)
-		{
-			throw new NotImplementedException();
-		}
-	}
+        public int GetLargestY(INode<T> Node)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Deserialize(Queue<object> readFromFile)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
 
