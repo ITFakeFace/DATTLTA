@@ -442,56 +442,54 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 
         public void Deserialize(String readFromFile)
         {
-            DeleteTree(this.Root!);
-            string[] serializeString = readFromFile.Split(",");
-            Queue<string> serializeQueue = new Queue<string>();
-            foreach (var item in serializeString)
+
+            if (Node.GetLNode() == null && Node.GetRNode() == null)
             {
-                serializeQueue.Enqueue(item.ToString());
+                return Node.GetLevel();
             }
-            int rootVal = int.Parse(serializeQueue.Dequeue());
-            BSNode<int> Root = new BSNode<int>(rootVal);
-
-
-            while (serializeQueue.Count > 0)
+            else if (Node.GetLNode() != null && Node.GetRNode() != null)
             {
-                int nodeVal = 0;
-                if (int.TryParse(serializeQueue.Dequeue(), out nodeVal))
+                if (Node.GetLNode().GetLevel() > Node.GetRNode().GetLevel())
                 {
-                    Root.InsertNode(nodeVal);
+                    return GetLargestY(Node.GetLNode());
                 }
                 else
                 {
-                    continue;
+                    return GetLargestY(Node.GetRNode());
                 }
             }
+            else if (Node.GetLNode() != null)
+            {
+                return GetLargestY(Node.GetLNode());
+            }
+            else
+            {
+                return GetLargestY(Node.GetRNode());
+            }
+        }
+
+        public void Deserialize(List<object> readFromFile)
+        {
+            if (this.Root != null) this.Root = null;
+
+            BSNode<T> node = new BSNode<T>(ParseObjecttoT(readFromFile[0]));
+            SetRoot(node);
+            for (int i = 1; i < readFromFile.Count; i++)
+            {
+                Console.WriteLine(readFromFile[i]);
+                if (readFromFile[i].Equals("#"))
+                {
+                    continue;
+                }
+                Root!.InsertNode(ParseObjecttoT(readFromFile[i]));
+            }
             return;
         }
 
-        public void Deserialize(String readFromFile)
+
+        private T ParseObjecttoT(object obj)
         {
-            DeleteTree(this.Root!);
-            string[] serializeString = readFromFile.Split(",");
-            Queue<string> serializeQueue = new Queue<string>();
-            foreach (var item in serializeString)
-            {
-                serializeQueue.Enqueue(item.ToString());
-            }
-
-            int rootVal = int.Parse(serializeQueue.Dequeue());
-            BSNode<int> Root = new BSNode<int>(rootVal);
-            Deserialize(Root, serializeQueue);
-
-            return;
-        }
-
-        private void Deserialize(BSNode<int> bSNode, Queue<string> serializeQueue)
-        {
-            if (serializeQueue is null)
-            {
-                return;
-            }
-
+            return (T)Convert.ChangeType(obj, typeof(T));
         }
     }
 }

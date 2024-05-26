@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,20 +15,20 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 	{
 		AVLNode<T> Root;
 
-		int height(AVLNode<T> N)
-		{
-			if (N == null)
-				return 0;
+        int height(AVLNode<T> N)
+        {
+            if (N == null)
+                return 0;
 
 			return N.Height;
 		}
 
-		// A utility function to get 
-		// maximum of two integers  
-		int max(int a, int b)
-		{
-			return (a > b) ? a : b;
-		}
+        // A utility function to get 
+        // maximum of two integers  
+        int max(int a, int b)
+        {
+            return (a > b) ? a : b;
+        }
 
 		AVLNode<T> rightRotate(AVLNode<T> y)
 		{
@@ -71,11 +71,11 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			return y;
 		}
 
-		// Get Balance factor of node N  
-		int getBalance(AVLNode<T> N)
-		{
-			if (N == null)
-				return 0;
+        // Get Balance factor of node N  
+        int getBalance(AVLNode<T> N)
+        {
+            if (N == null)
+                return 0;
 
 			return height(N.LNode) - height(N.RNode);
 		}
@@ -198,15 +198,15 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			throw new NotImplementedException();
 		}
 
-		public INode<T>? FindNode(int XIndex, int Level)
-		{
-			throw new NotImplementedException();
-		}
+        public INode<T>? FindNode(int XIndex, int Level)
+        {
+            throw new NotImplementedException();
+        }
 
-		public INode<T>? FindParentNode(INode<T> node)
-		{
-			throw new NotImplementedException();
-		}
+        public INode<T>? FindParentNode(INode<T> node)
+        {
+            throw new NotImplementedException();
+        }
 
 		public void GenerateGridIndex()
 		{
@@ -231,10 +231,10 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			return this.Root;
 		}
 
-		public List<T>? GetValues()
-		{
-			throw new NotImplementedException();
-		}
+        public List<T>? GetValues()
+        {
+            throw new NotImplementedException();
+        }
 
 		public bool InsertNode(T Value)
 		{
@@ -350,10 +350,10 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 			this.Root = (AVLNode<T>)Node;
 		}
 
-		public bool UpdateNode(INode<T> Node, T value)
-		{
-			throw new NotImplementedException();
-		}
+        public bool UpdateNode(INode<T> Node, T value)
+        {
+            throw new NotImplementedException();
+        }
 
 		public ITree<T> GenerateRandomTree(int Count, int Min, int Max)
 		{

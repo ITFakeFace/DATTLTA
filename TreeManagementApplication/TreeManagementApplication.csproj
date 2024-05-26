@@ -57,6 +57,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Program.cs">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Page Update="ChangeNodeWindow.xaml">
 	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 	  </Page>
