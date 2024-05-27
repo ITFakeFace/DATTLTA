@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ObjectiveC;
 using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.Interface;
 
@@ -82,8 +84,6 @@ namespace TreeManagementApplication.Model.BinaryTree
             Queue<INode<T>> queue = new Queue<INode<T>>();
             queue.Enqueue(Node);
 
-            // Do level order traversal until we find
-            // an empty place.
             while (queue.Count != 0)
             {
                 Node = queue.Peek();
@@ -118,84 +118,6 @@ namespace TreeManagementApplication.Model.BinaryTree
             ConsoleBinaryTreePrinter<T> Printer = new ConsoleBinaryTreePrinter<T>();
             Printer.Print(Root);
         }
-
-        /*
-=======
-		public bool InsertNode(T Value)
-		{
-			return InsertNode(Root, Value);
-		}
-
-		public bool InsertNode(INode<T>? Node, T Value)
-		{
-			if (Node == null)
-			{
-				Root = new BNode<T>(Value);
-				return true;
-			}
-			bool result = false;
-			Queue<INode<T>> queue = new Queue<INode<T>>();
-			queue.Enqueue(Node);
-
-			// Do level order traversal until we find
-			// an empty place.
-			while (queue.Count != 0)
-			{
-				Node = queue.Peek();
-				queue.Dequeue();
-				if (Node.GetLNode() == null)
-				{
-					Node.SetLNode(new BNode<T>(Value));
-					result = true;
-					break;
-				}
-				else
-				{
-					queue.Enqueue(Node.GetLNode()!);
-				}
-
-				if (Node.GetRNode() == null)
-				{
-					Node.SetRNode(new BNode<T>(Value));
-					result = true;
-					break;
-				}
-				else
-				{
-					queue.Enqueue(Node.GetRNode()!);
-				}
-			}
-			return result;
-		}
-
-		public void PrintConsole()
-		{
-			ConsoleBinaryTreePrinter<T> Printer = new ConsoleBinaryTreePrinter<T>();
-			Printer.Print(Root);
-		}
-
-		/*
->>>>>>> Hùng1
-		public void PrintConsole2()
-		{
-			PrintNodeToConsole(Root, 2);
-		}
-
-		public void PrintNodeToConsole(BNode<T>? Node, int Space)
-		{
-			if (Node == null)
-				return;
-
-			PrintNodeToConsole(Node.LNode, Space + 1);
-			string BlankSpace = "";
-			for (int i = 0; i < Space * 4; i++)
-			{
-				BlankSpace += " ";
-			}
-			Console.WriteLine(BlankSpace + Node.Value);
-			PrintNodeToConsole(Node.RNode, Space + 1);
-		}
-		*/
 
         public void PrintLNR(INode<T>? Node)
         {
@@ -454,25 +376,36 @@ namespace TreeManagementApplication.Model.BinaryTree
             {
                 this.Root = null;
             }
-            Console.WriteLine(readFromFile.Count);
             BNode<T> Root = new BNode<T>(ParseObjecttoT(readFromFile.Dequeue()));
             SetRoot(Root);
-            Queue<BNode<T>> nodes = new Queue<BNode<T>>();
-            nodes.Enqueue(Root);
-            while (nodes.Count > 0)
-            {
-                int flag = 0;
-                BNode<T> node = nodes.Dequeue();
-
-                while (!(readFromFile.Dequeue().ToString()!.Equals(@"#")))
-                {
-
-                }
-            }
-
-
+            Deserialize(Root, readFromFile);
         }
 
+        private void Deserialize(INode<T> node, Queue<object> valueQueue)
+        {
+            if (valueQueue.Count == 0)
+            {
+                return;
+            }
+            object leftNodeVal = valueQueue.Dequeue();
+            if (!leftNodeVal.ToString()!.Equals("#"))
+            {
+                INode<T> leftNode = new BNode<T>(ParseObjecttoT(leftNodeVal));
+                node.SetLNode(leftNode);
+                Deserialize(leftNode, valueQueue);
+            }
+            if (valueQueue.Count == 0)
+            {
+                return;
+            }
+            object rightNodeVal = valueQueue.Dequeue();
+            if (!rightNodeVal.ToString()!.Equals("#"))
+            {
+                INode<T> rightNode = new BNode<T>(ParseObjecttoT(rightNodeVal));
+                node.SetRNode(rightNode);
+                Deserialize(rightNode, valueQueue);
+            }
+        }
 
         private T ParseObjecttoT(object obj)
         {
