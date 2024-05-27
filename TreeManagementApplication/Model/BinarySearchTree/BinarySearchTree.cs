@@ -463,31 +463,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 
         }
 
-        /* private void Deserialize(Queue<Object> readFromFile, int count, INode<T> node)
-         {
-
-             object nodeVal;
-             if (readFromFile.Count == 0)
-             {
-                 return;
-             }
-             do
-             {
-                 if (readFromFile.Count == 0)
-                 {
-                     break;
-                 }
-                 nodeVal = readFromFile.Dequeue();
-             }
-             while (nodeVal.ToString()!.Equals("#"));
-             Root!.InsertNode(ParseObjecttoT(nodeVal));
-
-             Deserialize(readFromFile, count, node);
-
-         }*/
-
-
-
         private T ParseObjecttoT(object obj)
         {
             return (T)Convert.ChangeType(obj, typeof(T));
