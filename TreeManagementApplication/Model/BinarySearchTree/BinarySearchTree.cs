@@ -383,36 +383,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             return (ITree<T>)Tree;
         }
 
-        public INode<T>? FindParentNode(INode<T> node)
-        {
-            throw new NotImplementedException();
-        }
 
-        public List<String> Serialize()
-        {
-            List<String> serializeString = new List<String>();
-            Serialize(Root!, serializeString);
-            foreach (var item in serializeString)
-            {
-                Console.WriteLine(item.ToString());
-            }
-
-
-            return serializeString;
-
-        }
-
-        private void Serialize(BSNode<T>? bSNode, List<String> serializeString)
-        {
-            if (bSNode == null)
-            {
-                serializeString.Add("#");
-                return;
-            }
-            serializeString.Add(bSNode.GetValue().ToString());
-            Serialize(bSNode.LNode, serializeString);
-            Serialize(bSNode.RNode, serializeString);
-        }
         public int GetLargestY(INode<T>? Node)
         {
 
@@ -440,6 +411,29 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 return GetLargestY(Node.GetRNode());
             }
         }
+        public List<String>? Serialize()
+        {
+            List<String> serializeString = new List<String>();
+            Serialize(Root!, serializeString);
+            if (serializeString[0].CompareTo("#") == 0)
+            {
+                return null;
+            }
+            return serializeString;
+
+        }
+
+        private void Serialize(BSNode<T>? bSNode, List<String> serializeString)
+        {
+            if (bSNode == null)
+            {
+                serializeString.Add("#");
+                return;
+            }
+            serializeString.Add(bSNode.GetValue().ToString());
+            Serialize(bSNode.LNode, serializeString);
+            Serialize(bSNode.RNode, serializeString);
+        }
 
         public void Deserialize(Queue<Object> readFromFile)
         {
@@ -448,31 +442,51 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 this.Root = null;
             }
             Console.WriteLine(readFromFile.Count);
-            BSNode<T> Root = new BSNode<T>(ParseObjecttoT(readFromFile.Dequeue()));
-            if (Root != null)
-            {
-                SetRoot(Root);
-                Deserialize(readFromFile, readFromFile.Count, Root);
-            }
-        }
-
-        private void Deserialize(Queue<Object> readFromFile, int count, INode<T> node)
-        {
-
-            if (readFromFile.Count == 0)
+            object nodeVal = readFromFile.Dequeue();
+            bool isEquals = nodeVal.ToString()!.Equals(@"#");
+            if (isEquals)
             {
                 return;
             }
-            Console.WriteLine(readFromFile.Count);
-            object nodeVal = readFromFile.Dequeue();
-            bool isEquals = nodeVal.ToString()!.Equals(@"#");
-            if (!isEquals)
+            BSNode<T> Root = new BSNode<T>(ParseObjecttoT(nodeVal));
+            SetRoot(Root);
+
+            do
             {
+                nodeVal = readFromFile.Dequeue();
+                if (nodeVal.ToString()!.Equals("#"))
+                {
+                    continue;
+                }
                 Root!.InsertNode(ParseObjecttoT(nodeVal));
-            }
-            Deserialize(readFromFile, count, node);
+            } while (readFromFile.Count > 0);
 
         }
+
+        /* private void Deserialize(Queue<Object> readFromFile, int count, INode<T> node)
+         {
+
+             object nodeVal;
+             if (readFromFile.Count == 0)
+             {
+                 return;
+             }
+             do
+             {
+                 if (readFromFile.Count == 0)
+                 {
+                     break;
+                 }
+                 nodeVal = readFromFile.Dequeue();
+             }
+             while (nodeVal.ToString()!.Equals("#"));
+             Root!.InsertNode(ParseObjecttoT(nodeVal));
+
+             Deserialize(readFromFile, count, node);
+
+         }*/
+
+
 
         private T ParseObjecttoT(object obj)
         {

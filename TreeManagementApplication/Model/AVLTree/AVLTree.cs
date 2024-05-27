@@ -203,7 +203,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             throw new NotImplementedException();
         }
 
-        public INode<T>? FindParentNode(INode<T> node)
+        public INode<T>? FindParentNode(INode<T> node, int XIndex)
         {
             throw new NotImplementedException();
         }

@@ -418,18 +418,65 @@ namespace TreeManagementApplication.Model.BinaryTree
             throw new NotImplementedException();
         }
 
-        public List<string> Serialize()
+        public List<String> Serialize()
         {
-            throw new NotImplementedException();
+            List<String> serializeString = new List<String>();
+            Serialize(this.Root, serializeString);
+            foreach (var item in serializeString)
+            {
+                Console.WriteLine(item.ToString());
+            }
+
+
+            return serializeString;
+
+        }
+
+        private void Serialize(BNode<T>? bNode, List<String> serializeString)
+        {
+            if (bNode == null)
+            {
+                serializeString.Add("#");
+                return;
+            }
+            serializeString.Add(bNode.GetValue().ToString());
+            Serialize(bNode.LNode, serializeString);
+            Serialize(bNode.RNode, serializeString);
         }
         public int GetLargestY(INode<T> Node)
         {
             throw new NotImplementedException();
         }
 
-        public void Deserialize(Queue<object> readFromFile)
+        public void Deserialize(Queue<Object> readFromFile)
         {
-            throw new NotImplementedException();
+            if (this.Root != null)
+            {
+                this.Root = null;
+            }
+            Console.WriteLine(readFromFile.Count);
+            BNode<T> Root = new BNode<T>(ParseObjecttoT(readFromFile.Dequeue()));
+            SetRoot(Root);
+            Queue<BNode<T>> nodes = new Queue<BNode<T>>();
+            nodes.Enqueue(Root);
+            while (nodes.Count > 0)
+            {
+                int flag = 0;
+                BNode<T> node = nodes.Dequeue();
+
+                while (!(readFromFile.Dequeue().ToString()!.Equals(@"#")))
+                {
+
+                }
+            }
+
+
+        }
+
+
+        private T ParseObjecttoT(object obj)
+        {
+            return (T)Convert.ChangeType(obj, typeof(T));
         }
     }
 }
