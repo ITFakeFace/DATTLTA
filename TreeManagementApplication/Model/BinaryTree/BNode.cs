@@ -99,8 +99,8 @@ namespace TreeManagementApplication.Model.BinaryTree
 		}
 		public override String ToString()
 		{
-			return $"({this.Value})";
-			//return " (" + this.XIndex + "," + this.Level + ") ";
+			//return $"({this.Value})";
+			return " (" + this.XIndex + "," + this.Level + ") ";
 			//return " (" + this.Value + "," + this.XIndex + ") ";
 			//return $" ({this.Value},{CountChildNode(this)}) ";
 		}

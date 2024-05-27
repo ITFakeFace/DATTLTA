@@ -407,10 +407,10 @@ namespace TreeManagementApplication.Model.BinaryTree
         {
              if (node == null) { return; }
 
-            INode<T>  DadNode=  FindParentNode(node, node.GetXIndex());
-            if (node == DadNode.GetLNode())
-                DeleteTree(DadNode.GetLNode());
-            else DeleteTree(DadNode.GetRNode());
+            INode<T>  DadNode=  FindParentNode(Root, node.GetXIndex());
+            if (node.GetXIndex()== DadNode.GetLNode().GetXIndex())
+                DadNode.SetLNode(null);
+            else DadNode.SetRNode(null);
             return ;
 
         }
