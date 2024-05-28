@@ -165,7 +165,7 @@
                         <UserControls:ToolBarItemUC x:Name="ModeUpdate" Mode="Update" />
                         <UserControls:ToolBarItemUC x:Name="ModeDelete" Mode="Delete" />
                         <UserControls:ToolBarItemUC x:Name="ModeMove" Mode="Move" />
-                        <UserControls:ToolBarItemUC x:Name="ModeSave" Mode="Save" />
+                        <UserControls:ToolBarItemUC x:Name="ModeSave" Mode="Save" MouseDown="ModeSave_MouseDown" />
                         <UserControls:ToolBarItemUC x:Name="ModeSearch" Mode="Search" />
                     </StackPanel>
                 </Grid>

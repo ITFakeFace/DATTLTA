@@ -403,7 +403,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             }
         }
 
-        public string? Serialize()
+        public List<string> Serialize()
         {
             List<String> serializeString = new List<String>();
             Serialize(Root!, serializeString);
@@ -418,7 +418,8 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 convertTostring += item + ',';
             }
 
-            return convertTostring;
+            /*return convertTostring;*/
+            return serializeString;
 
         }
         private void Serialize(AVLNode<T>? aVLNode, List<String> serializeString)
@@ -467,5 +468,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         {
             return (T)Convert.ChangeType(obj, typeof(T));
         }
+
+
     }
 }
