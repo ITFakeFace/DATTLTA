@@ -340,19 +340,23 @@ namespace TreeManagementApplication.Model.BinaryTree
             throw new NotImplementedException();
         }
 
-        public List<String> Serialize()
+        public string? Serialize()
         {
             List<String> serializeString = new List<String>();
-            Serialize(this.Root, serializeString);
+            Serialize(Root!, serializeString);
+            if (serializeString[0].CompareTo("#") == 0)
+            {
+                return null;
+            }
+            string convertTostring = string.Empty;
             foreach (var item in serializeString)
             {
-                Console.WriteLine(item.ToString());
+                convertTostring += item + ',';
             }
-
-
-            return serializeString;
+            return convertTostring;
 
         }
+
 
         private void Serialize(BNode<T>? bNode, List<String> serializeString)
         {

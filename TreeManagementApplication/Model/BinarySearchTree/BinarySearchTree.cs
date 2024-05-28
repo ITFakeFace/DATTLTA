@@ -411,7 +411,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 return GetLargestY(Node.GetRNode());
             }
         }
-        public List<String>? Serialize()
+        public string Serialize()
         {
             List<String> serializeString = new List<String>();
             Serialize(Root!, serializeString);
@@ -419,7 +419,12 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             {
                 return null;
             }
-            return serializeString;
+            string convertTostring = string.Empty;
+            foreach (var item in serializeString)
+            {
+                convertTostring += item + ',';
+            }
+            return convertTostring;
 
         }
 
