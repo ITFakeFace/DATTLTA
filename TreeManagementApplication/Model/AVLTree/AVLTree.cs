@@ -403,14 +403,69 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             }
         }
 
-        public List<string> Serialize()
+        public string? Serialize()
         {
-            throw new NotImplementedException();
+            List<String> serializeString = new List<String>();
+            Serialize(Root!, serializeString);
+            if (serializeString[0].CompareTo("#") == 0)
+            {
+                return null;
+            }
+
+            string convertTostring = string.Empty;
+            foreach (var item in serializeString)
+            {
+                convertTostring += item + ',';
+            }
+
+            return convertTostring;
+
+        }
+        private void Serialize(AVLNode<T>? aVLNode, List<String> serializeString)
+        {
+            if (aVLNode == null)
+            {
+                serializeString.Add("#");
+                return;
+            }
+            serializeString.Add(aVLNode.GetValue().ToString());
+            Serialize(aVLNode.LNode, serializeString);
+            Serialize(aVLNode.RNode, serializeString);
         }
 
-        public void Deserialize(Queue<object> readFromFile)
+
+        public void Deserialize(Queue<Object> readFromFile)
         {
-            throw new NotImplementedException();
+            if (this.Root != null)
+            {
+                this.Root = null;
+            }
+            Console.WriteLine(readFromFile.Count);
+            object nodeVal = readFromFile.Dequeue();
+            bool isEquals = nodeVal.ToString()!.Equals(@"#");
+            if (isEquals)
+            {
+                return;
+            }
+            INode<T> Root = new AVLNode<T>(ParseObjecttoT(nodeVal));
+            SetRoot(Root);
+
+            do
+            {
+                nodeVal = readFromFile.Dequeue();
+                if (nodeVal.ToString()!.Equals("#"))
+                {
+                    continue;
+                }
+                InsertNode(ParseObjecttoT(nodeVal));
+            } while (readFromFile.Count > 0);
+
+        }
+
+
+        private T ParseObjecttoT(object obj)
+        {
+            return (T)Convert.ChangeType(obj, typeof(T));
         }
     }
 }
