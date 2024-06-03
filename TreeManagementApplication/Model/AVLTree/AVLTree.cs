@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Xml;
-using System.Xml.Linq;
 using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinarySearchTree
 {
+    [Serializable]
     internal class AVLTree<T> : ITree<T> where T : IComparable<T>
     {
         AVLNode<T> Root;
@@ -403,7 +396,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             }
         }
 
-        public List<string> Serialize()
+        public string Serialize()
         {
             List<String> serializeString = new List<String>();
             Serialize(Root!, serializeString);
@@ -418,8 +411,8 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 convertTostring += item + ',';
             }
 
-            /*return convertTostring;*/
-            return serializeString;
+            return convertTostring;
+            /*return serializeString;*/
 
         }
         private void Serialize(AVLNode<T>? aVLNode, List<String> serializeString)
@@ -441,7 +434,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             {
                 this.Root = null;
             }
-            Console.WriteLine(readFromFile.Count);
             object nodeVal = readFromFile.Dequeue();
             bool isEquals = nodeVal.ToString()!.Equals(@"#");
             if (isEquals)

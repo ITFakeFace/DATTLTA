@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.Interface;
 
@@ -414,17 +413,17 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         public string Serialize()
         {
             List<String> serializeString = new List<String>();
+            string convertToString = String.Empty;
             Serialize(Root!, serializeString);
             if (serializeString[0].CompareTo("#") == 0)
             {
                 return null;
             }
-            string convertTostring = string.Empty;
             foreach (var item in serializeString)
             {
-                convertTostring += item + ',';
+                convertToString += item.ToString() + ",";
             }
-            return convertTostring;
+            return convertToString;
 
         }
 

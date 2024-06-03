@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using TreeManagementApplication.Model.BinarySearchTree;
-using TreeManagementApplication.Model.BinaryTree;
+using TreeManagementApplication.Model.FileHandle;
 using TreeManagementApplication.Model.GUI;
 using TreeManagementApplication.Model.Interface;
 using TreeManagementApplication.Model.TreeStorage;
@@ -31,6 +31,7 @@ namespace TreeManagementApplication
         public static ToolBarMode BeforeMode { get; set; }
         CoordinateCalculator coordinateCalculator;
         public static ITree<int> Tree = new AVLTree<int>();
+        FileHandler fileHandler = new FileHandler();
         int GridSize;
         public MainWindow()
         {
@@ -639,44 +640,12 @@ namespace TreeManagementApplication
 
         private void ModeSave_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            textFileManipulator textFile = new textFileManipulator();
-            List<string> content = Tree.Serialize();
-            textFile.fileWriter(content);
-            /*SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Text files (*.txt)|*.txt";
-            saveFileDialog1.Title = "SaveTree";
-            saveFileDialog1.ShowDialog();
-            string filePath = saveFileDialog1.FileName;
-            Console.WriteLine(filePath);*/
-
-            /* try
-             {
-                 File.WriteAllText(filePath, content);
-                 MessageBox.Show("File has been saved", "Annoucement");
-             }
-             catch (Exception ex)
-             {
-                 MessageBox.Show("When save file" + ex.Message, "Error");
-             }*/
-
-
-            List<String> serialString = Tree.Serialize();
+            string serialString = Tree.Serialize();
             if (serialString != null)
             {
-                textFile.fileWriter(serialString);
-            }
-            else
-            {
-                Console.WriteLine("deo co cay thi luu cai lz ");
-                return;
-            }
-            Tree.SetRoot(null!);
-            RerenderTree();
-            Thread.Sleep(1000);
-            Queue<object> listTreeVal = textFile.fileReader();
+                fileHandler.saveFile(serialString);
 
-            Tree.Deserialize(listTreeVal);
-            RerenderTree();
+            }
         }
 
         /*

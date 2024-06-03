@@ -1,10 +1,8 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ObjectiveC;
-using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinaryTree
 {
+    [Serializable]
     internal class BinaryTree<T> : ITree<T> where T : IComparable<T>
     {
         public BNode<T>? Root { get; set; } = null;
@@ -344,17 +342,16 @@ namespace TreeManagementApplication.Model.BinaryTree
         {
             List<String> serializeString = new List<String>();
             Serialize(Root!, serializeString);
+            string convertToString = String.Empty;
             if (serializeString[0].CompareTo("#") == 0)
             {
                 return null;
             }
-            string convertTostring = string.Empty;
             foreach (var item in serializeString)
             {
-                convertTostring += item + ',';
+                convertToString += item.ToString() + ",";
             }
-            return convertTostring;
-
+            return convertToString;
         }
 
 
