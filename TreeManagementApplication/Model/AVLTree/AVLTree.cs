@@ -1,3 +1,5 @@
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.Interface;
 
@@ -455,10 +457,33 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 
         }
 
-
+#pragma warning disable SYSLIB0011
         private T ParseObjecttoT(object obj)
         {
             return (T)Convert.ChangeType(obj, typeof(T));
+        }
+
+        public byte[] ToByteArray()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            byte[] byteArray;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                formatter.Serialize(ms, Root);
+                byteArray = ms.ToArray();
+                // Use the byteArray as needed
+            }
+            Root = null!;
+            return byteArray;
+        }
+        public void DeSerialBinaryFormatter(byte[] byteArray)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            AVLNode<T> obj;
+            using (MemoryStream ms = new MemoryStream(byteArray))
+            {
+                this.Root = (AVLNode<T>)formatter.Deserialize(ms);
+            }
         }
 
 
