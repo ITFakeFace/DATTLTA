@@ -1,3 +1,5 @@
+using TreeManagementApplication.Model.BinaryTree;
+
 namespace TreeManagementApplication.Model.Interface
 {
     public interface ITree<T> where T : IComparable<T>
@@ -26,5 +28,7 @@ namespace TreeManagementApplication.Model.Interface
         ITree<T> GenerateRandomTree(int Count, int Min, int Max);
         string Serialize();
         void Deserialize(Queue<Object> readFromFile);
+        byte[] ToByteArray();
+        void DeSerialBinaryFormatter(byte[] byteArray);
     }
 }
