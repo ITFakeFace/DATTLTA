@@ -471,5 +471,15 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         {
             return (T)Convert.ChangeType(obj, typeof(T));
         }
+
+        byte[] ITree<T>.ToByteArray()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeSerialBinaryFormatter(byte[] byteArray)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
