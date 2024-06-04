@@ -62,6 +62,11 @@ namespace TreeManagementApplication.Model.FileHandle
         public INode<T> loadBinFile()
         {
             byte[] bytes;
+            if (!File.Exists(this.filePathBin))
+            {
+                File.Create(this.filePathBin);
+                return null!;
+            }
             using (FileStream fileStream = new FileStream(this.filePathBin, FileMode.Open))
             {
                 bytes = new byte[fileStream.Length]; // Initialize the array with the file size
