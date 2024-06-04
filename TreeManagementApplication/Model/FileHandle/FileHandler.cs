@@ -1,16 +1,20 @@
 ﻿using Microsoft.Win32;
 using System.IO;
+using System.IO.Pipes;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.RightsManagement;
 using System.Windows;
 using System.Windows.Documents;
 using TreeManagementApplication.Model.BinarySearchTree;
+using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.FileHandle
 {
     internal class FileHandler<T> where T : IComparable<T>
     {
-        string fileName { get; set; } = String.Empty;
+        string filePathBin { get; set; } = String.Empty;
+        string filePathTxt { get; set; } = String.Empty;
 
         public void saveFile(string content)
         {
@@ -28,7 +32,7 @@ namespace TreeManagementApplication.Model.FileHandle
                         {
                             writer.Write(content);
                         }
-                        this.fileName = fileDialog.FileName;
+                        this.filePathTxt = fileDialog.FileName;
                         return;
                     }
                 }
@@ -38,42 +42,65 @@ namespace TreeManagementApplication.Model.FileHandle
                 MessageBox.Show(ex.Message, "Error");
             }
         }
-        public void saveFile(AVLTree<T> tree)
+
+        public void saveFile(ITree<T> tree)
         {
-            using MemoryStream ms = new MemoryStream();
-            using BinaryWriter writer = new BinaryWriter(ms);
-            byte buffer = Convert.ToByte(tree.GetRoot());
-            SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "Binary files (*.bin)|*.bin";
-            fileDialog.InitialDirectory = Directory.GetCurrentDirectory();
-            fileDialog.ShowDialog();
-            try
+            byte[] bytes = SerializeBinary(tree);
+            string directoryPath = $@"{Directory.GetCurrentDirectory()}\TreeSnapshot";
+            string filePathBin = $@"{directoryPath}\BinaryFormatFile.dat";
+
+            if (!Directory.Exists(directoryPath))
             {
-                if (fileDialog.FileName != "")
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            using (FileStream fileStream = new FileStream(filePathBin, FileMode.OpenOrCreate))
+            {
+                fileStream.Write(bytes, 0, bytes.Length);
+            }
+        }
+        public INode<T> loadFile()
+        {
+            byte[] bytes;
+            using (FileStream fileStream = new FileStream(filePathBin, FileMode.Open))
+            {
+                for (int i = 0; i < fileStream.Length; i++)
                 {
-                    using FileStream fs = (FileStream)fileDialog.OpenFile();
-                    {
-                        writer.Write(buffer);
-                        this.fileName = fileDialog.FileName;
-                        return;
-                    }
+                    bytes[i] = (byte)fileStream.ReadByte();
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error");
-            }
+
+            return DeSerializeBinary(bytes);
+
+
         }
 
-        public void BinaryEncode(string content)
+
+#pragma warning disable SYSLIB0011
+
+        public byte[] SerializeBinary(ITree<T> tree)
         {
-            using MemoryStream ms = new MemoryStream();
-            using BinaryWriter writer = new BinaryWriter(ms);
-            foreach (var item in content)
-            {
-                writer.Write(item);
-            }
+            BinaryFormatter formatter = new BinaryFormatter();
+            byte[] byteArray;
 
+            using (MemoryStream ms = new MemoryStream())
+            {
+                formatter.Serialize(ms, tree.GetRoot()!);
+                byteArray = ms.ToArray();
+            }
+            Console.WriteLine(byteArray);
+            tree.SetRoot(null!);
+            return byteArray;
         }
+
+        public INode<T> DeSerializeBinary(byte[] byteArray)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (MemoryStream ms = new MemoryStream(byteArray))
+            {
+                return (INode<T>)formatter.Deserialize(ms);
+            }
+        }
+
     }
 }

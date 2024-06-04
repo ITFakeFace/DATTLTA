@@ -412,16 +412,5 @@ namespace TreeManagementApplication.Model.BinaryTree
         {
             return (T)Convert.ChangeType(obj, typeof(T));
         }
-
-        public byte[] ToByteArray()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeSerialBinaryFormatter(byte[] byteArray)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
-

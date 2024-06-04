@@ -3,6 +3,8 @@ using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinarySearchTree
 {
+    [Serializable]
+
     internal class BinarySearchTree<T> : ITree<T> where T : IComparable<T>
     {
         public BSNode<T>? Root { get; set; }
@@ -470,16 +472,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         private T ParseObjecttoT(object obj)
         {
             return (T)Convert.ChangeType(obj, typeof(T));
-        }
-
-        byte[] ITree<T>.ToByteArray()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeSerialBinaryFormatter(byte[] byteArray)
-        {
-            throw new NotImplementedException();
         }
     }
 }

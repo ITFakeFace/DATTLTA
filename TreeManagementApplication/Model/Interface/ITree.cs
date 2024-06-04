@@ -28,7 +28,5 @@ namespace TreeManagementApplication.Model.Interface
         ITree<T> GenerateRandomTree(int Count, int Min, int Max);
         string Serialize();
         void Deserialize(Queue<Object> readFromFile);
-        byte[] ToByteArray();
-        void DeSerialBinaryFormatter(byte[] byteArray);
     }
 }

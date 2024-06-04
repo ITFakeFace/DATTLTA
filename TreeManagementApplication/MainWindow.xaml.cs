@@ -12,7 +12,6 @@ using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.FileHandle;
 using TreeManagementApplication.Model.GUI;
 using TreeManagementApplication.Model.Interface;
-using TreeManagementApplication.Model.TreeStorage;
 using TreeManagementApplication.Model.VisualModel;
 using TreeManagementApplication.UserControls;
 
@@ -31,7 +30,7 @@ namespace TreeManagementApplication
         public static ToolBarMode BeforeMode { get; set; }
         CoordinateCalculator coordinateCalculator;
         public static ITree<int> Tree = new AVLTree<int>();
-        FileHandler fileHandler = new FileHandler();
+        FileHandler<int> fileHandler = new FileHandler<int>();
         int GridSize;
         public MainWindow()
         {
@@ -640,12 +639,17 @@ namespace TreeManagementApplication
 
         private void ModeSave_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            string serialString = Tree.Serialize();
+            fileHandler.saveFile(Tree);
+            Tree.SetRoot(fileHandler.loadFile());
+
+            RerenderTree();
+
+            /*string serialString = Tree.Serialize();
             if (serialString != null)
             {
                 fileHandler.saveFile(serialString);
 
-            }
+            }*/
         }
 
         /*
