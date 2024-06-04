@@ -1,12 +1,7 @@
 ﻿using Microsoft.Win32;
 using System.IO;
-using System.IO.Pipes;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.RightsManagement;
 using System.Windows;
-using System.Windows.Documents;
-using TreeManagementApplication.Model.BinarySearchTree;
-using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.FileHandle
@@ -47,7 +42,7 @@ namespace TreeManagementApplication.Model.FileHandle
         {
             byte[] bytes = SerializeBinary(tree);
             string directoryPath = $@"{Directory.GetCurrentDirectory()}\TreeSnapshot";
-            string filePathBin = $@"{directoryPath}\BinaryFormatFile.dat";
+            this.filePathBin = $@"{directoryPath}\BinaryFormatFile.dat";
 
             if (!Directory.Exists(directoryPath))
             {
@@ -59,20 +54,38 @@ namespace TreeManagementApplication.Model.FileHandle
                 fileStream.Write(bytes, 0, bytes.Length);
             }
         }
-        public INode<T> loadFile()
+        public INode<T> loadBinFile()
         {
             byte[] bytes;
             using (FileStream fileStream = new FileStream(filePathBin, FileMode.Open))
             {
-                for (int i = 0; i < fileStream.Length; i++)
-                {
-                    bytes[i] = (byte)fileStream.ReadByte();
-                }
+                bytes = new byte[fileStream.Length]; // Initialize the array with the file size
+                fileStream.Read(bytes, 0, bytes.Length); // Read the entire file into the array
             }
 
             return DeSerializeBinary(bytes);
+        }
 
+        public Queue<object> loadTxtFile()
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            Queue<object> queueLine = new Queue<object>();
+            ofd.ShowDialog();
+            if (ofd.FileName != "")
+            {
+                using (StreamReader reader = new StreamReader(ofd.FileName))
+                {
+                    string line = reader.ReadToEnd();
+                    string[] lineSplit = line.TrimEnd(',').Split(',');
+                    foreach (string item in lineSplit)
+                    {
+                        queueLine.Enqueue(item);
+                    }
+                }
+                return queueLine;
+            }
 
+            throw new NotImplementedException();
         }
 
 

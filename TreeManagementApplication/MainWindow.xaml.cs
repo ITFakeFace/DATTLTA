@@ -639,17 +639,22 @@ namespace TreeManagementApplication
 
         private void ModeSave_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            fileHandler.saveFile(Tree);
-            Tree.SetRoot(fileHandler.loadFile());
+            // binary formatter
 
-            RerenderTree();
+            /*fileHandler.saveFile(Tree);
+            Tree.SetRoot(fileHandler.loadBinFile());
 
-            /*string serialString = Tree.Serialize();
+            RerenderTree();*/
+            //save as file 
+            string serialString = Tree.Serialize();
             if (serialString != null)
             {
                 fileHandler.saveFile(serialString);
 
-            }*/
+            }
+            Tree.Deserialize(fileHandler.loadTxtFile());
+            RerenderTree();
+
         }
 
         /*

@@ -16,7 +16,6 @@ namespace TreeManagementApplication.Model.BinaryTree
 
         public void DeleteTree(INode<T> node)
         {
-            // Giải phóng bộ nhớ của nút hiện tại
             node = null;
         }
 
