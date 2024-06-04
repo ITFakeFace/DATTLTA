@@ -37,6 +37,9 @@ namespace TreeManagementApplication
             InitializeComponent();
             InitializeProperties();
             InitializeEvents();
+            Tree.SetRoot(fileHandler.loadBinFile());
+            RerenderTree();
+
         }
         private void InitializeProperties()
         {
@@ -652,11 +655,18 @@ namespace TreeManagementApplication
                 fileHandler.saveFile(serialString);
 
             }
+
             Tree.Deserialize(fileHandler.loadTxtFile());
+            Tree.SetRoot(null!);
             RerenderTree();
 
         }
-
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            // Your code here
+            fileHandler.saveFile(Tree);
+            base.OnClosing(e);
+        }
         /*
 		private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{

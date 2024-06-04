@@ -8,8 +8,14 @@ namespace TreeManagementApplication.Model.FileHandle
 {
     internal class FileHandler<T> where T : IComparable<T>
     {
-        string filePathBin { get; set; } = String.Empty;
-        string filePathTxt { get; set; } = String.Empty;
+        string folderPathBin { get; }
+        string filePathBin { get; }
+        string filePathTxt = String.Empty;
+        public FileHandler()
+        {
+            this.folderPathBin = $@"{Directory.GetCurrentDirectory()}\TreeSnapshot";
+            this.filePathBin = $@"{folderPathBin}\BinaryFormatFile.dat"; ;
+        }
 
         public void saveFile(string content)
         {
@@ -42,14 +48,13 @@ namespace TreeManagementApplication.Model.FileHandle
         {
             byte[] bytes = SerializeBinary(tree);
             string directoryPath = $@"{Directory.GetCurrentDirectory()}\TreeSnapshot";
-            this.filePathBin = $@"{directoryPath}\BinaryFormatFile.dat";
 
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
             }
 
-            using (FileStream fileStream = new FileStream(filePathBin, FileMode.OpenOrCreate))
+            using (FileStream fileStream = new FileStream(this.filePathBin, FileMode.OpenOrCreate))
             {
                 fileStream.Write(bytes, 0, bytes.Length);
             }
@@ -57,7 +62,7 @@ namespace TreeManagementApplication.Model.FileHandle
         public INode<T> loadBinFile()
         {
             byte[] bytes;
-            using (FileStream fileStream = new FileStream(filePathBin, FileMode.Open))
+            using (FileStream fileStream = new FileStream(this.filePathBin, FileMode.Open))
             {
                 bytes = new byte[fileStream.Length]; // Initialize the array with the file size
                 fileStream.Read(bytes, 0, bytes.Length); // Read the entire file into the array
@@ -84,8 +89,7 @@ namespace TreeManagementApplication.Model.FileHandle
                 }
                 return queueLine;
             }
-
-            throw new NotImplementedException();
+            return null!;
         }
 
 
