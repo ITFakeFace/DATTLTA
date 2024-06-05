@@ -307,12 +307,12 @@ namespace TreeManagementApplication
 
         private void NodeCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            System.Windows.Point mousePosition = e.GetPosition((UIElement)sender);
+            Coordinate coordinate = new Coordinate(mousePosition.X, mousePosition.Y);
+            GridCoordinate gridCoordinate = coordinateCalculator!.GetGridCoordinate(coordinate);
             if (ModeMap[ToolBarMode.Update].isActive)
             {
 
-                System.Windows.Point mousePosition = e.GetPosition((UIElement)sender);
-                Coordinate coordinate = new Coordinate(mousePosition.X, mousePosition.Y);
-                GridCoordinate gridCoordinate = coordinateCalculator!.GetGridCoordinate(coordinate);
                 INode<int>? node = Tree.FindNode(gridCoordinate.X, gridCoordinate.Y);
                 if (node != null)
                 {
@@ -322,6 +322,7 @@ namespace TreeManagementApplication
                 }
 
             }
+
         }
 
         private void AddField_GotFocus(object sender, RoutedEventArgs e)
