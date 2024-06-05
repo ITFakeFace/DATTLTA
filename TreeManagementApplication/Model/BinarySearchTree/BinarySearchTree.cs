@@ -200,8 +200,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 var result = FindParentNode(Root!, node.GetXIndex());
                 BSNode<T> parentNode = (BSNode<T>)result!;
                 DeleteNode(parentNode, node.GetValue()!);
-                parentNode.InsertNode(value);
-                return true;
+                return parentNode.InsertNode(value);
             }
             else
             {
@@ -290,7 +289,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         public INode<T>? FindNode(T Value)
         {
             if (this.GetRoot() == null) { return null; }
-            return this.GetRoot()!.FindChildNode(this.GetRoot()!, Value);
+            return FindChildNode(this.Root, Value);
         }
 
         public INode<T>? FindChildNode(INode<T>? node, T value)
@@ -302,7 +301,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             {
                 return node;
             }
-            else if (isEqual > 0)
+            else if (isEqual < 0)
             {
                 return FindChildNode(node.GetRNode(), value);
             }
