@@ -17,10 +17,10 @@ namespace TreeManagementApplication.Model.BinaryTree
 
 		public BNode(List<T> Values, int Index)
 		{
-			Load(this, Values, Index, 0);
+			Import(this, Values, Index, 0);
 		}
 
-		private void Load(BNode<T> Tree, List<T> Values, int Index, int Level)
+		private void Import(BNode<T> Tree, List<T> Values, int Index, int Level)
 		{
 			if (Index >= Values.Count)
 				return;

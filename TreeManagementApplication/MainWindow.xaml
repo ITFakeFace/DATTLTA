@@ -164,9 +164,12 @@
                         <UserControls:ToolBarItemUC x:Name="ModeCreate" Mode="Create" />
                         <UserControls:ToolBarItemUC x:Name="ModeUpdate" Mode="Update" />
                         <UserControls:ToolBarItemUC x:Name="ModeDelete" Mode="Delete" />
-                        <UserControls:ToolBarItemUC x:Name="ModeMove" Mode="Move" />
-                        <UserControls:ToolBarItemUC x:Name="ModeSave" Mode="Save" />
                         <UserControls:ToolBarItemUC x:Name="ModeSearch" Mode="Search" />
+                        <UserControls:ToolBarItemUC x:Name="ModeTraverse" Mode="Traverse" />
+                        <UserControls:ToolBarItemUC x:Name="ModeMove" Mode="Move" />
+                        <UserControls:ToolBarItemUC x:Name="ModeSave" Mode="Export" />
+                        <UserControls:ToolBarItemUC x:Name="ModeImport" Mode="Import" />
+                        <UserControls:ToolBarItemUC x:Name="ModeChangeTree" Mode="ChangeTreeType" />
                     </StackPanel>
                 </Grid>
                 <!--  End New Navbar  -->
@@ -196,6 +199,7 @@
                     </Canvas>
                 </Border>
             </Grid>
+
         </Grid>
         <Border
             x:Name="ToolBarMenu"
@@ -210,7 +214,7 @@
             ClipToBounds="False"
             CornerRadius="15"
             RenderTransformOrigin="0.844,0.439"
-            Visibility="Hidden">
+            Visibility="Visible">
 
             <Canvas
                 x:Name="ToolBarMenuCanvas"
@@ -255,7 +259,8 @@
                             Height="120"
                             VerticalAlignment="Center"
                             LostFocus="AddMenu_LostFocus"
-                            Orientation="Horizontal">
+                            Orientation="Horizontal"
+                            Visibility="Hidden">
                             <TextBox
                                 x:Name="AddField"
                                 Width="300"
@@ -322,6 +327,7 @@
                                 Background="White"
                                 BorderBrush="Black"
                                 BorderThickness="2"
+                                Click="BtnAdd_Click"
                                 Content="Add"
                                 FontSize="32"
                                 Foreground="Black"
@@ -580,6 +586,27 @@
                                     </Style>
                                 </Button.Resources>
                             </Button>
+                        </StackPanel>
+                        <StackPanel
+                            x:Name="ChangeTypeMenu"
+                            Canvas.Left="50"
+                            Canvas.Top="0"
+                            Width="1300"
+                            Height="120"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            ClipToBounds="True"
+                            Orientation="Horizontal"
+                            Visibility="Visible">
+                            <Viewbox Height="60" Margin="20,0,30,0">
+                                <RadioButton Content="Binary Tree" GroupName="TreeType" />
+                            </Viewbox>
+                            <Viewbox Height="60" Margin="30,0,30,0">
+                                <RadioButton Content="Binary Search Tree" GroupName="TreeType" />
+                            </Viewbox>
+                            <Viewbox Height="60" Margin="30,0,20,0">
+                                <RadioButton Content="AVL Tree" GroupName="TreeType" />
+                            </Viewbox>
                         </StackPanel>
                     </Canvas>
                 </StackPanel>

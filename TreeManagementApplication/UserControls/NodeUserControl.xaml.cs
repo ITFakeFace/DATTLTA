@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using TreeManagementApplication.Model.VisualModel;
 
 namespace TreeManagementApplication.UserControls
 {
@@ -43,24 +44,25 @@ namespace TreeManagementApplication.UserControls
         {
             Node.MouseEnter += OnHover;
             Node.MouseLeave += OnUnHover;
+            Node.MouseDown += OnClick;
         }
 
-		public void OnHover(Object sender, MouseEventArgs e)
-		{
-			NodeShape.Fill = Brushes.Yellow;
-			NodeShape.StrokeThickness = 4;
-			if (CreateNodeUC != null && MainWindow.ModeMap[ToolBarMode.Create].isActive)
-			{
-				Canvas.SetLeft(CreateNodeUC, 0);
-				Canvas.SetTop(CreateNodeUC, NodeShape.Height * 0.5);
-				Canvas.SetZIndex(CreateNodeUC, 9);
-				if (!Node.Children.Contains(CreateNodeUC))
-				{
-					Node.Children.Add(CreateNodeUC);
-				}
-				CreateNodeUC.Visibility = Visibility.Visible;
-			}
-		}
+        public void OnHover(Object sender, MouseEventArgs e)
+        {
+            NodeShape.Fill = Brushes.Yellow;
+            NodeShape.StrokeThickness = 4;
+            if (CreateNodeUC != null && MainWindow.ModeMap[ToolBarMode.Create].isActive)
+            {
+                Canvas.SetLeft(CreateNodeUC, 0);
+                Canvas.SetTop(CreateNodeUC, NodeShape.Height * 0.5);
+                Canvas.SetZIndex(CreateNodeUC, 9);
+                if (!Node.Children.Contains(CreateNodeUC))
+                {
+                    Node.Children.Add(CreateNodeUC);
+                }
+                CreateNodeUC.Visibility = Visibility.Visible;
+            }
+        }
 
         public async void OnUnHover(Object sender, MouseEventArgs e)
         {
@@ -72,6 +74,22 @@ namespace TreeManagementApplication.UserControls
                 //CreateNodeUC.Visibility = Visibility.Hidden;
                 Node.Children.Remove(CreateNodeUC);
             }
+        }
+
+        public void OnClick(Object sender, MouseEventArgs e)
+        {
+            ToolBarMode mode = MainWindow.GetCurrentMode();
+            switch (mode)
+            {
+                case ToolBarMode.Update:
+                    Console.WriteLine("Update");
+                    break;
+                case ToolBarMode.Delete:
+                    Console.WriteLine("Delete");
+                    break;
+            }
+            Console.WriteLine($"{Canvas.GetLeft(this)},{Canvas.GetTop(this)}");
+            Console.WriteLine($"{NodeGUI<int>.Calculator.GetGridCoordinate(Canvas.GetLeft(this), Canvas.GetTop(this))}");
         }
 
         public void SetText(String value)
@@ -114,5 +132,7 @@ namespace TreeManagementApplication.UserControls
             );
             return new Size(formattedText.Width, formattedText.Height);
         }
+
+
     }
 }
