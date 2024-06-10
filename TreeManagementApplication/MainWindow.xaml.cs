@@ -1,3 +1,4 @@
+using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -8,7 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using TreeManagementApplication.Model.BinarySearchTree;
-using TreeManagementApplication.Model.BinaryTree;
+using TreeManagementApplication.Model.FileHandle;
 using TreeManagementApplication.Model.GUI;
 using TreeManagementApplication.Model.Interface;
 using TreeManagementApplication.Model.VisualModel;
@@ -28,13 +29,20 @@ namespace TreeManagementApplication
         public static Dictionary<ToolBarMode, ToolBarItemUC> ModeMap;
         public static ToolBarMode BeforeMode { get; set; }
         CoordinateCalculator coordinateCalculator;
-        public static ITree<int> Tree = new AVLTree<int>();
+        public static ITree<int> Tree = new BinarySearchTree<int>();
+        FileHandler<int> fileHandler = new FileHandler<int>();
         int GridSize;
         public MainWindow()
         {
             InitializeComponent();
             InitializeProperties();
             InitializeEvents();
+            Tree.SetRoot(fileHandler.loadBinFile());
+            if (!(Tree.GetRoot() == null))
+            {
+                RerenderTree();
+            }
+
         }
         private void InitializeProperties()
         {
@@ -46,9 +54,10 @@ namespace TreeManagementApplication
                     { ToolBarMode.Update, ModeUpdate },
                     { ToolBarMode.Delete, ModeDelete },
                     { ToolBarMode.Move, ModeMove },
-                    { ToolBarMode.Export, ModeSave },
-                    { ToolBarMode.Import, ModeImport },
+                    { ToolBarMode.Save, ModeSave },
                     { ToolBarMode.Search, ModeSearch },
+                    //{ ToolBarMode.Load, ModeLoad },
+                    { ToolBarMode.Import, ModeImport },
                     { ToolBarMode.Traverse, ModeTraverse},
                     { ToolBarMode.ChangeTreeType, ModeChangeTree},
                     //{ ToolBarMode.Select, ModeSelect },
@@ -288,42 +297,22 @@ namespace TreeManagementApplication
 
         private void NodeCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
+
+            System.Windows.Point mousePosition = e.GetPosition((UIElement)sender);
+            Coordinate coordinate = new Coordinate(mousePosition.X, mousePosition.Y);
+            GridCoordinate gridCoordinate = coordinateCalculator!.GetGridCoordinate(coordinate);
             if (ModeMap[ToolBarMode.Update].isActive)
             {
 
-                System.Windows.Point mousePosition = e.GetPosition((UIElement)sender);
-                Coordinate coordinate = new Coordinate(mousePosition.X, mousePosition.Y);
-                GridCoordinate gridCoordinate = coordinateCalculator!.GetGridCoordinate(coordinate);
-
-                ChangeNodeWindow changeNodeWindow = new ChangeNodeWindow();
-                Main.Background = new SolidColorBrush(Color.FromRgb(128, 128, 128));
-                changeNodeWindow.ShowDialog();
-                String? changeNodeVal = changeNodeWindow.InpValue;
                 INode<int>? node = Tree.FindNode(gridCoordinate.X, gridCoordinate.Y);
-                if (!(changeNodeVal == null || node == null))
+                if (node != null)
                 {
-                    int nodeNewVal = int.Parse(changeNodeVal.Replace(" ", ""));
-                    Console.WriteLine("Rerender Tree");
-                    Tree.UpdateNode(node, nodeNewVal);
-                    //RerenderTree();
+
+                    BeforeChangeField.Text = node.GetValue().ToString();
+                    AfterChangeField.Focus();
                 }
-            }
-        }
 
-        private void AddField_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (AddField.Text.ToUpper().Equals("INSERT"))
-            {
-                AddField.Text = "";
             }
-            SolidColorBrush brush = new SolidColorBrush();
-            brush.Color = (Color)ColorConverter.ConvertFromString("#00d2ff");
-            AddField.BorderThickness = BtnAdd.BorderThickness = new Thickness(4);
-            AddField.BorderBrush = BtnAdd.BorderBrush = brush;
-        }
-
-        private void AddMenu_LostFocus(object sender, RoutedEventArgs e)
-        {
 
         }
 
@@ -349,6 +338,8 @@ namespace TreeManagementApplication
             AddField.BorderThickness = BtnAdd.BorderThickness = new Thickness(4);
             AddField.BorderBrush = BtnAdd.BorderBrush = brush;
         }
+        private void AddMenu_LostFocus(object sender, RoutedEventArgs e)
+        {
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -653,92 +644,319 @@ namespace TreeManagementApplication
 		}
 		}
 
-		private void CreateNodeBtn_Click_1(object sender, RoutedEventArgs e)
-		{
-		CreateNode(e.Source);
-		}
+        private void BtnGenerate_LostFocus(object sender, RoutedEventArgs e)
+        {
+            BtnGenerate.BorderBrush = Brushes.Black;
+            BtnGenerate.BorderThickness = new Thickness(2);
+        }
 
-		private void RowInp_KeyDown(object sender, KeyEventArgs e)
-		{
+        private void BtnAdd_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush brush = new SolidColorBrush();
+            brush.Color = (Color)ColorConverter.ConvertFromString("#00d2ff");
+            BtnAdd.BorderBrush = brush;
+            BtnAdd.BorderThickness = new Thickness(4);
+        }
 
-		}
+        private void BtnAdd_LostFocus(object sender, RoutedEventArgs e)
+        {
+            BtnAdd.BorderBrush = Brushes.Black;
+            BtnAdd.BorderThickness = new Thickness(2);
+        }
+
+        private void ModeSave_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // binary formatter
+
+            /*fileHandler.saveFile(Tree);
+            Tree.SetRoot(fileHandler.loadBinFile());
+
+            RerenderTree();*/
+            //save as file 
+            string serialString = Tree.Serialize();
+            if (serialString != null)
+            {
+                fileHandler.saveFile(serialString);
+
+            }
+
+            Tree.Deserialize(fileHandler.loadTxtFile());
+            Tree.SetRoot(null!);
+            RerenderTree();
+
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            fileHandler.saveFile(Tree);
+            base.OnClosing(e);
+        }
+
+        #region before changeNodeVal
+        private void BeforeChangeField_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.Key == Key.Enter)
+                {
+                    int inpBeforeChange = int.Parse(BeforeChangeField.Text.ToString());
+                    AfterChangeField.Focus();
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine("Argument Null Exception In AddField");
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine("Input Format Exception In AddField");
+            }
+            catch (OverflowException ex)
+            {
+                Console.WriteLine("Out of limit Exception In AddField");
+            }
 
 
 
 
-		private void ValAddInp_GotFocus(object sender, RoutedEventArgs e)
-		{
-		if (ValAddInp.Text.ToLower().Equals("value"))
-		{
-		ValAddInp.Text = "";
-		}
-		}
 
-		private void RowInp_TextChanged(object sender, TextChangedEventArgs e)
-		{
+        }
 
-		}
+        private INode<int>? FindNode(string inp)
+        {
+            try
+            {
+                inp = BeforeChangeField.Text.Replace(" ", "");
+                int nodeVal = int.Parse(inp);
+                return Tree.FindNode(nodeVal);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex}", "Error");
+                return null;
+            }
+
+        }
+
+        private void BeforeChangeField_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (BeforeChangeField.Text is null || BeforeChangeField.Text == "")
+            {
+                BeforeChangeField.Text = "Before";
+            }
+        }
+        private void BeforeChangeField_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            SolidColorBrush brush = new SolidColorBrush();
+            brush.Color = (Color)ColorConverter.ConvertFromString("#00d2ff");
+            BtnGenerate.BorderBrush = brush;
+            BtnGenerate.BorderThickness = new Thickness(4);
+
+        }
+
+        private void BeforeChangeField_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush brush = new SolidColorBrush();
+            brush.Color = (Color)ColorConverter.ConvertFromString("#00d2ff");
+            BtnGenerate.BorderBrush = brush;
+            BtnGenerate.BorderThickness = new Thickness(4);
+            if (BeforeChangeField.Text.ToLower().Equals("before"))
+            {
+                BeforeChangeField.Text = null;
+            }
+        }
+
+        private void BtnBeforeChange_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        private void BtnBeforeChange_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+            }
+        }
+        #endregion 
+
+        private void ChangeNodeMenu_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnBeforeChange_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush brush = new SolidColorBrush();
+            brush.Color = (Color)ColorConverter.ConvertFromString("#00d2ff");
+            BtnBeforeChange.BorderBrush = brush;
+            BtnBeforeChange.BorderThickness = new Thickness(4);
+
+        }
+
+        #region after change node
+
+        private void AfterChangeField_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (AfterChangeField.Text.ToUpper().Equals("AFTER"))
+            {
+                AfterChangeField.Text = "";
+            }
+            SolidColorBrush brush = new SolidColorBrush();
+            brush.Color = (Color)ColorConverter.ConvertFromString("#00d2ff");
+            AddField.BorderThickness = BtnAdd.BorderThickness = new Thickness(4);
+            AddField.BorderBrush = BtnAdd.BorderBrush = brush;
+        }
+
+        private void AfterChangeField_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AfterChangeField_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+
+        }
+
+        private void AfterChangeField_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+
+                try
+                {
+                    string inpBefore = BeforeChangeField.Text.ToString();
+                    INode<int>? node = FindNode(inpBefore);
+                    if (node != null)
+                    {
+                        int inpAftter = int.Parse(AfterChangeField.Text.ToString());
+                        Tree.UpdateNode(node, inpAftter);
+                        RerenderTree();
+                    }
+
+                }
+                catch (Exception ex) { MessageBox.Show($"{ex}", "Error"); }
+            }
+        }
+
+        #endregion
+
+
+        #region BtnAfter
+        private void BtnAfter_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnAfter_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnBefore_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        #endregion BtnAfter
+
+        /*
+private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+{
+if (SettingMenu.Visibility == Visibility.Visible)
+{
+SettingMenu.Visibility = Visibility.Hidden;
+}
+else if (SettingMenu.Visibility == Visibility.Hidden)
+{
+SettingMenu.Visibility = Visibility.Visible;
+}
+}
+
+private void CreateNodeBtn_Click_1(object sender, RoutedEventArgs e)
+{
+CreateNode(e.Source);
+}
+
+private void RowInp_KeyDown(object sender, KeyEventArgs e)
+{
+
+}
 
 
 
-		private void NodeCountInp_GotFocus(object sender, RoutedEventArgs e)
-		{
-		if (NodeCountInp.Text.ToLower().Equals("node count"))
-		{
-		NodeCountInp.Text = "";
-		}
-		}
 
-		private void NodeCountInp_LostFocus(object sender, RoutedEventArgs e)
-		{
-		if (NodeCountInp.Text.Trim().Length == 0)
-		{
-		NodeCountInp.Text = "Node Count";
-		}
-		}
+private void ValAddInp_GotFocus(object sender, RoutedEventArgs e)
+{
+if (ValAddInp.Text.ToLower().Equals("value"))
+{
+ValAddInp.Text = "";
+}
+}
 
-		private void MinValInp_GotFocus(object sender, RoutedEventArgs e)
-		{
-		if (MinValInp.Text.ToLower().Equals("min"))
-		{
-		MinValInp.Text = "";
-		}
-		}
-		private void MinValInp_LostFocus(object sender, RoutedEventArgs e)
-		{
-		if (MinValInp.Text.Trim().Length == 0)
-		{
-		MinValInp.Text = "Min";
-		}
-		}
+private void RowInp_TextChanged(object sender, TextChangedEventArgs e)
+{
+
+}
 
 
-		private void MaxValInp_GotFocus(object sender, RoutedEventArgs e)
-		{
-		if (MaxValInp.Text.ToLower().Equals("max"))
-		{
-		MaxValInp.Text = "";
-		}
-		}
 
-		private void MaxValInp_LostFocus(object sender, RoutedEventArgs e)
-		{
-		if (MaxValInp.Text.Trim().Length == 0)
-		{
-		MaxValInp.Text = "Max";
-		}
-		}
+private void NodeCountInp_GotFocus(object sender, RoutedEventArgs e)
+{
+if (NodeCountInp.Text.ToLower().Equals("node count"))
+{
+NodeCountInp.Text = "";
+}
+}
 
-		private void NodeCountInp_KeyDown(object sender, KeyEventArgs e)
-		{
-		   e.Handled = !((e.Key >= Key.D0 && e.Key <= Key.D9) || (Keyboard.IsKeyToggled(Key.NumLock) && (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)));
-		   }
+private void NodeCountInp_LostFocus(object sender, RoutedEventArgs e)
+{
+if (NodeCountInp.Text.Trim().Length == 0)
+{
+NodeCountInp.Text = "Node Count";
+}
+}
 
-		   private void TreeGenerateBtn_Click(object sender, RoutedEventArgs e)
-		   {
+private void MinValInp_GotFocus(object sender, RoutedEventArgs e)
+{
+if (MinValInp.Text.ToLower().Equals("min"))
+{
+MinValInp.Text = "";
+}
+}
+private void MinValInp_LostFocus(object sender, RoutedEventArgs e)
+{
+if (MinValInp.Text.Trim().Length == 0)
+{
+MinValInp.Text = "Min";
+}
+}
 
-		   }
-		   */
+
+private void MaxValInp_GotFocus(object sender, RoutedEventArgs e)
+{
+if (MaxValInp.Text.ToLower().Equals("max"))
+{
+MaxValInp.Text = "";
+}
+}
+
+private void MaxValInp_LostFocus(object sender, RoutedEventArgs e)
+{
+if (MaxValInp.Text.Trim().Length == 0)
+{
+MaxValInp.Text = "Max";
+}
+}
+
+private void NodeCountInp_KeyDown(object sender, KeyEventArgs e)
+{
+e.Handled = !((e.Key >= Key.D0 && e.Key <= Key.D9) || (Keyboard.IsKeyToggled(Key.NumLock) && (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)));
+}
+
+private void TreeGenerateBtn_Click(object sender, RoutedEventArgs e)
+{
+
+}
+*/
 
     }
 }

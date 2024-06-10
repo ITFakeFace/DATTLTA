@@ -1,11 +1,11 @@
-using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinaryTree
 {
-	internal class BinaryTree<T> : ITree<T> where T : IComparable<T>
-	{
-		public BNode<T>? Root { get; set; } = null;
+    [Serializable]
+    internal class BinaryTree<T> : ITree<T> where T : IComparable<T>
+    {
+        public BNode<T>? Root { get; set; } = null;
 
 		public List<T>? Values { get; set; } = new List<T>();
 
@@ -14,11 +14,10 @@ namespace TreeManagementApplication.Model.BinaryTree
 			return Root == null;
 		}
 
-		public void DeleteTree(INode<T> node)
-		{
-			// Giải phóng bộ nhớ của nút hiện tại
-			node = null;
-		}
+        public void DeleteTree(INode<T> node)
+        {
+            node = null;
+        }
 
 		public ITree<T> GenerateRandomTree(int Count, int Min, int Max)
 		{
@@ -119,93 +118,16 @@ namespace TreeManagementApplication.Model.BinaryTree
 			Printer.Print(Root);
 		}
 
-		/*
-=======
-		public bool InsertNode(T Value)
-		{
-			return InsertNode(Root, Value);
-		}
-
-		public bool InsertNode(INode<T>? Node, T Value)
-		{
-			if (Node == null)
-			{
-				Root = new BNode<T>(Value);
-				return true;
-			}
-			bool result = false;
-			Queue<INode<T>> queue = new Queue<INode<T>>();
-			queue.Enqueue(Node);
-
-			// Do level order traversal until we find
-			// an empty place.
-			while (queue.Count != 0)
-			{
-				Node = queue.Peek();
-				queue.Dequeue();
-				if (Node.GetLNode() == null)
-				{
-					Node.SetLNode(new BNode<T>(Value));
-					result = true;
-					break;
-				}
-				else
-				{
-					queue.Enqueue(Node.GetLNode()!);
-				}
-
-				if (Node.GetRNode() == null)
-				{
-					Node.SetRNode(new BNode<T>(Value));
-					result = true;
-					break;
-				}
-				else
-				{
-					queue.Enqueue(Node.GetRNode()!);
-				}
-			}
-			return result;
-		}
-
-		public void PrintConsole()
-		{
-			ConsoleBinaryTreePrinter<T> Printer = new ConsoleBinaryTreePrinter<T>();
-			Printer.Print(Root);
-		}
-
-		/*
-		public void PrintConsole2()
-		{
-			PrintNodeToConsole(Root, 2);
-		}
-
-		public void PrintNodeToConsole(BNode<T>? Node, int Space)
-		{
-			if (Node == null)
-				return;
-
-			PrintNodeToConsole(Node.LNode, Space + 1);
-			string BlankSpace = "";
-			for (int i = 0; i < Space * 4; i++)
-			{
-				BlankSpace += " ";
-			}
-			Console.WriteLine(BlankSpace + Node.Value);
-			PrintNodeToConsole(Node.RNode, Space + 1);
-		}
-		*/
-
-		public void PrintLNR(INode<T>? Node)
-		{
-			if (Node == null) { return; }
-			PrintLNR(Node.GetLNode());
-			Console.Write(Node.GetValue()!.ToString() + "  ");
-			PrintLNR(Node.GetRNode());
-		}
-		public void PrintLRN(INode<T>? Node)
-		{
-			if (Node == null) { return; }
+        public void PrintLNR(INode<T>? Node)
+        {
+            if (Node == null) { return; }
+            PrintLNR(Node.GetLNode());
+            Console.Write(Node.GetValue()!.ToString() + "  ");
+            PrintLNR(Node.GetRNode());
+        }
+        public void PrintLRN(INode<T>? Node)
+        {
+            if (Node == null) { return; }
 
 			PrintLNR(Node.GetLNode());
 			PrintLNR(Node.GetRNode());
@@ -348,20 +270,17 @@ namespace TreeManagementApplication.Model.BinaryTree
 			return Root!.FindNode(XIndex, Level);
 		}
 
-		INode<T>? ITree<T>.FindNode(T Value)
-		{
-			throw new NotImplementedException();
-		}
+        INode<T>? ITree<T>.FindNode(T Value)
+        {
+            throw new NotImplementedException();
+        }
 
-		///------------------------------	
-
-
-		public INode<T>? FindParentNode(INode<T> node, int XIndex)
-		{
-			if (node == null)
-			{
-				return node;
-			}
+        public INode<T>? FindParentNode(INode<T> node, int XIndex)
+        {
+            if (node == null)
+            {
+                return node;
+            }
 
 			int isEqual = node.GetXIndex().CompareTo(XIndex);
 
@@ -420,19 +339,79 @@ namespace TreeManagementApplication.Model.BinaryTree
 			throw new NotImplementedException();
 		}
 
-		public INode<T>? FindParentNode(INode<T> node)
-		{
-			throw new NotImplementedException();
-		}
+        public string? Serialize()
+        {
+            List<String> serializeString = new List<String>();
+            Serialize(Root!, serializeString);
+            string convertToString = String.Empty;
+            if (serializeString[0].CompareTo("#") == 0)
+            {
+                return null;
+            }
+            foreach (var item in serializeString)
+            {
+                convertToString += item.ToString() + ",";
+            }
+            return convertToString;
+        }
 
-		public List<string> Serialize()
-		{
-			throw new NotImplementedException();
-		}
-		public int GetLargestY(INode<T> Node)
-		{
-			throw new NotImplementedException();
-		}
-	}
+
+        private void Serialize(BNode<T>? bNode, List<String> serializeString)
+        {
+            if (bNode == null)
+            {
+                serializeString.Add("#");
+                return;
+            }
+            serializeString.Add(bNode.GetValue().ToString());
+            Serialize(bNode.LNode, serializeString);
+            Serialize(bNode.RNode, serializeString);
+        }
+        public int GetLargestY(INode<T> Node)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Deserialize(Queue<Object> readFromFile)
+        {
+            if (this.Root != null)
+            {
+                this.Root = null;
+            }
+            BNode<T> Root = new BNode<T>(ParseObjecttoT(readFromFile.Dequeue()));
+            SetRoot(Root);
+            Deserialize(Root, readFromFile);
+        }
+
+        private void Deserialize(INode<T> node, Queue<object> valueQueue)
+        {
+            if (valueQueue.Count == 0)
+            {
+                return;
+            }
+            object leftNodeVal = valueQueue.Dequeue();
+            if (!leftNodeVal.ToString()!.Equals("#"))
+            {
+                INode<T> leftNode = new BNode<T>(ParseObjecttoT(leftNodeVal));
+                node.SetLNode(leftNode);
+                Deserialize(leftNode, valueQueue);
+            }
+            if (valueQueue.Count == 0)
+            {
+                return;
+            }
+            object rightNodeVal = valueQueue.Dequeue();
+            if (!rightNodeVal.ToString()!.Equals("#"))
+            {
+                INode<T> rightNode = new BNode<T>(ParseObjecttoT(rightNodeVal));
+                node.SetRNode(rightNode);
+                Deserialize(rightNode, valueQueue);
+            }
+        }
+
+        private T ParseObjecttoT(object obj)
+        {
+            return (T)Convert.ChangeType(obj, typeof(T));
+        }
+    }
 }
-

@@ -65,11 +65,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Update="ChangeNodeWindow.xaml">
-	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-	  </Page>
+	  <Compile Update="Program.cs">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Page Update="MainWindow.xaml">
-	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	  <Page Update="UserControls\CreateNodeUC.xaml">
 	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
