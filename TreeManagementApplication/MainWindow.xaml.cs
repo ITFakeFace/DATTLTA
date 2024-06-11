@@ -1,3 +1,4 @@
+using MaterialDesignColors.Recommended;
 using Microsoft.Win32;
 using System;
 using System.ComponentModel;
@@ -31,17 +32,18 @@ namespace TreeManagementApplication
         CoordinateCalculator coordinateCalculator;
         public static ITree<int> Tree = new BinarySearchTree<int>();
         FileHandler<int> fileHandler = new FileHandler<int>();
+        static int SaveAsBinFileMouseCount = 0;
         int GridSize;
         public MainWindow()
         {
             InitializeComponent();
             InitializeProperties();
             InitializeEvents();
-            Tree.SetRoot(fileHandler.loadBinFile());
+            /*Tree.SetRoot(fileHandler.loadBinFile());
             if (!(Tree.GetRoot() == null))
             {
                 RerenderTree();
-            }
+            }*/
 
         }
         private void InitializeProperties()
@@ -243,6 +245,7 @@ namespace TreeManagementApplication
             AddMenu.Visibility = Visibility.Hidden;
             ChangeTypeMenu.Visibility = Visibility.Hidden;
             ChangeNodeMenu.Visibility = Visibility.Hidden;
+            ExportMode.Visibility = Visibility.Hidden;
             int index = -1;
             switch (currentMode)
             {
@@ -267,6 +270,7 @@ namespace TreeManagementApplication
                     index = -1;
                     break;
                 case ToolBarMode.Export:
+                    ExportMode.Visibility = Visibility.Visible;
                     index = 6;
                     break;
                 case ToolBarMode.Import:
@@ -838,14 +842,37 @@ namespace TreeManagementApplication
         }
 
         #endregion
-
-        protected override void OnClosing(CancelEventArgs e)
+        private void SaveAsBinBtn_Click(object sender, RoutedEventArgs e)
         {
-
             fileHandler.saveFile(Tree);
-            base.OnClosing(e);
-
         }
+
+        private void SaveAsTxtBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            fileHandler.saveFile(Tree.Serialize());
+        }
+
+        private void ImportFromBinBtn_Click(object sender, RoutedEventArgs e)
+        {
+            INode<int> node = fileHandler.loadBinFile();
+            if (node != null)
+            {
+                Tree.SetRoot(node);
+                RerenderTree();
+            }
+        }
+
+        private void ImportTxtBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Queue<object> readFromFile = fileHandler.loadTxtFile();
+            if (readFromFile != null)
+            {
+                Tree.Deserialize(readFromFile);
+                RerenderTree();
+            }
+        }
+
+
         /*
 private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 {
