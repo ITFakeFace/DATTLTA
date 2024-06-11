@@ -17,6 +17,7 @@ namespace TreeManagementApplication.Model.FileHandle
             this.filePathBin = $@"{folderPathBin}\BinaryFormatFile.dat"; ;
         }
 
+
         public void saveFile(string content)
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
@@ -46,34 +47,54 @@ namespace TreeManagementApplication.Model.FileHandle
 
         public void saveFile(ITree<T> tree)
         {
-            byte[] bytes = SerializeBinary(tree);
-            string directoryPath = $@"{Directory.GetCurrentDirectory()}\TreeSnapshot";
-
-            if (!Directory.Exists(directoryPath))
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.Filter = "Binary files (*.bin)|*.bin";
+            fileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+            fileDialog.ShowDialog();
+            try
             {
-                Directory.CreateDirectory(directoryPath);
+                if (fileDialog.FileName != "")
+                {
+                    byte[] bytes = SerializeBinary(tree);
+
+                    using (FileStream fileStream = new FileStream(this.filePathBin, FileMode.Open))
+                    {
+                        fileStream.Write(bytes, 0, bytes.Length);
+                    }
+                    return;
+                }
+
             }
-
-            using (FileStream fileStream = new FileStream(this.filePathBin, FileMode.OpenOrCreate))
+            catch (Exception e)
             {
-                fileStream.Write(bytes, 0, bytes.Length);
+                MessageBox.Show(e.Message, "Error");
             }
         }
         public INode<T> loadBinFile()
         {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.ShowDialog();
             byte[] bytes;
-            if (!File.Exists(this.filePathBin))
+            try
             {
-                File.Create(this.filePathBin);
+                if (ofd.FileName != "")
+                {
+                    using (FileStream fileStream = new FileStream(this.filePathBin, FileMode.Open))
+                    {
+                        bytes = new byte[fileStream.Length]; // Initialize the array with the file size
+                        fileStream.Read(bytes, 0, bytes.Length); // Read the entire file into the array
+                    }
+                    return DeSerializeBinary(bytes);
+                }
                 return null!;
             }
-            using (FileStream fileStream = new FileStream(this.filePathBin, FileMode.Open))
+            catch (Exception ex)
             {
-                bytes = new byte[fileStream.Length]; // Initialize the array with the file size
-                fileStream.Read(bytes, 0, bytes.Length); // Read the entire file into the array
+                MessageBox.Show(ex.Message, "ERROR");
+                return null!;
             }
 
-            return DeSerializeBinary(bytes);
+
         }
 
         public Queue<object> loadTxtFile()
@@ -104,15 +125,18 @@ namespace TreeManagementApplication.Model.FileHandle
         {
             BinaryFormatter formatter = new BinaryFormatter();
             byte[] byteArray;
-
-            using (MemoryStream ms = new MemoryStream())
+            if (tree != null)
             {
-                formatter.Serialize(ms, tree.GetRoot()!);
-                byteArray = ms.ToArray();
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    formatter.Serialize(ms, tree.GetRoot()!);
+                    byteArray = ms.ToArray();
+                }
+                Console.WriteLine(byteArray);
+                tree.SetRoot(null!);
+                return byteArray;
             }
-            Console.WriteLine(byteArray);
-            tree.SetRoot(null!);
-            return byteArray;
+            return null!;
         }
 
         public INode<T> DeSerializeBinary(byte[] byteArray)
