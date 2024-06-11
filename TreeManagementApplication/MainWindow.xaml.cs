@@ -54,13 +54,11 @@ namespace TreeManagementApplication
                     { ToolBarMode.Update, ModeUpdate },
                     { ToolBarMode.Delete, ModeDelete },
                     { ToolBarMode.Move, ModeMove },
-                    { ToolBarMode.Save, ModeSave },
-                    { ToolBarMode.Search, ModeSearch },
-                    //{ ToolBarMode.Load, ModeLoad },
+                    { ToolBarMode.Export, ModeSave },
                     { ToolBarMode.Import, ModeImport },
+                    { ToolBarMode.Search, ModeSearch },
                     { ToolBarMode.Traverse, ModeTraverse},
                     { ToolBarMode.ChangeTreeType, ModeChangeTree},
-                    //{ ToolBarMode.Select, ModeSelect },
                     };
         }
         private void InitializeEvents()
@@ -116,6 +114,7 @@ namespace TreeManagementApplication
 			*/
         }
 
+
         void OnKeyUp(object sender, KeyEventArgs e)
         {
             /*
@@ -148,6 +147,7 @@ namespace TreeManagementApplication
                 }
             }
         }
+
 
         void OnMouseWheelEvent(object sender, MouseWheelEventArgs e)
         {
@@ -242,6 +242,7 @@ namespace TreeManagementApplication
             }
             AddMenu.Visibility = Visibility.Hidden;
             ChangeTypeMenu.Visibility = Visibility.Hidden;
+            ChangeNodeMenu.Visibility = Visibility.Hidden;
             int index = -1;
             switch (currentMode)
             {
@@ -250,6 +251,7 @@ namespace TreeManagementApplication
                     AddMenu.Visibility = Visibility.Visible;
                     break;
                 case ToolBarMode.Update:
+                    ChangeNodeMenu.Visibility = Visibility.Visible;
                     index = 1;
                     break;
                 case ToolBarMode.Delete:
@@ -340,6 +342,18 @@ namespace TreeManagementApplication
         }
         private void AddMenu_LostFocus(object sender, RoutedEventArgs e)
         {
+        }
+        private void AddField_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (AddField.Text.ToUpper().Equals("INSERT"))
+            {
+                AddField.Text = "";
+            }
+            SolidColorBrush brush = new SolidColorBrush();
+            brush.Color = (Color)ColorConverter.ConvertFromString("#00d2ff");
+            AddField.BorderThickness = BtnAdd.BorderThickness = new Thickness(4);
+            AddField.BorderBrush = BtnAdd.BorderBrush = brush;
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -631,18 +645,19 @@ namespace TreeManagementApplication
 
         }
 
+
         /*
-		private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-		if (SettingMenu.Visibility == Visibility.Visible)
-		{
-		SettingMenu.Visibility = Visibility.Hidden;
-		}
-		else if (SettingMenu.Visibility == Visibility.Hidden)
-		{
-		SettingMenu.Visibility = Visibility.Visible;
-		}
-		}
+        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+        if (SettingMenu.Visibility == Visibility.Visible)
+        {
+        SettingMenu.Visibility = Visibility.Hidden;
+        }
+        else if (SettingMenu.Visibility == Visibility.Hidden)
+        {
+        SettingMenu.Visibility = Visibility.Visible;
+        }
+        }
 
         private void BtnGenerate_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -663,15 +678,16 @@ namespace TreeManagementApplication
             BtnAdd.BorderBrush = Brushes.Black;
             BtnAdd.BorderThickness = new Thickness(2);
         }
-
+        */
         private void ModeSave_MouseDown(object sender, MouseButtonEventArgs e)
         {
             // binary formatter
 
-            /*fileHandler.saveFile(Tree);
-            Tree.SetRoot(fileHandler.loadBinFile());
-
-            RerenderTree();*/
+            /*
+                fileHandler.saveFile(Tree);
+                Tree.SetRoot(fileHandler.loadBinFile());
+                RerenderTree();
+            */
             //save as file 
             string serialString = Tree.Serialize();
             if (serialString != null)
@@ -685,11 +701,7 @@ namespace TreeManagementApplication
             RerenderTree();
 
         }
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            fileHandler.saveFile(Tree);
-            base.OnClosing(e);
-        }
+
 
         #region before changeNodeVal
         private void BeforeChangeField_KeyDown(object sender, KeyEventArgs e)
@@ -776,7 +788,7 @@ namespace TreeManagementApplication
             {
             }
         }
-        #endregion 
+        #endregion
 
         private void ChangeNodeMenu_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -806,21 +818,10 @@ namespace TreeManagementApplication
             AddField.BorderBrush = BtnAdd.BorderBrush = brush;
         }
 
-        private void AfterChangeField_LostFocus(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void AfterChangeField_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-
-        }
-
         private void AfterChangeField_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-
                 try
                 {
                     string inpBefore = BeforeChangeField.Text.ToString();
@@ -831,7 +832,6 @@ namespace TreeManagementApplication
                         Tree.UpdateNode(node, inpAftter);
                         RerenderTree();
                     }
-
                 }
                 catch (Exception ex) { MessageBox.Show($"{ex}", "Error"); }
             }
@@ -839,25 +839,13 @@ namespace TreeManagementApplication
 
         #endregion
 
-
-        #region BtnAfter
-        private void BtnAfter_GotFocus(object sender, RoutedEventArgs e)
+        protected override void OnClosing(CancelEventArgs e)
         {
 
-        }
-
-        private void BtnAfter_LostFocus(object sender, RoutedEventArgs e)
-        {
+            fileHandler.saveFile(Tree);
+            base.OnClosing(e);
 
         }
-
-        private void BtnBefore_LostFocus(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        #endregion BtnAfter
-
         /*
 private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 {

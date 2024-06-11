@@ -62,18 +62,27 @@ namespace TreeManagementApplication.Model.FileHandle
         public INode<T> loadBinFile()
         {
             byte[] bytes;
-            if (!File.Exists(this.filePathBin))
+            try
             {
-                File.Create(this.filePathBin);
+                if (!File.Exists(this.filePathBin))
+                {
+                    File.Create(this.filePathBin);
+                    return null!;
+                }
+                using (FileStream fileStream = new FileStream(this.filePathBin, FileMode.Open))
+                {
+                    bytes = new byte[fileStream.Length]; // Initialize the array with the file size
+                    fileStream.Read(bytes, 0, bytes.Length); // Read the entire file into the array
+                }
+                return DeSerializeBinary(bytes);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR");
                 return null!;
             }
-            using (FileStream fileStream = new FileStream(this.filePathBin, FileMode.Open))
-            {
-                bytes = new byte[fileStream.Length]; // Initialize the array with the file size
-                fileStream.Read(bytes, 0, bytes.Length); // Read the entire file into the array
-            }
 
-            return DeSerializeBinary(bytes);
+
         }
 
         public Queue<object> loadTxtFile()
@@ -104,15 +113,18 @@ namespace TreeManagementApplication.Model.FileHandle
         {
             BinaryFormatter formatter = new BinaryFormatter();
             byte[] byteArray;
-
-            using (MemoryStream ms = new MemoryStream())
+            if (tree != null)
             {
-                formatter.Serialize(ms, tree.GetRoot()!);
-                byteArray = ms.ToArray();
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    formatter.Serialize(ms, tree.GetRoot()!);
+                    byteArray = ms.ToArray();
+                }
+                Console.WriteLine(byteArray);
+                tree.SetRoot(null!);
+                return byteArray;
             }
-            Console.WriteLine(byteArray);
-            tree.SetRoot(null!);
-            return byteArray;
+            return null!;
         }
 
         public INode<T> DeSerializeBinary(byte[] byteArray)
