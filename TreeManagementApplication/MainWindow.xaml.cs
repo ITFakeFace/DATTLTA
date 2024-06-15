@@ -1,4 +1,5 @@
 using MaterialDesignColors.Recommended;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
 using System.ComponentModel;
@@ -272,6 +273,7 @@ namespace TreeManagementApplication
             ChangeTypeMenu.Visibility = Visibility.Hidden;
             ChangeNodeMenu.Visibility = Visibility.Hidden;
             ExportMode.Visibility = Visibility.Hidden;
+            ImportMode.Visibility = Visibility.Hidden;
             int index = -1;
             switch (currentMode)
             {
@@ -301,6 +303,7 @@ namespace TreeManagementApplication
                     break;
                 case ToolBarMode.Import:
                     index = 7;
+                    ImportMode.Visibility = Visibility.Visible;
                     break;
                 case ToolBarMode.ChangeTreeType:
                     ChangeTypeMenu.Visibility = Visibility.Visible;
@@ -703,24 +706,24 @@ namespace TreeManagementApplication
         */
         private void ModeSave_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            // binary formatter
+            /*// binary formatter
 
-            /*
+            *//*
                 fileHandler.saveFile(Tree);
                 Tree.SetRoot(fileHandler.loadBinFile());
                 RerenderTree();
-            */
+            *//*
             //save as file 
             string serialString = Tree.Serialize();
             if (serialString != null)
             {
-                fileHandler.saveFile(serialString);
-
+                *//*                fileHandler.saveFile(serialString);
+                *//*
             }
 
             Tree.Deserialize(fileHandler.loadTxtFile());
             Tree.SetRoot(null!);
-            RerenderTree();
+            RerenderTree();*/
 
         }
 
@@ -900,32 +903,49 @@ namespace TreeManagementApplication
         #endregion
         private void SaveAsBinBtn_Click(object sender, RoutedEventArgs e)
         {
-            fileHandler.saveFile(Tree);
+
         }
 
         private void SaveAsTxtBtn_Click_1(object sender, RoutedEventArgs e)
         {
-            fileHandler.saveFile(Tree.Serialize());
+            if (Tree.GetRoot() != null)
+            {
+                string? result = fileHandler.saveFile(Tree);
+                if (result != null)
+                {
+                    ReadTxtFileResult.Text = result;
+                    ReadTxtFileResult.Focus();
+                }
+            }
+
+
         }
 
         private void ImportFromBinBtn_Click(object sender, RoutedEventArgs e)
         {
-            INode<int> node = fileHandler.loadBinFile();
-            if (node != null)
-            {
-                Tree.SetRoot(node);
-                RerenderTree();
-            }
+            //INode<int> node = fileHandler.loadBinFile();
+            /* if (node != null)
+             {
+                 Tree.SetRoot(node);
+                 RerenderTree();
+             }*/
         }
 
         private void ImportTxtBtn_Click(object sender, RoutedEventArgs e)
         {
-            Queue<object> readFromFile = fileHandler.loadTxtFile();
+            /*Queue<object> readFromFile = fileHandler.loadTxtFile();
             if (readFromFile != null)
             {
                 Tree.Deserialize(readFromFile);
                 RerenderTree();
-            }
+            }*/
+        }
+
+
+        private void ReadTxtFileResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ReadTxtFileResult.SelectAll();
+
         }
 
 
