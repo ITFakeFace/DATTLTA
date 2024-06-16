@@ -923,13 +923,25 @@ namespace TreeManagementApplication
 
         private void ImportFromBinBtn_Click(object sender, RoutedEventArgs e)
         {
-            //INode<int> node = fileHandler.loadBinFile();
-            /* if (node != null)
-             {
-                 Tree.SetRoot(node);
-                 RerenderTree();
-             }*/
+            (Queue<object>?, INode<int>?) result = fileHandler.loadFile();
+            Queue<object>? queue = result.Item1;
+            INode<int>? node = result.Item2;
+            if (queue is not null)
+            {
+
+            }
+            else if (node is not null)
+            {
+                Tree.SetRoot(result.Item2!);
+                RerenderTree();
+            }
+            else
+            {
+                Console.WriteLine("Error occur when load file");
+            }
         }
+
+
 
         private void ImportTxtBtn_Click(object sender, RoutedEventArgs e)
         {

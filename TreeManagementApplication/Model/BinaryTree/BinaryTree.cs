@@ -339,15 +339,12 @@ namespace TreeManagementApplication.Model.BinaryTree
             throw new NotImplementedException();
         }
 
-        public string? Serialize()
+        public string Serialize()
         {
             List<String> serializeString = new List<String>();
             Serialize(Root!, serializeString);
-            string convertToString = String.Empty;
-            if (serializeString[0].CompareTo("#") == 0)
-            {
-                return null;
-            }
+            string convertToString = "2,";
+
             foreach (var item in serializeString)
             {
                 convertToString += item.ToString() + ",";
