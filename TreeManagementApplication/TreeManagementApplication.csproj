@@ -89,6 +89,9 @@
 	  <Page Update="UserControls\TypeTreeRadioUC.xaml">
 	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 	  </Page>
+	  <Page Update="Windows\BooleanMessageWindow.xaml">
+	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+	  </Page>
 	</ItemGroup>
 
 

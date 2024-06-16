@@ -9,11 +9,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using TreeManagementApplication.Model.BinarySearchTree;
+using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.FileHandle;
 using TreeManagementApplication.Model.GUI;
 using TreeManagementApplication.Model.Interface;
 using TreeManagementApplication.Model.VisualModel;
 using TreeManagementApplication.UserControls;
+using TreeManagementApplication.Windows;
 
 namespace TreeManagementApplication
 {
@@ -32,16 +34,19 @@ namespace TreeManagementApplication
         public static ITree<int> Tree = new BinarySearchTree<int>();
         FileHandler<int> fileHandler = new FileHandler<int>();
         int GridSize;
+        String CurrentTreeType = "Binary Search Tree";
         public MainWindow()
         {
             InitializeComponent();
             InitializeProperties();
             InitializeEvents();
+            /*
             Tree.SetRoot(fileHandler.loadBinFile());
             if (!(Tree.GetRoot() == null))
             {
                 RerenderTree();
             }
+            */
 
         }
         private void InitializeProperties()
@@ -50,18 +55,31 @@ namespace TreeManagementApplication
             coordinateCalculator = new CoordinateCalculator(new Coordinate(1500, 800), GridSize);
             NodeGUI<int>.Calculator = coordinateCalculator;
             ModeMap = new Dictionary<ToolBarMode, ToolBarItemUC> {
-                    { ToolBarMode.Create, ModeCreate },
-                    { ToolBarMode.Update, ModeUpdate },
-                    { ToolBarMode.Delete, ModeDelete },
-                    { ToolBarMode.Move, ModeMove },
-                    { ToolBarMode.Save, ModeSave },
-                    { ToolBarMode.Search, ModeSearch },
-                    //{ ToolBarMode.Load, ModeLoad },
-                    { ToolBarMode.Import, ModeImport },
-                    { ToolBarMode.Traverse, ModeTraverse},
-                    { ToolBarMode.ChangeTreeType, ModeChangeTree},
-                    //{ ToolBarMode.Select, ModeSelect },
-                    };
+                { ToolBarMode.Create, ModeCreate },
+                { ToolBarMode.Update, ModeUpdate },
+                { ToolBarMode.Delete, ModeDelete },
+                { ToolBarMode.Move, ModeMove },
+                { ToolBarMode.Export, ModeSave },
+                { ToolBarMode.Search, ModeSearch },
+                //{ ToolBarMode.Load, ModeLoad },
+                { ToolBarMode.Import, ModeImport },
+                { ToolBarMode.Traverse, ModeTraverse},
+                { ToolBarMode.ChangeTreeType, ModeChangeTree},
+                //{ ToolBarMode.Select, ModeSelect },
+            };
+
+            if (Tree.GetType() == typeof(BinaryTree<int>))
+            {
+                RadioBinaryTree.IsChecked = true;
+            }
+            else if (Tree.GetType() == typeof(BinarySearchTree<int>))
+            {
+                RadioBSTree.IsChecked = true;
+            }
+            else if (Tree.GetType() == typeof(AVLTree<int>))
+            {
+                RadioAVLTree.IsChecked = true;
+            }
         }
         private void InitializeEvents()
         {
@@ -79,6 +97,10 @@ namespace TreeManagementApplication
             canvas.Loaded += InkCanvas_Loaded;
             KeyDown += OnKeyDown;
             KeyUp += OnKeyUp;
+
+            RadioBinaryTree.Checked += OnChangeTreeType;
+            RadioBSTree.Checked += OnChangeTreeType;
+            RadioAVLTree.Checked += OnChangeTreeType;
         }
 
         public static ToolBarMode GetCurrentMode()
@@ -194,6 +216,8 @@ namespace TreeManagementApplication
                 canvas.RenderTransform = new MatrixTransform(matrix);
             }
         }
+        private void AddMenu_LostFocus(object sender, RoutedEventArgs e)
+        { }
 
         private void InkCanvas_Loaded(object sender, RoutedEventArgs e)
         {
@@ -338,8 +362,7 @@ namespace TreeManagementApplication
             AddField.BorderThickness = BtnAdd.BorderThickness = new Thickness(4);
             AddField.BorderBrush = BtnAdd.BorderBrush = brush;
         }
-        private void AddMenu_LostFocus(object sender, RoutedEventArgs e)
-        {
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -429,6 +452,11 @@ namespace TreeManagementApplication
         }
         private void RerenderTree()
         {
+            if (Tree.GetRoot() == null)
+            {
+                NodeCanvas.Children.Clear();
+                return;
+            }
             Tree.GenerateGridIndex();
             NodeCanvas.Width = (Tree.GetLargestX(Tree.GetRoot()!) + 1) * GridSize;
             NodeCanvas.Height = (Tree.GetLargestY(Tree.GetRoot()!) + 1) * GridSize;
@@ -631,63 +659,9 @@ namespace TreeManagementApplication
 
         }
 
-        /*
-		private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-		if (SettingMenu.Visibility == Visibility.Visible)
-		{
-		SettingMenu.Visibility = Visibility.Hidden;
-		}
-		else if (SettingMenu.Visibility == Visibility.Hidden)
-		{
-		SettingMenu.Visibility = Visibility.Visible;
-		}
-		}
-
-        private void BtnGenerate_LostFocus(object sender, RoutedEventArgs e)
-        {
-            BtnGenerate.BorderBrush = Brushes.Black;
-            BtnGenerate.BorderThickness = new Thickness(2);
-        }
-
-        private void BtnAdd_GotFocus(object sender, RoutedEventArgs e)
-        {
-            SolidColorBrush brush = new SolidColorBrush();
-            brush.Color = (Color)ColorConverter.ConvertFromString("#00d2ff");
-            BtnAdd.BorderBrush = brush;
-            BtnAdd.BorderThickness = new Thickness(4);
-        }
-
-        private void BtnAdd_LostFocus(object sender, RoutedEventArgs e)
-        {
-            BtnAdd.BorderBrush = Brushes.Black;
-            BtnAdd.BorderThickness = new Thickness(2);
-        }
-
-        private void ModeSave_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            // binary formatter
-
-            /*fileHandler.saveFile(Tree);
-            Tree.SetRoot(fileHandler.loadBinFile());
-
-            RerenderTree();*/
-            //save as file 
-            string serialString = Tree.Serialize();
-            if (serialString != null)
-            {
-                fileHandler.saveFile(serialString);
-
-            }
-
-            Tree.Deserialize(fileHandler.loadTxtFile());
-            Tree.SetRoot(null!);
-            RerenderTree();
-
-        }
         protected override void OnClosing(CancelEventArgs e)
         {
-            fileHandler.saveFile(Tree);
+            //fileHandler.saveFile(Tree);
             base.OnClosing(e);
         }
 
@@ -714,12 +688,9 @@ namespace TreeManagementApplication
             {
                 Console.WriteLine("Out of limit Exception In AddField");
             }
-
-
-
-
-
         }
+
+
 
         private INode<int>? FindNode(string inp)
         {
@@ -766,6 +737,47 @@ namespace TreeManagementApplication
             }
         }
 
+        private async void OnChangeTreeType(object sender, EventArgs e)
+        {
+            if (RadioBinaryTree.IsChecked ?? false && !CurrentTreeType.ToUpper().Equals("BINARY TREE"))
+            {
+                BooleanMessageWindow check = new BooleanMessageWindow();
+                check.ShowDialog();
+                if (await check.GetValue())
+                {
+                    CurrentTreeType = "Binary Tree";
+                    RadioBinaryTree.IsChecked = true;
+                    Tree = new BinaryTree<int>();
+                    RerenderTree();
+                }
+            }
+            else if (RadioBSTree.IsChecked ?? false && !CurrentTreeType.ToUpper().Equals("BINARY SEARCH TREE"))
+            {
+                BooleanMessageWindow check = new BooleanMessageWindow();
+                check.ShowDialog();
+                if (await check.GetValue())
+                {
+                    CurrentTreeType = "Binary Search Tree";
+                    RadioBSTree.IsChecked = true;
+                    Tree = new BinarySearchTree<int>();
+                    RerenderTree();
+                }
+            }
+            else if (RadioAVLTree.IsChecked ?? false && !CurrentTreeType.ToUpper().Equals("AVL TREE"))
+            {
+                BooleanMessageWindow check = new BooleanMessageWindow();
+                check.ShowDialog();
+                if (await check.GetValue())
+                {
+                    CurrentTreeType = "AVL Tree";
+                    RadioAVLTree.IsChecked = true;
+                    Tree = new AVLTree<int>();
+                    RerenderTree();
+                }
+
+            }
+        }
+
         private void BtnBeforeChange_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
         }
@@ -776,7 +788,7 @@ namespace TreeManagementApplication
             {
             }
         }
-        #endregion 
+        #endregion
 
         private void ChangeNodeMenu_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -857,106 +869,6 @@ namespace TreeManagementApplication
         }
 
         #endregion BtnAfter
-
-        /*
-private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-{
-if (SettingMenu.Visibility == Visibility.Visible)
-{
-SettingMenu.Visibility = Visibility.Hidden;
-}
-else if (SettingMenu.Visibility == Visibility.Hidden)
-{
-SettingMenu.Visibility = Visibility.Visible;
-}
-}
-
-private void CreateNodeBtn_Click_1(object sender, RoutedEventArgs e)
-{
-CreateNode(e.Source);
-}
-
-private void RowInp_KeyDown(object sender, KeyEventArgs e)
-{
-
-}
-
-
-
-
-private void ValAddInp_GotFocus(object sender, RoutedEventArgs e)
-{
-if (ValAddInp.Text.ToLower().Equals("value"))
-{
-ValAddInp.Text = "";
-}
-}
-
-private void RowInp_TextChanged(object sender, TextChangedEventArgs e)
-{
-
-}
-
-
-
-private void NodeCountInp_GotFocus(object sender, RoutedEventArgs e)
-{
-if (NodeCountInp.Text.ToLower().Equals("node count"))
-{
-NodeCountInp.Text = "";
-}
-}
-
-private void NodeCountInp_LostFocus(object sender, RoutedEventArgs e)
-{
-if (NodeCountInp.Text.Trim().Length == 0)
-{
-NodeCountInp.Text = "Node Count";
-}
-}
-
-private void MinValInp_GotFocus(object sender, RoutedEventArgs e)
-{
-if (MinValInp.Text.ToLower().Equals("min"))
-{
-MinValInp.Text = "";
-}
-}
-private void MinValInp_LostFocus(object sender, RoutedEventArgs e)
-{
-if (MinValInp.Text.Trim().Length == 0)
-{
-MinValInp.Text = "Min";
-}
-}
-
-
-private void MaxValInp_GotFocus(object sender, RoutedEventArgs e)
-{
-if (MaxValInp.Text.ToLower().Equals("max"))
-{
-MaxValInp.Text = "";
-}
-}
-
-private void MaxValInp_LostFocus(object sender, RoutedEventArgs e)
-{
-if (MaxValInp.Text.Trim().Length == 0)
-{
-MaxValInp.Text = "Max";
-}
-}
-
-private void NodeCountInp_KeyDown(object sender, KeyEventArgs e)
-{
-e.Handled = !((e.Key >= Key.D0 && e.Key <= Key.D9) || (Keyboard.IsKeyToggled(Key.NumLock) && (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)));
-}
-
-private void TreeGenerateBtn_Click(object sender, RoutedEventArgs e)
-{
-
-}
-*/
 
     }
 }

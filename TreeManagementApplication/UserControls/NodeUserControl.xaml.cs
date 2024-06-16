@@ -13,7 +13,7 @@ namespace TreeManagementApplication.UserControls
 {
     public partial class NodeUserControl : UserControl
     {
-        public CreateNodeUC? CreateNodeUC { get; set; }
+        public CreateNodeUC? CreateNodeUC { get; set; } = new CreateNodeUC();
         public NodeUserControl()
         {
             InitializeComponent();
@@ -45,6 +45,9 @@ namespace TreeManagementApplication.UserControls
             Node.MouseEnter += OnHover;
             Node.MouseLeave += OnUnHover;
             Node.MouseDown += OnClick;
+            CreateNodeUC!.MouseDown += CreateNodeUC_OnClick;
+            CreateNodeUC.HalfLeft.MouseDown += HalfLeft_OnClick;
+            CreateNodeUC.HalfRight.MouseDown += HalfRight_OnClick;
         }
 
         public void OnHover(Object sender, MouseEventArgs e)
@@ -90,6 +93,30 @@ namespace TreeManagementApplication.UserControls
             }
             Console.WriteLine($"{Canvas.GetLeft(this)},{Canvas.GetTop(this)}");
             Console.WriteLine($"{NodeGUI<int>.Calculator.GetGridCoordinate(Canvas.GetLeft(this), Canvas.GetTop(this))}");
+        }
+
+        public void CreateNodeUC_OnClick(object sender, MouseEventArgs e)
+        {
+            Console.WriteLine("CreateUC Event activated");
+            if (sender.Equals(CreateNodeUC!.HalfLeft))
+            {
+
+            }
+            else if (sender.Equals(CreateNodeUC.HalfRight))
+            {
+
+            }
+        }
+        public void HalfLeft_OnClick(object sender, MouseEventArgs e)
+        {
+            Console.WriteLine($"Left: {Canvas.GetLeft(this)},{Canvas.GetTop(this)}");
+            GridCoordinate currentIndex = NodeGUI<int>.Calculator.GetGridCoordinate(Canvas.GetLeft(this), Canvas.GetTop(this));
+        }
+
+        public void HalfRight_OnClick(object sender, MouseEventArgs e)
+        {
+            Console.WriteLine($"Right: {Canvas.GetLeft(this)},{Canvas.GetTop(this)}");
+            GridCoordinate currentIndex = NodeGUI<int>.Calculator.GetGridCoordinate(Canvas.GetLeft(this), Canvas.GetTop(this));
         }
 
         public void SetText(String value)
