@@ -887,7 +887,7 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Top"
                                     Orientation="Horizontal"
-                                    Visibility="Visible">
+                                    Visibility="Hidden">
                             <Button x:Name="SaveAsTxtBtn"
                                     Content="Save as Text file"
                                     Margin="20,30,20,30"
@@ -1029,7 +1029,7 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal"
-                                    Visibility="Hidden">
+                                    Visibility="Visible">
 
                             <Button x:Name="ImportFromBinBtn"
                                     Height="55"
@@ -1037,103 +1037,48 @@
                                     BorderBrush="Black"
                                     Padding="15,0,15,0"
                                     BorderThickness="3"
-                                    Content="Import Binary File"
-                                    Background="White"
                                     FontWeight="DemiBold"
                                     FontSize="32"
                                     Click="ImportFromBinBtn_Click">
                                 <Button.Resources>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Setter Property="CornerRadius"
-                                                Value="20,20,20,20" />
-                                    </Style>
-                                    <Style TargetType="{x:Type TextBox}">
+                                    <Style TargetType="Button">
+                                        <Setter Property="BorderThickness"
+                                                Value="4" />
+                                        <Setter Property="BorderBrush"
+                                                Value="Black" />
                                         <Setter Property="Template">
                                             <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type TextBox}">
-                                                    <Border x:Name="border"
-                                                            Background="{TemplateBinding Background}"
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border BorderThickness="{TemplateBinding BorderThickness}"
                                                             BorderBrush="{TemplateBinding BorderBrush}"
-                                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                                            SnapsToDevicePixels="True">
-                                                        <ScrollViewer x:Name="PART_ContentHost"
-                                                                      Focusable="false"
-                                                                      HorizontalScrollBarVisibility="Hidden"
-                                                                      VerticalScrollBarVisibility="Hidden" />
-                                                    </Border>
-                                                    <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsFocused"
-                                                                 Value="True">
-                                                            <Setter Property="Foreground"
-                                                                    Value="DarkGreen" />
-
-                                                            <Setter TargetName="border"
-                                                                    Property="BorderThickness"
-                                                                    Value="4" />
-                                                        </Trigger>
-                                                        <Trigger Property="IsFocused"
-                                                                 Value="False">
-                                                            <Setter TargetName="border"
-                                                                    Property="BorderBrush"
-                                                                    Value="Black" />
-                                                            <Setter TargetName="border"
-                                                                    Property="BorderThickness"
-                                                                    Value="2" />
-                                                        </Trigger>
-                                                        <Trigger Property="IsMouseCaptured"
-                                                                 Value="True">
-                                                            <Setter Property="Foreground"
-                                                                    Value="#008000"></Setter>
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Button.Resources>
-                            </Button>
-                            <Button x:Name="ImportTxtBtn"
-                                    Content="Import Text File"
-                                    Margin="650,30,20,30"
-                                    Background="White"
-                                    FontWeight="DemiBold"
-                                    BorderBrush="Black"
-                                    FontSize="32"
-                                    Click="ImportTxtBtn_Click">
-                                <Button.Resources>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Setter Property="CornerRadius"
-                                                Value="0,10,10,0" />
-                                    </Style>
-                                    <Style TargetType="{x:Type TextBox}">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type TextBox}">
-                                                    <Border x:Name="border"
                                                             Background="{TemplateBinding Background}"
-                                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                                            SnapsToDevicePixels="True">
-                                                        <ScrollViewer x:Name="PART_ContentHost"
-                                                                      Focusable="false"
-                                                                      HorizontalScrollBarVisibility="Hidden"
-                                                                      VerticalScrollBarVisibility="Hidden" />
+                                                            CornerRadius="20,20,20,20"
+                                                            Width="275">
+                                                        <ContentPresenter HorizontalAlignment="Center"
+                                                                          VerticalAlignment="Center"
+                                                                          Content="Import File" />
                                                     </Border>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsMouseOver"
                                                                  Value="True">
                                                             <Setter Property="Foreground"
-                                                                    Value="#FF0000" />
+                                                                    Value="#FF7F00" />
+                                                            <Setter Property="Background"
+                                                                    Value="#377101" />
                                                         </Trigger>
                                                         <Trigger Property="IsMouseOver"
                                                                  Value="False">
                                                             <Setter Property="Foreground"
-                                                                    Value="#000000" />
+                                                                    Value="#FFBF00" />
+                                                            <Setter Property="Background"
+                                                                    Value="#808836" />
                                                         </Trigger>
                                                         <Trigger Property="IsMouseCaptured"
                                                                  Value="True">
                                                             <Setter Property="Foreground"
-                                                                    Value="#008000"></Setter>
+                                                                    Value="#FF9A00" />
+                                                            <Setter Property="Background"
+                                                                    Value="#6C0345" />
                                                         </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
@@ -1143,6 +1088,7 @@
                                 </Button.Resources>
 
                             </Button>
+
                         </StackPanel>
 
 

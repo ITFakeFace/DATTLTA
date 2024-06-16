@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System.IO;
 using System.IO.Enumeration;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using TreeManagementApplication.Model.Interface;
@@ -12,7 +13,7 @@ namespace TreeManagementApplication.Model.FileHandle
         public string? saveFile(ITree<T> tree)
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "Text files (*.txt)|*.txt|Binary files (*.bin)|*.bin";
+            fileDialog.Filter = "Text files (*.txt)|*.txt||Binary files (*.bin)|*.bin";
             fileDialog.ShowDialog();
             string fileName = fileDialog.FileName;
             string ext = Path.GetExtension(fileName);
@@ -21,9 +22,9 @@ namespace TreeManagementApplication.Model.FileHandle
             {
                 if (fileName != "")
                 {
-                    using FileStream fs = (FileStream)fileDialog.OpenFile();
+                    if (Path.GetExtension(fileName) == ".txt")
                     {
-                        if (Path.GetExtension(fileName) == ".txt")
+                        using FileStream fs = (FileStream)fileDialog.OpenFile();
                         {
                             using (StreamWriter writer = new StreamWriter(fs))
                             {
@@ -32,18 +33,19 @@ namespace TreeManagementApplication.Model.FileHandle
                             }
                             return result;
                         }
-                        else if (Path.GetExtension(fileName) == ".bin" || Path.GetExtension(fileName) == ".dat")
-                        {
-                            byte[] bytes = SerializeBinary(tree);
-
-                            using (FileStream fileStream = new FileStream(fileDialog.FileName, FileMode.Open))
-                            {
-                                fileStream.Write(bytes, 0, bytes.Length);
-                            }
-                        }
-                        return null!;
                     }
+                    else if (Path.GetExtension(fileName) == ".bin" || Path.GetExtension(fileName) == ".dat")
+                    {
+                        byte[] bytes = SerializeBinary(tree);
+
+                        using (FileStream fileStream = new FileStream(fileDialog.FileName, FileMode.Open))
+                        {
+                            fileStream.Write(bytes, 0, bytes.Length);
+                        }
+                    }
+                    return null!;
                 }
+
             }
             catch (Exception ex)
             {
@@ -85,7 +87,10 @@ namespace TreeManagementApplication.Model.FileHandle
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "ERROR");
+                if (ex is SerializationException)
+                {
+                    Console.WriteLine("Error when load file");
+                }
                 return null!;
             }
 

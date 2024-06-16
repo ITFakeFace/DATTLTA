@@ -407,7 +407,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 return null;
             }
 
-            string convertTostring = string.Empty;
+            string convertTostring = "1,";
             foreach (var item in serializeString)
             {
                 convertTostring += item + ',';

@@ -414,12 +414,9 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         public string Serialize()
         {
             List<String> serializeString = new List<String>();
-            string convertToString = String.Empty;
+            string convertToString = "3,";
             Serialize(Root!, serializeString);
-            if (serializeString[0].CompareTo("#") == 0)
-            {
-                return null;
-            }
+
             foreach (var item in serializeString)
             {
                 convertToString += item.ToString() + ",";
