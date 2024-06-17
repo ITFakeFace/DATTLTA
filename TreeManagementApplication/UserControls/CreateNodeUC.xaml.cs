@@ -23,7 +23,6 @@ namespace TreeManagementApplication.UserControls
 
         public bool HasRight { get; set; }
 
-
         public CreateNodeUC()
         {
             InitializeComponent();
@@ -54,17 +53,11 @@ namespace TreeManagementApplication.UserControls
         {
             if (sender.Equals(HalfLeft))
             {
-                Console.WriteLine("Left");
-                Console.WriteLine($"{Canvas.GetLeft(this)},{Canvas.GetTop(this)}");
-                Console.WriteLine($"{NodeGUI<int>.Calculator.GetGridCoordinate(Canvas.GetLeft(this), Canvas.GetTop(this))}");
-                GridCoordinate currentIndex = NodeGUI<int>.Calculator.GetGridCoordinate(Canvas.GetLeft(this), Canvas.GetTop(this));
+
             }
             else if (sender.Equals(HalfRight))
             {
-                Console.WriteLine("Right");
-                Console.WriteLine($"{Canvas.GetLeft(this)},{Canvas.GetTop(this)}");
-                Console.WriteLine($"{NodeGUI<int>.Calculator.GetGridCoordinate(Canvas.GetLeft(this), Canvas.GetTop(this))}");
-                GridCoordinate currentIndex = NodeGUI<int>.Calculator.GetGridCoordinate(Canvas.GetLeft(this), Canvas.GetTop(this));
+
             }
         }
         public void GenerateHalfNode()

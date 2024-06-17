@@ -352,13 +352,19 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 
         public ITree<T> GenerateRandomTree(int Count, int Min, int Max)
         {
-            BinarySearchTree<int> Tree = new BinarySearchTree<int>();
+            AVLTree<int> Tree = new AVLTree<int>();
             HashSet<int> valueList = new HashSet<int>();
             Random rand = new Random();
             while (valueList.Count < Count)
             {
                 valueList.Add(rand.Next(Min, Max));
             }
+            /*
+            foreach (var ele in valueList)
+            {
+                Console.WriteLine(ele + "");
+            }
+            */
             foreach (var ele in valueList)
             {
                 Tree.InsertNode(ele);
