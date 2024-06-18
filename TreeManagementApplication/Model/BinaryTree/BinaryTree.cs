@@ -226,7 +226,11 @@ namespace TreeManagementApplication.Model.BinaryTree
         {
             if (Node.GetRNode() == null)
             {
+<<<<<<< HEAD
                 return 0;
+=======
+                return Node.GetXIndex();
+>>>>>>> c01757761c2990eea1368ab46bd780c1c05367d6
             }
             return GetLargestX(Node.GetRNode()!);
 

@@ -951,6 +951,16 @@ namespace TreeManagementApplication
                 Tree.Deserialize(readFromFile);
                 RerenderTree();
             }*/
+<<<<<<< HEAD
+=======
+        }
+
+
+        private void ReadTxtFileResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ReadTxtFileResult.SelectAll();
+
+>>>>>>> c01757761c2990eea1368ab46bd780c1c05367d6
         }
 
 
