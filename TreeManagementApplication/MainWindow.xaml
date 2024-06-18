@@ -72,24 +72,6 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="200" />
                 </Grid.ColumnDefinitions>
-<<<<<<< HEAD
-                <Border
-                    x:Name="NodeContainerParent"
-                    Grid.Column="1"
-                    BorderBrush="Black"
-                    BorderThickness="2"
-                    ClipToBounds="True">
-                    <Canvas
-                        x:Name="canvas"
-                        Canvas.Left="210"
-                        Canvas.Top="140"
-                        ClipToBounds="False">
-                        <Canvas
-                            x:Name="NodeCanvas"
-                            Canvas.Left="0"
-                            Canvas.Top="0"
-                            MouseLeftButtonDown="NodeCanvas_MouseDown" />
-=======
                 <Border x:Name="NodeContainerParent"
                         Grid.Column="1"
                         BorderBrush="Black"
@@ -103,7 +85,6 @@
                                 Canvas.Left="0"
                                 Canvas.Top="0"
                                 MouseLeftButtonDown="NodeCanvas_MouseDown" />
->>>>>>> c01757761c2990eea1368ab46bd780c1c05367d6
                     </Canvas>
                 </Border>
             </Grid>
@@ -148,38 +129,6 @@
                           Y1="0"
                           Y2="0" />
                 </Canvas>
-<<<<<<< HEAD
-                <StackPanel
-                    x:Name="NavMenyPanel"
-                    Canvas.Left="0"
-                    Canvas.Top="15"
-                    Orientation="Vertical">
-                    <Canvas Width="1400" Height="120">
-                        <StackPanel
-                            x:Name="AddMenu"
-                            Canvas.Left="50"
-                            Canvas.Top="0"
-                            Width="1300"
-                            Height="120"
-                            VerticalAlignment="Center"
-                            LostFocus="AddMenu_LostFocus"
-                            Orientation="Horizontal"
-                            Visibility="Hidden">
-                            <TextBox
-                                x:Name="AddField"
-                                Width="300"
-                                Height="55"
-                                Margin="-1,0,0,0"
-                                Padding="20,0,20,0"
-                                Background="White"
-                                BorderThickness="2"
-                                FontSize="32"
-                                Foreground="Black"
-                                GotKeyboardFocus="AddField_GotKeyboardFocus"
-                                KeyDown="AddField_KeyDown"
-                                LostFocus="AddField_LostFocus"
-                                Text="Insert">
-=======
                 <StackPanel x:Name="NavMenyPanel"
                             Canvas.Left="0"
                             Canvas.Top="15"
@@ -198,18 +147,16 @@
                             <TextBox x:Name="AddField"
                                      Width="300"
                                      Height="55"
-                                     Padding="20,0,20,0"
                                      Margin="-1,0,0,0"
+                                     Padding="20,0,20,0"
                                      Background="White"
                                      BorderThickness="2"
                                      FontSize="32"
                                      Foreground="Black"
-                                     GotFocus="AddField_GotFocus"
                                      GotKeyboardFocus="AddField_GotKeyboardFocus"
                                      KeyDown="AddField_KeyDown"
                                      LostFocus="AddField_LostFocus"
                                      Text="Insert">
->>>>>>> c01757761c2990eea1368ab46bd780c1c05367d6
                                 <TextBox.Resources>
                                     <Style TargetType="{x:Type Border}">
                                         <Setter Property="CornerRadius"
@@ -627,62 +574,6 @@
                                 </Button.Resources>
                             </Button>
                         </StackPanel>
-<<<<<<< HEAD
-                        <StackPanel
-                            x:Name="ChangeTypeMenu"
-                            Canvas.Left="50"
-                            Canvas.Top="0"
-                            Width="1300"
-                            Height="120"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            ClipToBounds="True"
-                            Orientation="Horizontal"
-                            Visibility="Hidden">
-                            <Viewbox Height="60" Margin="20,0,30,0">
-                                <RadioButton
-                                    x:Name="RadioBinaryTree"
-                                    Content="Binary Tree"
-                                    GroupName="TreeType" />
-                            </Viewbox>
-                            <Viewbox Height="60" Margin="30,0,30,0">
-                                <RadioButton
-                                    x:Name="RadioBSTree"
-                                    Content="Binary Search Tree"
-                                    GroupName="TreeType" />
-                            </Viewbox>
-                            <Viewbox Height="60" Margin="30,0,20,0">
-                                <RadioButton
-                                    x:Name="RadioAVLTree"
-                                    Content="AVL Tree"
-                                    GroupName="TreeType" />
-                            </Viewbox>
-                        </StackPanel>
-                        <StackPanel
-                            x:Name="ChangeNodeMenu"
-                            Canvas.Left="50"
-                            Canvas.Top="0"
-                            Width="1300"
-                            Height="120"
-                            VerticalAlignment="Center"
-                            LostFocus="ChangeNodeMenu_LostFocus"
-                            Orientation="Horizontal"
-                            Visibility="Hidden">
-                            <TextBox
-                                x:Name="BeforeChangeField"
-                                Width="300"
-                                Height="55"
-                                Padding="20,0,20,0"
-                                Background="White"
-                                BorderThickness="2"
-                                FontSize="32"
-                                Foreground="Black"
-                                GotFocus="BeforeChangeField_GotFocus"
-                                GotKeyboardFocus="BeforeChangeField_GotKeyboardFocus"
-                                KeyDown="BeforeChangeField_KeyDown"
-                                LostFocus="BeforeChangeField_LostFocus"
-                                Text="Before">
-=======
                         <StackPanel x:Name="ChangeTypeMenu"
                                     Canvas.Left="50"
                                     Canvas.Top="0"
@@ -695,17 +586,20 @@
                                     Visibility="Hidden">
                             <Viewbox Height="60"
                                      Margin="20,0,30,0">
-                                <RadioButton Content="Binary Tree"
+                                <RadioButton x:Name="RadioBinaryTree"
+                                             Content="Binary Tree"
                                              GroupName="TreeType" />
                             </Viewbox>
                             <Viewbox Height="60"
                                      Margin="30,0,30,0">
-                                <RadioButton Content="Binary Search Tree"
+                                <RadioButton x:Name="RadioBSTree"
+                                             Content="Binary Search Tree"
                                              GroupName="TreeType" />
                             </Viewbox>
                             <Viewbox Height="60"
                                      Margin="30,0,20,0">
-                                <RadioButton Content="AVL Tree"
+                                <RadioButton x:Name="RadioAVLTree"
+                                             Content="AVL Tree"
                                              GroupName="TreeType" />
                             </Viewbox>
                         </StackPanel>
@@ -731,29 +625,16 @@
                                      KeyDown="BeforeChangeField_KeyDown"
                                      LostFocus="BeforeChangeField_LostFocus"
                                      Text="Before">
->>>>>>> c01757761c2990eea1368ab46bd780c1c05367d6
                                 <TextBox.Resources>
                                     <Style TargetType="{x:Type Border}">
-                                        <Setter Property="CornerRadius" Value="0,0,0,0" />
+                                        <Setter Property="CornerRadius"
+                                                Value="0,0,0,0" />
                                     </Style>
                                     <Style TargetType="{x:Type TextBox}">
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type TextBox}">
 
-<<<<<<< HEAD
-                                                    <Border
-                                                        x:Name="border"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                        SnapsToDevicePixels="True">
-                                                        <ScrollViewer
-                                                            x:Name="PART_ContentHost"
-                                                            Focusable="false"
-                                                            HorizontalScrollBarVisibility="Hidden"
-                                                            VerticalScrollBarVisibility="Hidden" />
-=======
                                                     <Border x:Name="border"
                                                             Background="{TemplateBinding Background}"
                                                             BorderBrush="{TemplateBinding BorderBrush}"
@@ -763,23 +644,40 @@
                                                                       Focusable="false"
                                                                       HorizontalScrollBarVisibility="Hidden"
                                                                       VerticalScrollBarVisibility="Hidden" />
->>>>>>> c01757761c2990eea1368ab46bd780c1c05367d6
                                                     </Border>
                                                     <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsEnabled" Value="false">
-                                                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                                                        <Trigger Property="IsEnabled"
+                                                                 Value="false">
+                                                            <Setter TargetName="border"
+                                                                    Property="Opacity"
+                                                                    Value="0.56" />
                                                         </Trigger>
-                                                        <Trigger Property="IsFocused" Value="True">
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
-                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        <Trigger Property="IsFocused"
+                                                                 Value="True">
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderBrush"
+                                                                    Value="#00d2ff" />
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderThickness"
+                                                                    Value="4" />
                                                         </Trigger>
-                                                        <Trigger Property="IsFocused" Value="False">
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="Black" />
-                                                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                                                        <Trigger Property="IsFocused"
+                                                                 Value="False">
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderBrush"
+                                                                    Value="Black" />
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderThickness"
+                                                                    Value="2" />
                                                         </Trigger>
-                                                        <DataTrigger Binding="{Binding IsFocused, ElementName=BtnBefore}" Value="True">
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
-                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        <DataTrigger Binding="{Binding IsFocused, ElementName=BtnBefore}"
+                                                                     Value="True">
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderBrush"
+                                                                    Value="#00d2ff" />
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderThickness"
+                                                                    Value="4" />
                                                         </DataTrigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
@@ -788,22 +686,6 @@
                                     </Style>
                                 </TextBox.Resources>
                             </TextBox>
-<<<<<<< HEAD
-                            <Button
-                                x:Name="BtnBeforeChange"
-                                Width="150"
-                                Height="55"
-                                Margin="0,0,200,0"
-                                Background="White"
-                                BorderBrush="Black"
-                                BorderThickness="2"
-                                Content="Add"
-                                FontSize="32"
-                                Foreground="Black"
-                                GotFocus="BtnBeforeChange_GotFocus"
-                                KeyDown="BtnBeforeChange_KeyDown"
-                                MouseLeftButtonDown="BtnBeforeChange_MouseLeftButtonDown">
-=======
                             <Button x:Name="BtnBeforeChange"
                                     Width="150"
                                     Height="55"
@@ -815,34 +697,46 @@
                                     FontSize="32"
                                     Foreground="Black"
                                     GotFocus="BtnBeforeChange_GotFocus"
-                                    MouseLeftButtonDown="BtnBeforeChange_MouseLeftButtonDown"
-                                    KeyDown="BtnBeforeChange_KeyDown">
->>>>>>> c01757761c2990eea1368ab46bd780c1c05367d6
+                                    KeyDown="BtnBeforeChange_KeyDown"
+                                    MouseLeftButtonDown="BtnBeforeChange_MouseLeftButtonDown">
                                 <Button.Resources>
                                     <Style TargetType="{x:Type Border}">
-                                        <Setter Property="CornerRadius" Value="0,10,10,0" />
+                                        <Setter Property="CornerRadius"
+                                                Value="0,10,10,0" />
                                     </Style>
                                     <Style TargetType="TextBox">
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type TextBox}">
-                                                    <Border
-                                                        x:Name="border"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                        SnapsToDevicePixels="True" />
+                                                    <Border x:Name="border"
+                                                            Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                            SnapsToDevicePixels="True" />
                                                     <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsEnabled" Value="false">
-                                                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                                                        <Trigger Property="IsEnabled"
+                                                                 Value="false">
+                                                            <Setter TargetName="border"
+                                                                    Property="Opacity"
+                                                                    Value="0.56" />
                                                         </Trigger>
-                                                        <Trigger Property="IsFocused" Value="True">
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
-                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        <Trigger Property="IsFocused"
+                                                                 Value="True">
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderBrush"
+                                                                    Value="#00d2ff" />
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderThickness"
+                                                                    Value="4" />
                                                         </Trigger>
-                                                        <Trigger Property="IsFocused" Value="False">
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="Black" />
-                                                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                                                        <Trigger Property="IsFocused"
+                                                                 Value="False">
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderBrush"
+                                                                    Value="Black" />
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderThickness"
+                                                                    Value="2" />
                                                         </Trigger>
 
                                                     </ControlTemplate.Triggers>
@@ -852,53 +746,68 @@
                                     </Style>
                                 </Button.Resources>
                             </Button>
-                            <TextBox
-                                x:Name="AfterChangeField"
-                                Width="300"
-                                Height="55"
-                                Padding="20,0,20,0"
-                                Background="White"
-                                BorderThickness="2"
-                                FontSize="32"
-                                Foreground="Black"
-                                GotFocus="AfterChangeField_GotFocus"
-                                KeyDown="AfterChangeField_KeyDown"
-                                Text="After">
+                            <TextBox x:Name="AfterChangeField"
+                                     Width="300"
+                                     Height="55"
+                                     Padding="20,0,20,0"
+                                     Background="White"
+                                     BorderThickness="2"
+                                     FontSize="32"
+                                     Foreground="Black"
+                                     GotFocus="AfterChangeField_GotFocus"
+                                     Text="After">
                                 <TextBox.Resources>
                                     <Style TargetType="{x:Type Border}">
-                                        <Setter Property="CornerRadius" Value="0,0,0,0" />
+                                        <Setter Property="CornerRadius"
+                                                Value="0,0,0,0" />
                                     </Style>
                                     <Style TargetType="{x:Type TextBox}">
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type TextBox}">
-                                                    <Border
-                                                        x:Name="border"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                        SnapsToDevicePixels="True">
-                                                        <ScrollViewer
-                                                            x:Name="PART_ContentHost"
-                                                            Focusable="false"
-                                                            HorizontalScrollBarVisibility="Hidden"
-                                                            VerticalScrollBarVisibility="Hidden" />
+                                                    <Border x:Name="border"
+                                                            Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                            SnapsToDevicePixels="True">
+                                                        <ScrollViewer x:Name="PART_ContentHost"
+                                                                      Focusable="false"
+                                                                      HorizontalScrollBarVisibility="Hidden"
+                                                                      VerticalScrollBarVisibility="Hidden" />
                                                     </Border>
                                                     <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsEnabled" Value="false">
-                                                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                                                        <Trigger Property="IsEnabled"
+                                                                 Value="false">
+                                                            <Setter TargetName="border"
+                                                                    Property="Opacity"
+                                                                    Value="0.56" />
                                                         </Trigger>
-                                                        <Trigger Property="IsFocused" Value="True">
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
-                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        <Trigger Property="IsFocused"
+                                                                 Value="True">
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderBrush"
+                                                                    Value="#00d2ff" />
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderThickness"
+                                                                    Value="4" />
                                                         </Trigger>
-                                                        <Trigger Property="IsFocused" Value="False">
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="Black" />
-                                                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                                                        <Trigger Property="IsFocused"
+                                                                 Value="False">
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderBrush"
+                                                                    Value="Black" />
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderThickness"
+                                                                    Value="2" />
                                                         </Trigger>
-                                                        <DataTrigger Binding="{Binding IsFocused, ElementName=BtnAfter}" Value="True">
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
-                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        <DataTrigger Binding="{Binding IsFocused, ElementName=BtnAfter}"
+                                                                     Value="True">
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderBrush"
+                                                                    Value="#00d2ff" />
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderThickness"
+                                                                    Value="4" />
                                                         </DataTrigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
@@ -907,49 +816,59 @@
                                     </Style>
                                 </TextBox.Resources>
                             </TextBox>
-                            <Button
-                                x:Name="BtnAfter"
-                                Width="150"
-                                Height="55"
-                                Margin="0,0,0,0"
-                                Background="White"
-                                BorderBrush="Black"
-                                BorderThickness="2"
-                                Content="Add"
-                                FontSize="32"
-                                Foreground="Black"
-                                >
+                            <Button x:Name="BtnAfter"
+                                    Width="150"
+                                    Height="55"
+                                    Margin="0,0,0,0"
+                                    Background="White"
+                                    BorderBrush="Black"
+                                    BorderThickness="2"
+                                    Content="Add"
+                                    FontSize="32"
+                                    Foreground="Black">
                                 <Button.Resources>
                                     <Style TargetType="{x:Type Border}">
-                                        <Setter Property="CornerRadius" Value="0,10,10,0" />
+                                        <Setter Property="CornerRadius"
+                                                Value="0,10,10,0" />
                                     </Style>
                                     <Style TargetType="{x:Type TextBox}">
                                         <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type TextBox}">
-                                                    <Border
-                                                        x:Name="border"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                        SnapsToDevicePixels="True">
-                                                        <ScrollViewer
-                                                            x:Name="PART_ContentHost"
-                                                            Focusable="false"
-                                                            HorizontalScrollBarVisibility="Hidden"
-                                                            VerticalScrollBarVisibility="Hidden" />
+                                                    <Border x:Name="border"
+                                                            Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                            SnapsToDevicePixels="True">
+                                                        <ScrollViewer x:Name="PART_ContentHost"
+                                                                      Focusable="false"
+                                                                      HorizontalScrollBarVisibility="Hidden"
+                                                                      VerticalScrollBarVisibility="Hidden" />
                                                     </Border>
                                                     <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsEnabled" Value="false">
-                                                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                                                        <Trigger Property="IsEnabled"
+                                                                 Value="false">
+                                                            <Setter TargetName="border"
+                                                                    Property="Opacity"
+                                                                    Value="0.56" />
                                                         </Trigger>
-                                                        <Trigger Property="IsFocused" Value="True">
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="#00d2ff" />
-                                                            <Setter TargetName="border" Property="BorderThickness" Value="4" />
+                                                        <Trigger Property="IsFocused"
+                                                                 Value="True">
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderBrush"
+                                                                    Value="#00d2ff" />
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderThickness"
+                                                                    Value="4" />
                                                         </Trigger>
-                                                        <Trigger Property="IsFocused" Value="False">
-                                                            <Setter TargetName="border" Property="BorderBrush" Value="Black" />
-                                                            <Setter TargetName="border" Property="BorderThickness" Value="2" />
+                                                        <Trigger Property="IsFocused"
+                                                                 Value="False">
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderBrush"
+                                                                    Value="Black" />
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderThickness"
+                                                                    Value="2" />
                                                         </Trigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
@@ -958,7 +877,6 @@
                                     </Style>
                                 </Button.Resources>
                             </Button>
-
                         </StackPanel>
                         <StackPanel x:Name="ExportMode"
                                     Canvas.Left="50"
@@ -1025,8 +943,6 @@
                                     </Style>
                                 </Button.Resources>
                             </Button>
-
-
                             <StackPanel Orientation="Horizontal"
                                         Margin="300,0,0,0"
                                         Width="640">
@@ -1050,8 +966,7 @@
                                          FontSize="32"
                                          Foreground="Black"
                                          Text="TextFile Result"
-                                         MouseDoubleClick="ReadFileResult_MouseDoubleClick"
-                                         >
+                                         MouseDoubleClick="ReadFileResult_MouseDoubleClick">
                                     <TextBox.Resources>
                                         <Style TargetType="{x:Type Border}">
                                             <Setter Property="CornerRadius"
@@ -1080,7 +995,7 @@
                                                                 <Setter TargetName="border"
                                                                         Property="BorderThickness"
                                                                         Value="5" />
-                                                              
+
                                                             </Trigger>
                                                             <Trigger Property="IsFocused"
                                                                      Value="False">
@@ -1099,7 +1014,6 @@
                                     </TextBox.Resources>
                                 </TextBox>
                             </StackPanel>
-
                         </StackPanel>
 
                         <StackPanel x:Name="ImportMode"
@@ -1110,7 +1024,7 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal"
-                                    Visibility="Visible">
+                                    Visibility="Hidden">
 
                             <Button x:Name="ImportFileBtn"
                                     Height="55"
@@ -1229,7 +1143,6 @@
                             </TextBox>
 
                         </StackPanel>
-
 
                     </Canvas>
 

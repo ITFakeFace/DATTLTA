@@ -1,4 +1,4 @@
-﻿using MaterialDesignColors.Recommended;
+using MaterialDesignColors.Recommended;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
@@ -976,9 +976,11 @@ namespace TreeManagementApplication
                 RadioBSTree.IsChecked = true;
             }
             int _status = Tree.Deserialize(queue);
-            if (_status == 200)
+            _status = 201;
+            if (_status == 201)
             {
                 ErrorWindow error = new ErrorWindow("Error has occurred when import Tree");
+                error.Show();
                 RerenderTree();
             }
         }
@@ -991,16 +993,7 @@ namespace TreeManagementApplication
                 Tree.Deserialize(readFromFile);
                 RerenderTree();
             }*/
-<<<<<<< HEAD
-=======
-        }
 
-
-        private void ReadTxtFileResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ReadTxtFileResult.SelectAll();
-
->>>>>>> c01757761c2990eea1368ab46bd780c1c05367d6
         }
 
 
