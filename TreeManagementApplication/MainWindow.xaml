@@ -802,7 +802,6 @@
                                 Foreground="Black"
                                 GotFocus="BtnBeforeChange_GotFocus"
                                 KeyDown="BtnBeforeChange_KeyDown"
-                                LostFocus="BtnBefore_LostFocus"
                                 MouseLeftButtonDown="BtnBeforeChange_MouseLeftButtonDown">
 =======
                             <Button x:Name="BtnBeforeChange"
@@ -863,9 +862,7 @@
                                 FontSize="32"
                                 Foreground="Black"
                                 GotFocus="AfterChangeField_GotFocus"
-                                GotKeyboardFocus="AfterChangeField_GotKeyboardFocus"
                                 KeyDown="AfterChangeField_KeyDown"
-                                LostFocus="AfterChangeField_LostFocus"
                                 Text="After">
                                 <TextBox.Resources>
                                     <Style TargetType="{x:Type Border}">
@@ -921,8 +918,7 @@
                                 Content="Add"
                                 FontSize="32"
                                 Foreground="Black"
-                                GotFocus="BtnAfter_GotFocus"
-                                LostFocus="BtnAfter_LostFocus">
+                                >
                                 <Button.Resources>
                                     <Style TargetType="{x:Type Border}">
                                         <Setter Property="CornerRadius" Value="0,10,10,0" />
@@ -1043,7 +1039,7 @@
                                             Width="115"
                                             Height="49">
                                 </TextBlock>
-                                <TextBox x:Name="ReadTxtFileResult"
+                                <TextBox x:Name="ReadFileResult"
                                          IsReadOnly="True"
                                          ToolTip="You Can Not change Text File Result here  "
                                          Width="503"
@@ -1054,7 +1050,7 @@
                                          FontSize="32"
                                          Foreground="Black"
                                          Text="TextFile Result"
-                                         MouseDoubleClick="ReadTxtFileResult_MouseDoubleClick"
+                                         MouseDoubleClick="ReadFileResult_MouseDoubleClick"
                                          >
                                     <TextBox.Resources>
                                         <Style TargetType="{x:Type Border}">
@@ -1116,7 +1112,7 @@
                                     Orientation="Horizontal"
                                     Visibility="Visible">
 
-                            <Button x:Name="ImportFromBinBtn"
+                            <Button x:Name="ImportFileBtn"
                                     Height="55"
                                     Margin="0,0,0,0"
                                     BorderBrush="Black"
@@ -1124,7 +1120,7 @@
                                     BorderThickness="3"
                                     FontWeight="DemiBold"
                                     FontSize="32"
-                                    Click="ImportFromBinBtn_Click">
+                                    Click="ImportFileBtn_Click">
                                 <Button.Resources>
                                     <Style TargetType="Button">
                                         <Setter Property="BorderThickness"
@@ -1173,6 +1169,64 @@
                                 </Button.Resources>
 
                             </Button>
+                            <TextBox x:Name="ImportByText"
+                                     Width="503"
+                                     Height="56"
+                                     Padding="20,0,20,0"
+                                     Margin="400,0,0,0"
+                                     Background="White"
+                                     BorderThickness="2"
+                                     FontSize="32"
+                                     Foreground="Black"
+                                     Text="TextFile Import"
+                                     GotFocus="ImportByText_GotFocus"
+                                     KeyDown="ImportByText_KeyDown">
+                                <TextBox.Resources>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="CornerRadius"
+                                                Value="10,10,10,10" />
+                                    </Style>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                                    <Border x:Name="border"
+                                                            Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                            SnapsToDevicePixels="True">
+                                                        <ScrollViewer x:Name="PART_ContentHost"
+                                                                      Focusable="false"
+                                                                      HorizontalScrollBarVisibility="Hidden"
+                                                                      VerticalScrollBarVisibility="Hidden" />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsFocused"
+                                                                 Value="True">
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderBrush"
+                                                                    Value="Purple" />
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderThickness"
+                                                                    Value="5" />
+
+                                                        </Trigger>
+                                                        <Trigger Property="IsFocused"
+                                                                 Value="False">
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderBrush"
+                                                                    Value="Black" />
+                                                            <Setter TargetName="border"
+                                                                    Property="BorderThickness"
+                                                                    Value="3" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
 
                         </StackPanel>
 

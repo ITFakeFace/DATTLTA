@@ -396,15 +396,25 @@ namespace TreeManagementApplication.Model.BinaryTree
             }
         }
 
-        public void Deserialize(Queue<Object> readFromFile)
+        public int Deserialize(Queue<Object> readFromFile)
         {
-            if (this.Root != null)
+            int _status = 200;
+            try
             {
-                this.Root = null;
+                if (this.Root != null)
+                {
+                    this.Root = null;
+                }
+                BNode<T> Root = new BNode<T>(ParseObjecttoT(readFromFile.Dequeue()));
+                SetRoot(Root);
+                Deserialize(Root, readFromFile);
             }
-            BNode<T> Root = new BNode<T>(ParseObjecttoT(readFromFile.Dequeue()));
-            SetRoot(Root);
-            Deserialize(Root, readFromFile);
+            catch
+            {
+                _status = 201;
+
+            }
+            return _status;
         }
 
         private void Deserialize(INode<T> node, Queue<object> valueQueue)
@@ -436,6 +446,11 @@ namespace TreeManagementApplication.Model.BinaryTree
         private T ParseObjecttoT(object obj)
         {
             return (T)Convert.ChangeType(obj, typeof(T));
+        }
+
+        public string nodeTypetoString()
+        {
+            return "BNode";
         }
     }
 }

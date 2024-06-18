@@ -1,4 +1,4 @@
-using MaterialDesignColors.Recommended;
+﻿using MaterialDesignColors.Recommended;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
@@ -64,11 +64,9 @@ namespace TreeManagementApplication
                 { ToolBarMode.Move, ModeMove },
                 { ToolBarMode.Export, ModeSave },
                 { ToolBarMode.Search, ModeSearch },
-                //{ ToolBarMode.Load, ModeLoad },
                 { ToolBarMode.Import, ModeImport },
                 { ToolBarMode.Traverse, ModeTraverse},
                 { ToolBarMode.ChangeTreeType, ModeChangeTree},
-                //{ ToolBarMode.Select, ModeSelect },
             };
 
             if (Tree.GetType() == typeof(BinaryTree<int>))
@@ -704,30 +702,6 @@ namespace TreeManagementApplication
             BtnAdd.BorderThickness = new Thickness(2);
         }
         */
-        private void ModeSave_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            /*// binary formatter
-
-            *//*
-                fileHandler.saveFile(Tree);
-                Tree.SetRoot(fileHandler.loadBinFile());
-                RerenderTree();
-            *//*
-            //save as file 
-            string serialString = Tree.Serialize();
-            if (serialString != null)
-            {
-                *//*                fileHandler.saveFile(serialString);
-                *//*
-            }
-
-            Tree.Deserialize(fileHandler.loadTxtFile());
-            Tree.SetRoot(null!);
-            RerenderTree();*/
-
-        }
-
-
         #region before changeNodeVal
         private void BeforeChangeField_KeyDown(object sender, KeyEventArgs e)
         {
@@ -913,35 +887,101 @@ namespace TreeManagementApplication
                 string? result = fileHandler.saveFile(Tree);
                 if (result != null)
                 {
-                    ReadTxtFileResult.Text = result;
-                    ReadTxtFileResult.Focus();
+                    ReadFileResult.Text = result;
+                    ReadFileResult.Focus();
                 }
             }
 
 
         }
 
-        private void ImportFromBinBtn_Click(object sender, RoutedEventArgs e)
+        private void ImportFileBtn_Click(object sender, RoutedEventArgs e)
         {
             (Queue<object>?, INode<int>?) result = fileHandler.loadFile();
             Queue<object>? queue = result.Item1;
             INode<int>? node = result.Item2;
             if (queue is not null)
             {
-
+                ImportTree(queue);
             }
             else if (node is not null)
             {
-                Tree.SetRoot(result.Item2!);
+                /* ví dụ node là node của Binary Tree
+                   node.GetType().Name = "BSNode`1"
+                 */
+                string nodeImportType = node.GetType().Name.Split('`')[0].ToUpper();
+                if (!Tree.nodeTypetoString().Equals(nodeImportType))
+                {
+                    if (nodeImportType == "BNODE")
+                    {
+                        Tree = new BinaryTree<int>();
+                        CurrentTreeType = "Binary Tree";
+                        RadioBinaryTree.IsChecked = true;
+                    }
+                    else if (nodeImportType == "BSNODE")
+                    {
+                        Tree = new BinarySearchTree<int>();
+                        CurrentTreeType = "Binary Search Tree";
+                        RadioBSTree.IsChecked = true;
+                    }
+                    else
+                    {
+                        Tree = new AVLTree<int>();
+                        CurrentTreeType = "AVL Tree";
+                        RadioAVLTree.IsChecked = true;
+                    }
+                }
+                Tree.SetRoot(node);
                 RerenderTree();
+                return;
             }
             else
             {
-                Console.WriteLine("Error occur when load file");
+
+                return;
             }
+
         }
 
+        private void ImportTree(Queue<object>? queue)
+        {
 
+            /* đọc phần tử đầu tiên của hàng đợi:
+            1: AVL
+            2:BinaryTree
+            3:BinarySearchTree
+
+            Tree.nodeTypetoString() trả về giá trị  AVLNode tương ứng với cây   AVLTree
+                                                    BNode                       BTree
+                                                    BSNode                      BNode
+             */
+
+            if (queue.Dequeue().ToString().Equals("1") && !Tree.nodeTypetoString().Equals("AVLNODE"))
+            {
+                Tree = new AVLTree<int>();
+                CurrentTreeType = "AVL Tree";
+                RadioAVLTree.IsChecked = true;
+
+            }
+            else if (queue.Dequeue().ToString().Equals("2") && !CurrentTreeType.ToUpper().Equals("BNODE"))
+            {
+                Tree = new BinaryTree<int>();
+                CurrentTreeType = "Binary Tree";
+                RadioBinaryTree.IsChecked = true;
+            }
+            else if (queue.Dequeue().ToString().Equals("3") && !CurrentTreeType.ToUpper().Equals("BSNODE"))
+            {
+                Tree = new BinarySearchTree<int>();
+                CurrentTreeType = "Binary Search Tree";
+                RadioBSTree.IsChecked = true;
+            }
+            int _status = Tree.Deserialize(queue);
+            if (_status == 200)
+            {
+                ErrorWindow error = new ErrorWindow("Error has occurred when import Tree");
+                RerenderTree();
+            }
+        }
 
         private void ImportTxtBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -964,12 +1004,38 @@ namespace TreeManagementApplication
         }
 
 
-        private void ReadTxtFileResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void ReadFileResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ReadTxtFileResult.SelectAll();
+            ReadFileResult.SelectAll();
 
         }
 
 
+
+        private void ImportByText_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && ModeMap[ToolBarMode.Import].isActive)
+            {
+                if (!(ImportByText.Text == ""))
+                {
+                    Queue<object> queue = new Queue<object>();
+                    string[] strings = ImportByText.Text.ToString().TrimEnd(',').Split(',');
+                    foreach (var item in strings)
+                    {
+                        queue.Enqueue(item);
+                    }
+                    ImportTree(queue);
+                    RerenderTree();
+                }
+            }
+        }
+
+        private void ImportByText_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (ImportByText.Text.ToUpper().Equals("TextFile Import"))
+            {
+                ImportByText.Text = "";
+            }
+        }
     }
 }

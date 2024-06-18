@@ -435,37 +435,50 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             Serialize(aVLNode.RNode, serializeString);
         }
 
-
-        public void Deserialize(Queue<Object> readFromFile)
+        public int Deserialize(Queue<Object> readFromFile)
         {
-            if (this.Root != null)
+            int _status = 200;
+            try
             {
-                this.Root = null;
-            }
-            object nodeVal = readFromFile.Dequeue();
-            bool isEquals = nodeVal.ToString()!.Equals(@"#");
-            if (isEquals)
-            {
-                return;
-            }
-            INode<T> Root = new AVLNode<T>(ParseObjecttoT(nodeVal));
-            SetRoot(Root);
-
-            do
-            {
-                nodeVal = readFromFile.Dequeue();
-                if (nodeVal.ToString()!.Equals("#"))
+                if (this.Root != null)
                 {
-                    continue;
+                    this.Root = null;
                 }
-                InsertNode(ParseObjecttoT(nodeVal));
-            } while (readFromFile.Count > 0);
+                object nodeVal = readFromFile.Dequeue();
+                bool isEquals = nodeVal.ToString()!.Equals(@"#");
+                if (isEquals)
+                {
+                    _status = 201;
+                    return _status;
+                }
+                INode<T> Root = new AVLNode<T>(ParseObjecttoT(nodeVal));
+                SetRoot(Root);
 
+                do
+                {
+                    nodeVal = readFromFile.Dequeue();
+                    if (nodeVal.ToString()!.Equals("#"))
+                    {
+                        continue;
+                    }
+                    InsertNode(ParseObjecttoT(nodeVal));
+                } while (readFromFile.Count > 0);
+            }
+            catch
+            {
+                _status = 201;
+            }
+            return _status;
         }
 
         private T ParseObjecttoT(object obj)
         {
             return (T)Convert.ChangeType(obj, typeof(T));
+        }
+
+        public string nodeTypetoString()
+        {
+            return "AVLNode";
         }
     }
 }

@@ -13,7 +13,7 @@ namespace TreeManagementApplication.Model.FileHandle
         public string? saveFile(ITree<T> tree)
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "Text files (*.txt)|*.txt||Binary files (*.bin)|*.bin";
+            fileDialog.Filter = "Text files (*.txt)|*.txt|Binary files (*.bin)|*.bin";
             fileDialog.ShowDialog();
             string fileName = fileDialog.FileName;
             string ext = Path.GetExtension(fileName);
@@ -38,7 +38,7 @@ namespace TreeManagementApplication.Model.FileHandle
                     {
                         byte[] bytes = SerializeBinary(tree);
 
-                        using (FileStream fileStream = new FileStream(fileDialog.FileName, FileMode.Open))
+                        using (FileStream fileStream = new FileStream(fileDialog.FileName, FileMode.OpenOrCreate))
                         {
                             fileStream.Write(bytes, 0, bytes.Length);
                         }

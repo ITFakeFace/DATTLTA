@@ -437,37 +437,53 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             Serialize(bSNode.RNode, serializeString);
         }
 
-        public void Deserialize(Queue<Object> readFromFile)
+        public int Deserialize(Queue<Object> readFromFile)
         {
-            if (this.Root != null)
+            int _status = 200;
+            try
             {
-                this.Root = null;
-            }
-            Console.WriteLine(readFromFile.Count);
-            object nodeVal = readFromFile.Dequeue();
-            bool isEquals = nodeVal.ToString()!.Equals(@"#");
-            if (isEquals)
-            {
-                return;
-            }
-            BSNode<T> Root = new BSNode<T>(ParseObjecttoT(nodeVal));
-            SetRoot(Root);
-
-            do
-            {
-                nodeVal = readFromFile.Dequeue();
-                if (nodeVal.ToString()!.Equals("#"))
+                if (this.Root != null)
                 {
-                    continue;
+                    this.Root = null;
                 }
-                Root!.InsertNode(ParseObjecttoT(nodeVal));
-            } while (readFromFile.Count > 0);
+                Console.WriteLine(readFromFile.Count);
+                object nodeVal = readFromFile.Dequeue();
+                bool isEquals = nodeVal.ToString()!.Equals(@"#");
+                if (isEquals)
+                {
+                    _status = 201;
+                    return _status;
+                }
+                BSNode<T> Root = new BSNode<T>(ParseObjecttoT(nodeVal));
+                SetRoot(Root);
 
+                do
+                {
+                    nodeVal = readFromFile.Dequeue();
+                    if (nodeVal.ToString()!.Equals("#"))
+                    {
+                        continue;
+                    }
+                    Root!.InsertNode(ParseObjecttoT(nodeVal));
+                } while (readFromFile.Count > 0);
+            }
+            catch
+            {
+                _status = 201;
+            }
+            return _status;
         }
 
         private T ParseObjecttoT(object obj)
         {
             return (T)Convert.ChangeType(obj, typeof(T));
         }
+
+        public string nodeTypetoString()
+        {
+            return "BSNode";
+        }
+
+
     }
 }
