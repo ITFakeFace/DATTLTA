@@ -976,26 +976,13 @@ namespace TreeManagementApplication
                 RadioBSTree.IsChecked = true;
             }
             int _status = Tree.Deserialize(queue);
-            _status = 201;
             if (_status == 201)
             {
-                ErrorWindow error = new ErrorWindow("Error has occurred when import Tree");
+                ErrorWindow error = new ErrorWindow("Error has occurred when serialize Tree");
                 error.Show();
                 RerenderTree();
             }
         }
-
-        private void ImportTxtBtn_Click(object sender, RoutedEventArgs e)
-        {
-            /*Queue<object> readFromFile = fileHandler.loadTxtFile();
-            if (readFromFile != null)
-            {
-                Tree.Deserialize(readFromFile);
-                RerenderTree();
-            }*/
-
-        }
-
 
         private void ReadFileResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

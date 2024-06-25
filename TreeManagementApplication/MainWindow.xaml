@@ -755,6 +755,7 @@
                                      FontSize="32"
                                      Foreground="Black"
                                      GotFocus="AfterChangeField_GotFocus"
+                                     KeyDown="AfterChangeField_KeyDown"
                                      Text="After">
                                 <TextBox.Resources>
                                     <Style TargetType="{x:Type Border}">
