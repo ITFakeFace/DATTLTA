@@ -21,7 +21,6 @@ namespace TreeManagementApplication.Windows
     /// </summary>
     public partial class ErrorWindow : Window
     {
-        public int _status;
         public ErrorWindow(string text)
         {
             InitializeComponent();
@@ -30,16 +29,10 @@ namespace TreeManagementApplication.Windows
 
 
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            _status = 201;
             this.Close();
-        }
 
-        private void BtnCancel_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            _status = 202;
-            this.Close();
         }
     }
 }

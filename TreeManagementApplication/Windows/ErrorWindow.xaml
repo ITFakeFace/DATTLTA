@@ -67,7 +67,8 @@
                         FontSize="20"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
-                        MouseDown="BtnCancel_MouseDown">
+                        Click="BtnCancel_Click"
+                        >
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius"
