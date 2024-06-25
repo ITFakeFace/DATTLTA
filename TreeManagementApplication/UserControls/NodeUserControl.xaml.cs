@@ -52,6 +52,10 @@ namespace TreeManagementApplication.UserControls
 
         public void OnHover(Object sender, MouseEventArgs e)
         {
+            if (NodeShape.Fill == Brushes.Red && MainWindow.GetCurrentMode().Equals(ToolBarMode.Update))
+            {
+                return;
+            }
             NodeShape.Fill = Brushes.Yellow;
             NodeShape.StrokeThickness = 4;
             if (CreateNodeUC != null && MainWindow.ModeMap[ToolBarMode.Create].isActive)
@@ -69,6 +73,11 @@ namespace TreeManagementApplication.UserControls
 
         public async void OnUnHover(Object sender, MouseEventArgs e)
         {
+
+            if (NodeShape.Fill == Brushes.Red && MainWindow.GetCurrentMode().Equals(ToolBarMode.Update))
+            {
+                return;
+            }
             NodeShape.Fill = Brushes.White;
             NodeShape.StrokeThickness = 2;
             await Task.Delay(0);
@@ -86,6 +95,14 @@ namespace TreeManagementApplication.UserControls
             {
                 case ToolBarMode.Update:
                     Console.WriteLine("Update");
+                    if (NodeShape.Fill != Brushes.Red)
+                    {
+                        NodeShape.Fill = Brushes.Red;
+                    }
+                    else
+                    {
+                        NodeShape.Fill = null;
+                    }
                     break;
                 case ToolBarMode.Delete:
                     Console.WriteLine("Delete");
