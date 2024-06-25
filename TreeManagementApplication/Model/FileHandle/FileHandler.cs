@@ -5,11 +5,13 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using TreeManagementApplication.Model.Interface;
+using TreeManagementApplication.Windows;
 
 namespace TreeManagementApplication.Model.FileHandle
 {
     internal class FileHandler<T> where T : IComparable<T>
     {
+        int _state = 200;
         public string? saveFile(ITree<T> tree)
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
@@ -59,16 +61,32 @@ namespace TreeManagementApplication.Model.FileHandle
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Text files (*.txt)|*.txt|Binary files (*.bin)|*.bin";
             ofd.ShowDialog();
+            Queue<object> result = null!;
+            INode<T> node = null!;
+
             if (Path.GetExtension(ofd.FileName) == ".txt")
             {
-                Queue<object> result = loadTxtFile(ofd.FileName);
-                return (result, null);
+                result = loadTxtFile(ofd.FileName);
             }
             else
             {
-                INode<T> node = loadBinFile(ofd.FileName);
-                return (null, node);
+                node = loadBinFile(ofd.FileName);
             }
+
+
+            if (_state == 202)
+            {
+                ErrorWindow error = new ErrorWindow("Error has occured when load txt file");
+            }
+            else if (_state == 201)
+            {
+                ErrorWindow error = new ErrorWindow("Error has occured when load bin file");
+            }
+
+            return (result, node);
+
+
+
         }
 
 
@@ -89,7 +107,7 @@ namespace TreeManagementApplication.Model.FileHandle
             {
                 if (ex is SerializationException)
                 {
-                    Console.WriteLine("Error when load file");
+                    _state = 201;
                 }
                 return null!;
             }
@@ -99,17 +117,25 @@ namespace TreeManagementApplication.Model.FileHandle
 
         public Queue<object> loadTxtFile(string fileName)
         {
-            Queue<object> queueLine = new Queue<object>();
-            using (StreamReader reader = new StreamReader(fileName))
+            try
             {
-                string line = reader.ReadToEnd();
-                string[] lineSplit = line.TrimEnd(',').Split(',');
-                foreach (string item in lineSplit)
+                Queue<object> queueLine = new Queue<object>();
+                using (StreamReader reader = new StreamReader(fileName))
                 {
-                    queueLine.Enqueue(item);
+                    string line = reader.ReadToEnd();
+                    string[] lineSplit = line.TrimEnd(',').Split(',');
+                    foreach (string item in lineSplit)
+                    {
+                        queueLine.Enqueue(item);
+                    }
                 }
+                return queueLine;
             }
-            return queueLine;
+            catch
+            {
+                _state = 202;
+                return null!;
+            }
         }
 
 
