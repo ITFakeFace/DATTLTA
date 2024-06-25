@@ -698,7 +698,7 @@
                                     Foreground="Black"
                                     GotFocus="BtnBeforeChange_GotFocus"
                                     KeyDown="BtnBeforeChange_KeyDown"
-                                    MouseLeftButtonDown="BtnBeforeChange_MouseLeftButtonDown">
+                                    Click="BtnBeforeChange_Click">
                                 <Button.Resources>
                                     <Style TargetType="{x:Type Border}">
                                         <Setter Property="CornerRadius"
@@ -826,7 +826,8 @@
                                     BorderThickness="2"
                                     Content="Add"
                                     FontSize="32"
-                                    Foreground="Black">
+                                    Foreground="Black"
+                                    Click="BtnAfter_Click">
                                 <Button.Resources>
                                     <Style TargetType="{x:Type Border}">
                                         <Setter Property="CornerRadius"

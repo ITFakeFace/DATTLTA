@@ -740,7 +740,15 @@ namespace TreeManagementApplication
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex}", "Error");
+                if (ex is ArgumentNullException)
+                {
+                    ErrorWindow error = new ErrorWindow("Arguement can not be null");
+                }
+                else if (ex is FormatException)
+                {
+
+                    ErrorWindow error = new ErrorWindow("Input value must be integer");
+                }
                 return null;
             }
 
@@ -815,14 +823,14 @@ namespace TreeManagementApplication
             }
         }
 
-        private void BtnBeforeChange_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-        }
+
 
         private void BtnBeforeChange_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
+
+                AfterChangeField.Focus();
             }
         }
         #endregion
@@ -859,26 +867,39 @@ namespace TreeManagementApplication
         {
             if (e.Key == Key.Enter)
             {
+                string inpBefore = BeforeChangeField.Text.ToString();
+                INode<int>? node = FindNode(inpBefore);
                 try
                 {
-                    string inpBefore = BeforeChangeField.Text.ToString();
-                    INode<int>? node = FindNode(inpBefore);
                     if (node != null)
                     {
-                        int inpAftter = int.Parse(AfterChangeField.Text.ToString());
-                        Tree.UpdateNode(node, inpAftter);
-                        RerenderTree();
+                        if (AfterChangeField.Text != "")
+                        {
+                            int inpAftter = int.Parse(AfterChangeField.Text.ToString());
+                            Tree.UpdateNode(node, inpAftter);
+                            RerenderTree();
+
+                        }
+                    }
+                    else
+                    {
+                        ErrorWindow error = new ErrorWindow("Can not find Node with that values");
+
                     }
                 }
-                catch (Exception ex) { MessageBox.Show($"{ex}", "Error"); }
+                catch (Exception ex)
+                {
+                    if (ex is FormatException)
+                    {
+                        ErrorWindow errorWindow = new ErrorWindow("Please input integer");
+                    }
+                }
             }
         }
 
         #endregion
-        private void SaveAsBinBtn_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
+
 
         private void SaveAsTxtBtn_Click_1(object sender, RoutedEventArgs e)
         {
@@ -1015,6 +1036,32 @@ namespace TreeManagementApplication
             if (ImportByText.Text.ToUpper().Equals("TextFile Import"))
             {
                 ImportByText.Text = "";
+            }
+        }
+
+        private void BtnBeforeChange_Click(object sender, RoutedEventArgs e)
+        {
+            AfterChangeField.Focus();
+        }
+
+        private void BtnAfter_Click(object sender, RoutedEventArgs e)
+        {
+            if (AfterChangeField.Text.ToLower() != "after")
+            {
+
+                string inpBefore = BeforeChangeField.Text.ToString();
+                INode<int>? node = FindNode(inpBefore);
+                if (node != null)
+                {
+                    int inpAftter = int.Parse(AfterChangeField.Text.ToString());
+                    Tree.UpdateNode(node, inpAftter);
+                    RerenderTree();
+                }
+                else
+                {
+                    ErrorWindow error = new ErrorWindow("Can not find Node with that values");
+
+                }
             }
         }
     }
