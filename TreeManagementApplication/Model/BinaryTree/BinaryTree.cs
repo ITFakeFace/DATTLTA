@@ -351,10 +351,7 @@ namespace TreeManagementApplication.Model.BinaryTree
             return Root!.FindNode(XIndex, Level);
         }
 
-        INode<T>? ITree<T>.FindNode(T Value)
-        {
-            throw new NotImplementedException();
-        }
+
 
         ///------------------------------	
 

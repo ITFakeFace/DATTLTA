@@ -279,6 +279,24 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             return Root!.FindNode(XIndex, Level);
         }
 
+        public INode<T>? FindNode(T Value)
+        {
+            return FindNode(Root, Value);
+        }
+        public INode<T> FindNode(INode<T>? Node, T Value)
+        {
+
+
+            if (Node == null)
+            {
+                return Node;
+            }
+            if (Node.GetValue()!.CompareTo(Value) == 0)
+            {
+                return Node;
+            }
+            return FindNode(Node.GetLNode(), Value) ?? FindNode(Node.GetRNode(), Value);
+        }
         public INode<T>? FindChildNode(INode<T>? node, T value)
         {
             if (node == null) { return node; }
@@ -431,14 +449,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         }
 
 
-        public INode<T>? FindNode(T Value)
-        {
-            throw new NotImplementedException();
-        }
 
-        public INode<T>? FindNode(INode<T> node, T Value)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
