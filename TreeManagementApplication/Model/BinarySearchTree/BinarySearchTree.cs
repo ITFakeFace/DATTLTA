@@ -79,72 +79,70 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         }
 
 
-        public void PrintNode(BNode<T>? Node, int space)
+        public String PrintLNR(INode<T>? Node, String result = "")
         {
-            if (Node == null)
-                return;
-
-            PrintNode(Node.LNode, space + 1);
-            string blankSpace = "";
-            for (int i = 0; i < space * 4; i++)
-                blankSpace += " ";
-
-            Console.WriteLine(blankSpace + Node.Value);
-            PrintNode(Node.RNode, space + 1);
-        }
-
-        public void PrintLNR(INode<T>? Node)
-        {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             PrintLNR(Node.GetLNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
             PrintLNR(Node.GetRNode());
+            return result;
         }
 
-        public void PrintLRN(INode<T>? Node)
+        public String PrintLRN(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             PrintLNR(Node.GetLNode());
             PrintLNR(Node.GetRNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
+            return result;
         }
 
-        public void PrintNLR(INode<T>? Node)
+        public String PrintNLR(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
             PrintLNR(Node.GetLNode());
             PrintLNR(Node.GetRNode());
+            return result;
         }
 
-        public void PrintNRL(INode<T>? Node)
+        public String PrintNRL(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
             PrintLNR(Node.GetRNode());
             PrintLNR(Node.GetLNode());
+            return result;
         }
 
-        public void PrintRLN(INode<T>? Node)
+        public String PrintRLN(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             PrintLNR(Node.GetRNode());
             PrintLNR(Node.GetLNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
+            return result;
         }
 
-        public void PrintRNL(INode<T>? Node)
+        public String PrintRNL(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             PrintLNR(Node.GetRNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
             PrintLNR(Node.GetLNode());
+            return result;
         }
 
 
@@ -414,12 +412,9 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         public string Serialize()
         {
             List<String> serializeString = new List<String>();
-            string convertToString = String.Empty;
+            string convertToString = "3,";
             Serialize(Root!, serializeString);
-            if (serializeString[0].CompareTo("#") == 0)
-            {
-                return null;
-            }
+
             foreach (var item in serializeString)
             {
                 convertToString += item.ToString() + ",";
@@ -440,37 +435,53 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             Serialize(bSNode.RNode, serializeString);
         }
 
-        public void Deserialize(Queue<Object> readFromFile)
+        public int Deserialize(Queue<Object> readFromFile)
         {
-            if (this.Root != null)
+            int _status = 200;
+            try
             {
-                this.Root = null;
-            }
-            Console.WriteLine(readFromFile.Count);
-            object nodeVal = readFromFile.Dequeue();
-            bool isEquals = nodeVal.ToString()!.Equals(@"#");
-            if (isEquals)
-            {
-                return;
-            }
-            BSNode<T> Root = new BSNode<T>(ParseObjecttoT(nodeVal));
-            SetRoot(Root);
-
-            do
-            {
-                nodeVal = readFromFile.Dequeue();
-                if (nodeVal.ToString()!.Equals("#"))
+                if (this.Root != null)
                 {
-                    continue;
+                    this.Root = null;
                 }
-                Root!.InsertNode(ParseObjecttoT(nodeVal));
-            } while (readFromFile.Count > 0);
+                Console.WriteLine(readFromFile.Count);
+                object nodeVal = readFromFile.Dequeue();
+                bool isEquals = nodeVal.ToString()!.Equals(@"#");
+                if (isEquals)
+                {
+                    _status = 201;
+                    return _status;
+                }
+                BSNode<T> Root = new BSNode<T>(ParseObjecttoT(nodeVal));
+                SetRoot(Root);
 
+                do
+                {
+                    nodeVal = readFromFile.Dequeue();
+                    if (nodeVal.ToString()!.Equals("#"))
+                    {
+                        continue;
+                    }
+                    Root!.InsertNode(ParseObjecttoT(nodeVal));
+                } while (readFromFile.Count > 0);
+            }
+            catch
+            {
+                _status = 201;
+            }
+            return _status;
         }
 
         private T ParseObjecttoT(object obj)
         {
             return (T)Convert.ChangeType(obj, typeof(T));
         }
+
+        public string nodeTypetoString()
+        {
+            return "BSNode";
+        }
+
+
     }
 }

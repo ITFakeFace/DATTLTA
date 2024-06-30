@@ -7,12 +7,12 @@ namespace TreeManagementApplication.Model.Interface
         bool IsEmpty();
         void PrintConsole();
         INode<T> DeleteNode(T Value);
-        void PrintLNR(INode<T>? Node);
-        void PrintLRN(INode<T>? Node);
-        void PrintNLR(INode<T>? Node);
-        void PrintNRL(INode<T>? Node);
-        void PrintRLN(INode<T>? Node);
-        void PrintRNL(INode<T>? Node);
+        String PrintLNR(INode<T>? Node, String result = "");
+        String PrintLRN(INode<T>? Node, String result = "");
+        String PrintNLR(INode<T>? Node, String result = "");
+        String PrintNRL(INode<T>? Node, String result = "");
+        String PrintRLN(INode<T>? Node, String result = "");
+        String PrintRNL(INode<T>? Node, String result = "");
         INode<T>? FindNode(T Value);
         INode<T>? FindNode(int XIndex, int Level);
         INode<T>? GetRoot();
@@ -27,6 +27,7 @@ namespace TreeManagementApplication.Model.Interface
 
         ITree<T> GenerateRandomTree(int Count, int Min, int Max);
         string Serialize();
-        void Deserialize(Queue<Object> readFromFile);
+        int Deserialize(Queue<Object> readFromFile);
+        string nodeTypetoString();
     }
 }

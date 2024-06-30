@@ -81,15 +81,15 @@ namespace TreeManagementApplication.Model.BinaryTree
             }
         }
 
-        public void InsertLeft(T Value)
-        {
-            this.LNode = new BNode<T>(Value);
-        }
+        /*   public void InsertLeft(T Value)
+           {
+               this.LNode = new BNode<T>(Value);
+           }
 
-        public void InsertRight()
-        {
+           public void InsertRight()
+           {
 
-        }
+           }*/
         public bool IsLeftest()
         {
             if (LNode == null)
@@ -146,14 +146,14 @@ namespace TreeManagementApplication.Model.BinaryTree
         {
             return this.RNode;
         }
-        void SetLNode(INode<T> Node)
-        {
-            this.LNode = (BNode<T>)Node;
-        }
-        void SetRNode(INode<T> Node)
-        {
-            this.RNode = (BNode<T>)Node;
-        }
+        /*   void SetLNode(INode<T> Node)
+           {
+               this.LNode = (BNode<T>)Node;
+           }
+           void SetRNode(INode<T> Node)
+           {
+               this.RNode = (BNode<T>)Node;
+           }*/
         public T? GetValue()
         {
             return this.Value;
@@ -204,10 +204,10 @@ namespace TreeManagementApplication.Model.BinaryTree
             return this.Level;
         }
 
-        public int GetDepth()
-        {
-            return this.XIndex;
-        }
+        /* public int GetDepth()
+         {
+             return this.XIndex;
+         }*/
 
         public int GetXIndex()
         {

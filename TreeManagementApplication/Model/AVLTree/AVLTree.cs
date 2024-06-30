@@ -286,58 +286,70 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             printer.Print(Root);
         }
 
-        public void PrintLNR(INode<T>? Node)
+        public String PrintLNR(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             PrintLNR(Node.GetLNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
             PrintLNR(Node.GetRNode());
+            return result;
         }
 
-        public void PrintLRN(INode<T>? Node)
+        public String PrintLRN(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
-            PrintLNR(Node.GetLNode());
-            PrintLNR(Node.GetRNode());
+            PrintLRN(Node.GetLNode());
+            PrintLRN(Node.GetRNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
+            return result;
         }
 
-        public void PrintNLR(INode<T>? Node)
+        public String PrintNLR(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             Console.Write(Node.GetValue()!.ToString() + "  ");
-            PrintLNR(Node.GetLNode());
-            PrintLNR(Node.GetRNode());
+            result += Node.GetValue()!.ToString() + "  ";
+            PrintNLR(Node.GetLNode());
+            PrintNLR(Node.GetRNode());
+            return result;
         }
 
-        public void PrintNRL(INode<T>? Node)
+        public String PrintNRL(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             Console.Write(Node.GetValue()!.ToString() + "  ");
-            PrintLNR(Node.GetRNode());
-            PrintLNR(Node.GetLNode());
+            result += Node.GetValue()!.ToString() + "  ";
+            PrintNRL(Node.GetRNode());
+            PrintNRL(Node.GetLNode());
+            return result;
         }
 
-        public void PrintRLN(INode<T>? Node)
+        public String PrintRLN(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
-            PrintLNR(Node.GetRNode());
-            PrintLNR(Node.GetLNode());
+            PrintRLN(Node.GetRNode());
+            PrintRLN(Node.GetLNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
+            return result;
         }
 
-        public void PrintRNL(INode<T>? Node)
+        public String PrintRNL(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
-            PrintLNR(Node.GetRNode());
+            PrintRNL(Node.GetRNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
-            PrintLNR(Node.GetLNode());
+            result += Node.GetValue()!.ToString() + "  ";
+            PrintRNL(Node.GetLNode());
+            return result;
         }
 
         public void SetRoot(INode<T> Node)
@@ -413,7 +425,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 return null;
             }
 
-            string convertTostring = string.Empty;
+            string convertTostring = "1,";
             foreach (var item in serializeString)
             {
                 convertTostring += item + ',';
@@ -435,37 +447,50 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             Serialize(aVLNode.RNode, serializeString);
         }
 
-
-        public void Deserialize(Queue<Object> readFromFile)
+        public int Deserialize(Queue<Object> readFromFile)
         {
-            if (this.Root != null)
+            int _status = 200;
+            try
             {
-                this.Root = null;
-            }
-            object nodeVal = readFromFile.Dequeue();
-            bool isEquals = nodeVal.ToString()!.Equals(@"#");
-            if (isEquals)
-            {
-                return;
-            }
-            INode<T> Root = new AVLNode<T>(ParseObjecttoT(nodeVal));
-            SetRoot(Root);
-
-            do
-            {
-                nodeVal = readFromFile.Dequeue();
-                if (nodeVal.ToString()!.Equals("#"))
+                if (this.Root != null)
                 {
-                    continue;
+                    this.Root = null;
                 }
-                InsertNode(ParseObjecttoT(nodeVal));
-            } while (readFromFile.Count > 0);
+                object nodeVal = readFromFile.Dequeue();
+                bool isEquals = nodeVal.ToString()!.Equals(@"#");
+                if (isEquals)
+                {
+                    _status = 201;
+                    return _status;
+                }
+                INode<T> Root = new AVLNode<T>(ParseObjecttoT(nodeVal));
+                SetRoot(Root);
 
+                do
+                {
+                    nodeVal = readFromFile.Dequeue();
+                    if (nodeVal.ToString()!.Equals("#"))
+                    {
+                        continue;
+                    }
+                    InsertNode(ParseObjecttoT(nodeVal));
+                } while (readFromFile.Count > 0);
+            }
+            catch
+            {
+                _status = 201;
+            }
+            return _status;
         }
 
         private T ParseObjecttoT(object obj)
         {
             return (T)Convert.ChangeType(obj, typeof(T));
+        }
+
+        public string nodeTypetoString()
+        {
+            return "AVLNode";
         }
     }
 }

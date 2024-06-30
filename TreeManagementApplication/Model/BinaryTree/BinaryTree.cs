@@ -118,52 +118,70 @@ namespace TreeManagementApplication.Model.BinaryTree
             Printer.Print(Root);
         }
 
-        public void PrintLNR(INode<T>? Node)
+        public String PrintLNR(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
+
             PrintLNR(Node.GetLNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
             PrintLNR(Node.GetRNode());
+            return result;
         }
-        public void PrintLRN(INode<T>? Node)
+
+        public String PrintLRN(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             PrintLNR(Node.GetLNode());
             PrintLNR(Node.GetRNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
+            return result;
         }
-        public void PrintNLR(INode<T>? Node)
+
+        public String PrintNLR(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
             PrintLNR(Node.GetLNode());
             PrintLNR(Node.GetRNode());
+            return result;
         }
-        public void PrintNRL(INode<T>? Node)
+
+        public String PrintNRL(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
             PrintLNR(Node.GetRNode());
             PrintLNR(Node.GetLNode());
+            return result;
         }
-        public void PrintRLN(INode<T>? Node)
+
+        public String PrintRLN(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             PrintLNR(Node.GetRNode());
             PrintLNR(Node.GetLNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
+            return result;
         }
-        public void PrintRNL(INode<T>? Node)
+
+        public String PrintRNL(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             PrintLNR(Node.GetRNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
             PrintLNR(Node.GetLNode());
+            return result;
         }
 
         public INode<T> FindNode(INode<T>? Node, T Value)
@@ -339,15 +357,12 @@ namespace TreeManagementApplication.Model.BinaryTree
             throw new NotImplementedException();
         }
 
-        public string? Serialize()
+        public string Serialize()
         {
             List<String> serializeString = new List<String>();
             Serialize(Root!, serializeString);
-            string convertToString = String.Empty;
-            if (serializeString[0].CompareTo("#") == 0)
-            {
-                return null;
-            }
+            string convertToString = "2,";
+
             foreach (var item in serializeString)
             {
                 convertToString += item.ToString() + ",";
@@ -395,15 +410,25 @@ namespace TreeManagementApplication.Model.BinaryTree
             }
         }
 
-        public void Deserialize(Queue<Object> readFromFile)
+        public int Deserialize(Queue<Object> readFromFile)
         {
-            if (this.Root != null)
+            int _status = 200;
+            try
             {
-                this.Root = null;
+                if (this.Root != null)
+                {
+                    this.Root = null;
+                }
+                BNode<T> Root = new BNode<T>(ParseObjecttoT(readFromFile.Dequeue()));
+                SetRoot(Root);
+                Deserialize(Root, readFromFile);
             }
-            BNode<T> Root = new BNode<T>(ParseObjecttoT(readFromFile.Dequeue()));
-            SetRoot(Root);
-            Deserialize(Root, readFromFile);
+            catch
+            {
+                _status = 201;
+
+            }
+            return _status;
         }
 
         private void Deserialize(INode<T> node, Queue<object> valueQueue)
@@ -435,6 +460,11 @@ namespace TreeManagementApplication.Model.BinaryTree
         private T ParseObjecttoT(object obj)
         {
             return (T)Convert.ChangeType(obj, typeof(T));
+        }
+
+        public string nodeTypetoString()
+        {
+            return "BNode";
         }
     }
 }

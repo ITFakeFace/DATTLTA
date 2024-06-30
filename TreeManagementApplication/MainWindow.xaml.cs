@@ -1,4 +1,5 @@
 using MaterialDesignColors.Recommended;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
 using System.ComponentModel;
@@ -63,11 +64,9 @@ namespace TreeManagementApplication
                 { ToolBarMode.Move, ModeMove },
                 { ToolBarMode.Export, ModeSave },
                 { ToolBarMode.Search, ModeSearch },
-                //{ ToolBarMode.Load, ModeLoad },
                 { ToolBarMode.Import, ModeImport },
                 { ToolBarMode.Traverse, ModeTraverse},
                 { ToolBarMode.ChangeTreeType, ModeChangeTree},
-                //{ ToolBarMode.Select, ModeSelect },
             };
 
             if (Tree.GetType() == typeof(BinaryTree<int>))
@@ -272,6 +271,7 @@ namespace TreeManagementApplication
             ChangeTypeMenu.Visibility = Visibility.Hidden;
             ChangeNodeMenu.Visibility = Visibility.Hidden;
             ExportMode.Visibility = Visibility.Hidden;
+            ImportMode.Visibility = Visibility.Hidden;
             int index = -1;
             switch (currentMode)
             {
@@ -301,6 +301,7 @@ namespace TreeManagementApplication
                     break;
                 case ToolBarMode.Import:
                     index = 7;
+                    ImportMode.Visibility = Visibility.Visible;
                     break;
                 case ToolBarMode.ChangeTreeType:
                     ChangeTypeMenu.Visibility = Visibility.Visible;
@@ -406,12 +407,14 @@ namespace TreeManagementApplication
                             {
                                 oldValue = AddField.Text;
                                 AddField.Text = "Error";
+                                AddField.IsEnabled = false;
                             });
                             Thread.Sleep(2000);
                             this.Dispatcher.Invoke(() =>
                             {
                                 if (AddField.Text.Trim().CompareTo("Error") == 0)
                                 {
+                                    AddField.IsEnabled = true;
                                     AddField.Text = oldValue;
                                 }
                             });
@@ -481,6 +484,10 @@ namespace TreeManagementApplication
             try
             {
                 Count = int.Parse(AmountGenField.Text);
+                if (Count <= 0)
+                {
+                    throw new Exception("Size must be positive");
+                }
             }
             catch (Exception ex)
             {
@@ -492,12 +499,14 @@ namespace TreeManagementApplication
                     {
                         oldValue = AddField.Text;
                         AmountGenField.Text = "Error";
+                        AmountGenField.IsEnabled = false;
                     });
                     Thread.Sleep(2000);
                     this.Dispatcher.Invoke(() =>
                     {
                         if (AmountGenField.Text.Trim().CompareTo("Error") == 0)
                         {
+                            AmountGenField.IsEnabled = true;
                             AmountGenField.Text = oldValue;
                         }
                     });
@@ -519,12 +528,14 @@ namespace TreeManagementApplication
                     {
                         oldValue = AddField.Text;
                         MinGenField.Text = "Error";
+                        MinGenField.IsEnabled = false;
                     });
                     Thread.Sleep(2000);
                     this.Dispatcher.Invoke(() =>
                     {
                         if (AmountGenField.Text.Trim().CompareTo("Error") == 0)
                         {
+                            MinGenField.IsEnabled = true;
                             MinGenField.Text = oldValue;
                         }
                     });
@@ -546,12 +557,14 @@ namespace TreeManagementApplication
                     {
                         oldValue = AddField.Text;
                         MaxGenField.Text = "Error";
+                        MaxGenField.IsEnabled = false;
                     });
                     Thread.Sleep(2000);
                     this.Dispatcher.Invoke(() =>
                     {
                         if (MaxGenField.Text.Trim().CompareTo("Error") == 0)
                         {
+                            MaxGenField.IsEnabled = true;
                             MaxGenField.Text = oldValue;
                         }
                     });
@@ -701,30 +714,6 @@ namespace TreeManagementApplication
             BtnAdd.BorderThickness = new Thickness(2);
         }
         */
-        private void ModeSave_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            // binary formatter
-
-            /*
-                fileHandler.saveFile(Tree);
-                Tree.SetRoot(fileHandler.loadBinFile());
-                RerenderTree();
-            */
-            //save as file 
-            string serialString = Tree.Serialize();
-            if (serialString != null)
-            {
-                fileHandler.saveFile(serialString);
-
-            }
-
-            Tree.Deserialize(fileHandler.loadTxtFile());
-            Tree.SetRoot(null!);
-            RerenderTree();
-
-        }
-
-
         #region before changeNodeVal
         private void BeforeChangeField_KeyDown(object sender, KeyEventArgs e)
         {
@@ -763,7 +752,15 @@ namespace TreeManagementApplication
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex}", "Error");
+                if (ex is ArgumentNullException)
+                {
+                    ErrorWindow error = new ErrorWindow("Arguement can not be null");
+                }
+                else if (ex is FormatException)
+                {
+
+                    ErrorWindow error = new ErrorWindow("Input value must be integer");
+                }
                 return null;
             }
 
@@ -838,14 +835,14 @@ namespace TreeManagementApplication
             }
         }
 
-        private void BtnBeforeChange_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-        }
+
 
         private void BtnBeforeChange_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
+
+                AfterChangeField.Focus();
             }
         }
         #endregion
@@ -882,52 +879,202 @@ namespace TreeManagementApplication
         {
             if (e.Key == Key.Enter)
             {
+                string inpBefore = BeforeChangeField.Text.ToString();
+                INode<int>? node = FindNode(inpBefore);
                 try
                 {
-                    string inpBefore = BeforeChangeField.Text.ToString();
-                    INode<int>? node = FindNode(inpBefore);
                     if (node != null)
                     {
-                        int inpAftter = int.Parse(AfterChangeField.Text.ToString());
-                        Tree.UpdateNode(node, inpAftter);
-                        RerenderTree();
+                        if (AfterChangeField.Text != "")
+                        {
+                            int inpAftter = int.Parse(AfterChangeField.Text.ToString());
+                            Tree.UpdateNode(node, inpAftter);
+                            RerenderTree();
+
+                        }
+                    }
+                    else
+                    {
+                        ErrorWindow error = new ErrorWindow("Can not find Node with that values");
+
                     }
                 }
-                catch (Exception ex) { MessageBox.Show($"{ex}", "Error"); }
+                catch (Exception ex)
+                {
+                    if (ex is FormatException)
+                    {
+                        ErrorWindow errorWindow = new ErrorWindow("Please input integer");
+                    }
+                }
             }
         }
 
         #endregion
-        private void SaveAsBinBtn_Click(object sender, RoutedEventArgs e)
-        {
-            fileHandler.saveFile(Tree);
-        }
+
+
 
         private void SaveAsTxtBtn_Click_1(object sender, RoutedEventArgs e)
         {
-            fileHandler.saveFile(Tree.Serialize());
+            if (Tree.GetRoot() != null)
+            {
+                string? result = fileHandler.saveFile(Tree);
+                if (result != null)
+                {
+                    ReadFileResult.Text = result;
+                    ReadFileResult.Focus();
+                }
+            }
+
+
         }
 
-        private void ImportFromBinBtn_Click(object sender, RoutedEventArgs e)
+        private void ImportFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            INode<int> node = fileHandler.loadBinFile();
-            if (node != null)
+            (Queue<object>?, INode<int>?) result = fileHandler.loadFile();
+            Queue<object>? queue = result.Item1;
+            INode<int>? node = result.Item2;
+            if (queue is not null)
             {
+                ImportTree(queue);
+            }
+            else if (node is not null)
+            {
+                /* ví dụ node là node của Binary Tree
+                   node.GetType().Name = "BSNode`1"
+                 */
+                string nodeImportType = node.GetType().Name.Split('`')[0].ToUpper();
+                if (!Tree.nodeTypetoString().Equals(nodeImportType))
+                {
+                    if (nodeImportType == "BNODE")
+                    {
+                        Tree = new BinaryTree<int>();
+                        CurrentTreeType = "Binary Tree";
+                        RadioBinaryTree.IsChecked = true;
+                    }
+                    else if (nodeImportType == "BSNODE")
+                    {
+                        Tree = new BinarySearchTree<int>();
+                        CurrentTreeType = "Binary Search Tree";
+                        RadioBSTree.IsChecked = true;
+                    }
+                    else
+                    {
+                        Tree = new AVLTree<int>();
+                        CurrentTreeType = "AVL Tree";
+                        RadioAVLTree.IsChecked = true;
+                    }
+                }
                 Tree.SetRoot(node);
                 RerenderTree();
+                return;
             }
+            else
+            {
+
+                return;
+            }
+
         }
 
-        private void ImportTxtBtn_Click(object sender, RoutedEventArgs e)
+        private void ImportTree(Queue<object>? queue)
         {
-            Queue<object> readFromFile = fileHandler.loadTxtFile();
-            if (readFromFile != null)
+
+            /* đọc phần tử đầu tiên của hàng đợi:
+            1: AVL
+            2:BinaryTree
+            3:BinarySearchTree
+
+            Tree.nodeTypetoString() trả về giá trị  AVLNode tương ứng với cây   AVLTree
+                                                    BNode                       BTree
+                                                    BSNode                      BNode
+             */
+
+            if (queue.Dequeue().ToString().Equals("1") && !Tree.nodeTypetoString().Equals("AVLNODE"))
             {
-                Tree.Deserialize(readFromFile);
+                Tree = new AVLTree<int>();
+                CurrentTreeType = "AVL Tree";
+                RadioAVLTree.IsChecked = true;
+
+            }
+            else if (queue.Dequeue().ToString().Equals("2") && !CurrentTreeType.ToUpper().Equals("BNODE"))
+            {
+                Tree = new BinaryTree<int>();
+                CurrentTreeType = "Binary Tree";
+                RadioBinaryTree.IsChecked = true;
+            }
+            else if (queue.Dequeue().ToString().Equals("3") && !CurrentTreeType.ToUpper().Equals("BSNODE"))
+            {
+                Tree = new BinarySearchTree<int>();
+                CurrentTreeType = "Binary Search Tree";
+                RadioBSTree.IsChecked = true;
+            }
+            int _status = Tree.Deserialize(queue);
+            if (_status == 201)
+            {
+                ErrorWindow error = new ErrorWindow("Error has occurred when serialize Tree");
+                error.Show();
                 RerenderTree();
             }
         }
 
+        private void ReadFileResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ReadFileResult.SelectAll();
 
+        }
+
+
+
+        private void ImportByText_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && ModeMap[ToolBarMode.Import].isActive)
+            {
+                if (!(ImportByText.Text == ""))
+                {
+                    Queue<object> queue = new Queue<object>();
+                    string[] strings = ImportByText.Text.ToString().TrimEnd(',').Split(',');
+                    foreach (var item in strings)
+                    {
+                        queue.Enqueue(item);
+                    }
+                    ImportTree(queue);
+                    RerenderTree();
+                }
+            }
+        }
+
+        private void ImportByText_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (ImportByText.Text.ToUpper().Equals("TextFile Import"))
+            {
+                ImportByText.Text = "";
+            }
+        }
+
+        private void BtnBeforeChange_Click(object sender, RoutedEventArgs e)
+        {
+            AfterChangeField.Focus();
+        }
+
+        private void BtnAfter_Click(object sender, RoutedEventArgs e)
+        {
+            if (AfterChangeField.Text.ToLower() != "after")
+            {
+
+                string inpBefore = BeforeChangeField.Text.ToString();
+                INode<int>? node = FindNode(inpBefore);
+                if (node != null)
+                {
+                    int inpAftter = int.Parse(AfterChangeField.Text.ToString());
+                    Tree.UpdateNode(node, inpAftter);
+                    RerenderTree();
+                }
+                else
+                {
+                    ErrorWindow error = new ErrorWindow("Can not find Node with that values");
+
+                }
+            }
+        }
     }
 }

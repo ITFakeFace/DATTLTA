@@ -1,110 +1,126 @@
 ﻿using Microsoft.Win32;
 using System.IO;
+using System.IO.Enumeration;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using TreeManagementApplication.Model.Interface;
+using TreeManagementApplication.Windows;
 
 namespace TreeManagementApplication.Model.FileHandle
 {
     internal class FileHandler<T> where T : IComparable<T>
     {
-        string folderPathBin { get; }
-        string filePathBin { get; }
-        string filePathTxt = String.Empty;
-        public FileHandler()
-        {
-            this.folderPathBin = $@"{Directory.GetCurrentDirectory()}\TreeSnapshot";
-            this.filePathBin = $@"{folderPathBin}\BinaryFormatFile.dat"; ;
-        }
-
-
-        public void saveFile(string content)
+        int _state = 200;
+        public string? saveFile(ITree<T> tree)
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "Text files (*.txt)|*.txt";
-            fileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+            fileDialog.Filter = "Text files (*.txt)|*.txt|Binary files (*.bin)|*.bin";
             fileDialog.ShowDialog();
+            string fileName = fileDialog.FileName;
+            string ext = Path.GetExtension(fileName);
+            string result = string.Empty;
             try
             {
-                if (fileDialog.FileName != "")
+                if (fileName != "")
                 {
-                    using FileStream fs = (FileStream)fileDialog.OpenFile();
+                    if (Path.GetExtension(fileName) == ".txt")
                     {
-                        using (StreamWriter writer = new StreamWriter(fs))
+                        using FileStream fs = (FileStream)fileDialog.OpenFile();
                         {
-                            writer.Write(content);
+                            using (StreamWriter writer = new StreamWriter(fs))
+                            {
+                                result = tree.Serialize();
+                                writer.Write(result);
+                            }
+                            return result;
                         }
-                        this.filePathTxt = fileDialog.FileName;
-                        return;
                     }
+                    else if (Path.GetExtension(fileName) == ".bin" || Path.GetExtension(fileName) == ".dat")
+                    {
+                        byte[] bytes = SerializeBinary(tree);
+
+                        using (FileStream fileStream = new FileStream(fileDialog.FileName, FileMode.OpenOrCreate))
+                        {
+                            fileStream.Write(bytes, 0, bytes.Length);
+                        }
+                    }
+                    return null!;
                 }
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error");
+                return null!;
             }
+            return null;
         }
-
-        public void saveFile(ITree<T> tree)
-        {
-            SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = "Binary files (*.bin)|*.bin";
-            fileDialog.InitialDirectory = Directory.GetCurrentDirectory();
-            fileDialog.ShowDialog();
-            try
-            {
-                if (fileDialog.FileName != "")
-                {
-                    byte[] bytes = SerializeBinary(tree);
-
-                    using (FileStream fileStream = new FileStream(this.filePathBin, FileMode.Open))
-                    {
-                        fileStream.Write(bytes, 0, bytes.Length);
-                    }
-                    return;
-                }
-
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Error");
-            }
-        }
-        public INode<T> loadBinFile()
+        public (Queue<object>?, INode<T>?) loadFile()
         {
             OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Text files (*.txt)|*.txt|Binary files (*.bin)|*.bin";
             ofd.ShowDialog();
+            Queue<object> result = null!;
+            INode<T> node = null!;
+
+            if (Path.GetExtension(ofd.FileName) == ".txt")
+            {
+                result = loadTxtFile(ofd.FileName);
+            }
+            else
+            {
+                node = loadBinFile(ofd.FileName);
+            }
+
+
+            if (_state == 202)
+            {
+                ErrorWindow error = new ErrorWindow("Error has occured when load txt file");
+            }
+            else if (_state == 201)
+            {
+                ErrorWindow error = new ErrorWindow("Error has occured when load bin file");
+            }
+
+            return (result, node);
+
+
+
+        }
+
+
+        public INode<T> loadBinFile(string fileName)
+        {
+
             byte[] bytes;
             try
             {
-                if (ofd.FileName != "")
+                using (FileStream fileStream = new FileStream(fileName, FileMode.Open))
                 {
-                    using (FileStream fileStream = new FileStream(this.filePathBin, FileMode.Open))
-                    {
-                        bytes = new byte[fileStream.Length]; // Initialize the array with the file size
-                        fileStream.Read(bytes, 0, bytes.Length); // Read the entire file into the array
-                    }
-                    return DeSerializeBinary(bytes);
+                    bytes = new byte[fileStream.Length]; // Initialize the array with the file size
+                    fileStream.Read(bytes, 0, bytes.Length); // Read the entire file into the array
                 }
-                return null!;
+                return DeSerializeBinary(bytes);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "ERROR");
+                if (ex is SerializationException)
+                {
+                    _state = 201;
+                }
                 return null!;
             }
 
 
         }
 
-        public Queue<object> loadTxtFile()
+        public Queue<object> loadTxtFile(string fileName)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            Queue<object> queueLine = new Queue<object>();
-            ofd.ShowDialog();
-            if (ofd.FileName != "")
+            try
             {
-                using (StreamReader reader = new StreamReader(ofd.FileName))
+                Queue<object> queueLine = new Queue<object>();
+                using (StreamReader reader = new StreamReader(fileName))
                 {
                     string line = reader.ReadToEnd();
                     string[] lineSplit = line.TrimEnd(',').Split(',');
@@ -115,13 +131,17 @@ namespace TreeManagementApplication.Model.FileHandle
                 }
                 return queueLine;
             }
-            return null!;
+            catch
+            {
+                _state = 202;
+                return null!;
+            }
         }
 
 
 #pragma warning disable SYSLIB0011
 
-        public byte[] SerializeBinary(ITree<T> tree)
+        private byte[] SerializeBinary(ITree<T> tree)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             byte[] byteArray;
@@ -139,7 +159,7 @@ namespace TreeManagementApplication.Model.FileHandle
             return null!;
         }
 
-        public INode<T> DeSerializeBinary(byte[] byteArray)
+        private INode<T> DeSerializeBinary(byte[] byteArray)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             using (MemoryStream ms = new MemoryStream(byteArray))
