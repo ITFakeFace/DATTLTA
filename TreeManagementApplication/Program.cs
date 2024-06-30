@@ -21,7 +21,7 @@ namespace TreeManagementApplication
             tree.InsertNode(1);
             tree.InsertNode(5);
             tree.InsertNode(8);
-            Console.WriteLine($"NLR: {tree.PrintNLR(tree.GetRoot())}");
+            Console.WriteLine($"NLR: {tree.PrintNLR()}");
             app.InitializeComponent();
             app.Run();
         }

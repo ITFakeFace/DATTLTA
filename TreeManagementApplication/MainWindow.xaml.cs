@@ -274,6 +274,8 @@ namespace TreeManagementApplication
             ExportMode.Visibility = Visibility.Hidden;
             ImportMode.Visibility = Visibility.Hidden;
             DeleteMenu.Visibility = Visibility.Hidden;
+            TraverseMenu.Visibility = Visibility.Hidden;
+            FindMenu.Visibility = Visibility.Hidden;
             int index = -1;
             switch (currentMode)
             {
@@ -282,18 +284,20 @@ namespace TreeManagementApplication
                     AddMenu.Visibility = Visibility.Visible;
                     break;
                 case ToolBarMode.Update:
-                    ChangeNodeMenu.Visibility = Visibility.Visible;
                     index = 1;
+                    ChangeNodeMenu.Visibility = Visibility.Visible;
                     break;
                 case ToolBarMode.Delete:
-                    DeleteMenu.Visibility = Visibility.Visible;
                     index = 2;
+                    DeleteMenu.Visibility = Visibility.Visible;
                     break;
                 case ToolBarMode.Search:
                     index = 3;
+                    FindMenu.Visibility = Visibility.Visible;
                     break;
                 case ToolBarMode.Traverse:
                     index = 4;
+                    TraverseMenu.Visibility = Visibility.Visible;
                     break;
                 case ToolBarMode.Move:
                     index = -1;
@@ -999,8 +1003,8 @@ namespace TreeManagementApplication
             }
             else if (node is not null)
             {
-                /* ví dụ node là node của Binary Tree
-                   node.GetType().Name = "BSNode`1"
+                /* ví dụ child là child của Binary Tree
+                   child.GetType().Name = "BSNode`1"
                  */
                 string nodeImportType = node.GetType().Name.Split('`')[0].ToUpper();
                 if (!Tree.nodeTypetoString().Equals(nodeImportType))
@@ -1134,6 +1138,80 @@ namespace TreeManagementApplication
                     ErrorWindow error = new ErrorWindow("Can not find Node with that values");
 
                 }
+            }
+        }
+
+        private void BtnLNR_Click(object sender, RoutedEventArgs e)
+        {
+            String result = Tree.PrintLNR();
+            TraverseValue.Text = result;
+        }
+        private void BtnLRN_Click(object sender, RoutedEventArgs e)
+        {
+            TraverseValue.Text = Tree.PrintLRN();
+        }
+        private void BtnNLR_Click(object sender, RoutedEventArgs e)
+        {
+            TraverseValue.Text = Tree.PrintNLR();
+        }
+        private void BtnNRL_Click(object sender, RoutedEventArgs e)
+        {
+            TraverseValue.Text = Tree.PrintNRL();
+        }
+        private void BtnRLN_Click(object sender, RoutedEventArgs e)
+        {
+            TraverseValue.Text = Tree.PrintRLN();
+        }
+        private void BtnRNL_Click(object sender, RoutedEventArgs e)
+        {
+            TraverseValue.Text = Tree.PrintRNL();
+        }
+
+        private void BtnFind_Click(object sender, RoutedEventArgs e)
+        {
+            int Find;
+            try
+            {
+                Find = int.Parse(FindField.Text);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Unable to Convert Node Count in Generate Tree Function");
+                new Thread(() =>
+                {
+                    String oldValue = "";
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        oldValue = AddField.Text;
+                        FindField.Text = "Error";
+                        FindField.IsEnabled = false;
+                    });
+                    Thread.Sleep(2000);
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        if (MaxGenField.Text.Trim().CompareTo("Error") == 0)
+                        {
+                            FindField.IsEnabled = true;
+                            FindField.Text = oldValue;
+                        }
+                    });
+                }).Start();
+                return;
+            }
+
+            try
+            {
+                foreach (var child in NodeCanvas.Children)
+                {
+                    if (child is NodeUserControl && ((NodeUserControl)child).NodeValue.Text == FindField.Text)
+                    {
+                        ((NodeUserControl)child).NodeShape.Fill = Brushes.Yellow;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }

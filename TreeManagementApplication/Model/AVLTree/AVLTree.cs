@@ -196,12 +196,12 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 
         public INode<T>? FindNode(T Value)
         {
-            throw new NotImplementedException();
+            return FindNode(Root, Value);
         }
 
         public INode<T>? FindNode(int XIndex, int Level)
         {
-            throw new NotImplementedException();
+            return Root!.FindNode(XIndex, Level);
         }
 
         public INode<T>? FindParentNode(INode<T> node)
@@ -292,69 +292,69 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             printer.Print(Root);
         }
 
-        public String PrintLNR(INode<T>? Node, String result = "")
+        public String PrintLNR(INode<T>? Node, ref String result)
         {
             if (Node == null) { return ""; }
 
-            PrintLNR(Node.GetLNode());
+            PrintLNR(Node.GetLNode(), ref result);
             Console.Write(Node.GetValue()!.ToString() + "  ");
             result += Node.GetValue()!.ToString() + "  ";
-            PrintLNR(Node.GetRNode());
+            PrintLNR(Node.GetRNode(), ref result);
             return result;
         }
 
-        public String PrintLRN(INode<T>? Node, String result = "")
+        public String PrintLRN(INode<T>? Node, ref String result)
         {
             if (Node == null) { return ""; }
 
-            PrintLRN(Node.GetLNode());
-            PrintLRN(Node.GetRNode());
-            Console.Write(Node.GetValue()!.ToString() + "  ");
-            result += Node.GetValue()!.ToString() + "  ";
-            return result;
-        }
-
-        public String PrintNLR(INode<T>? Node, String result = "")
-        {
-            if (Node == null) { return ""; }
-
-            Console.Write(Node.GetValue()!.ToString() + "  ");
-            result += Node.GetValue()!.ToString() + "  ";
-            PrintNLR(Node.GetLNode());
-            PrintNLR(Node.GetRNode());
-            return result;
-        }
-
-        public String PrintNRL(INode<T>? Node, String result = "")
-        {
-            if (Node == null) { return ""; }
-
-            Console.Write(Node.GetValue()!.ToString() + "  ");
-            result += Node.GetValue()!.ToString() + "  ";
-            PrintNRL(Node.GetRNode());
-            PrintNRL(Node.GetLNode());
-            return result;
-        }
-
-        public String PrintRLN(INode<T>? Node, String result = "")
-        {
-            if (Node == null) { return ""; }
-
-            PrintRLN(Node.GetRNode());
-            PrintRLN(Node.GetLNode());
+            PrintLNR(Node.GetLNode(), ref result);
+            PrintLNR(Node.GetRNode(), ref result);
             Console.Write(Node.GetValue()!.ToString() + "  ");
             result += Node.GetValue()!.ToString() + "  ";
             return result;
         }
 
-        public String PrintRNL(INode<T>? Node, String result = "")
+        public String PrintNLR(INode<T>? Node, ref String result)
         {
             if (Node == null) { return ""; }
 
-            PrintRNL(Node.GetRNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
             result += Node.GetValue()!.ToString() + "  ";
-            PrintRNL(Node.GetLNode());
+            PrintLNR(Node.GetLNode(), ref result);
+            PrintLNR(Node.GetRNode(), ref result);
+            return result;
+        }
+
+        public String PrintNRL(INode<T>? Node, ref String result)
+        {
+            if (Node == null) { return ""; }
+
+            Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
+            PrintLNR(Node.GetRNode(), ref result);
+            PrintLNR(Node.GetLNode(), ref result);
+            return result;
+        }
+
+        public String PrintRLN(INode<T>? Node, ref String result)
+        {
+            if (Node == null) { return ""; }
+
+            PrintLNR(Node.GetRNode(), ref result);
+            PrintLNR(Node.GetLNode(), ref result);
+            Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
+            return result;
+        }
+
+        public String PrintRNL(INode<T>? Node, ref String result)
+        {
+            if (Node == null) { return ""; }
+
+            PrintLNR(Node.GetRNode(), ref result);
+            Console.Write(Node.GetValue()!.ToString() + "  ");
+            result += Node.GetValue()!.ToString() + "  ";
+            PrintLNR(Node.GetLNode(), ref result);
             return result;
         }
 
@@ -512,6 +512,42 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 return Node;
             }
             return FindNode(Node.GetLNode(), Value) ?? FindNode(Node.GetRNode(), Value);
+        }
+
+        public string PrintLNR()
+        {
+            String result = "";
+            return PrintLNR(Root, ref result);
+        }
+
+        public string PrintLRN()
+        {
+            String result = "";
+            return PrintLRN(Root, ref result);
+        }
+
+        public string PrintNLR()
+        {
+            String result = "";
+            return PrintNLR(Root, ref result);
+        }
+
+        public string PrintNRL()
+        {
+            String result = "";
+            return PrintNRL(Root, ref result);
+        }
+
+        public string PrintRLN()
+        {
+            String result = "";
+            return PrintRLN(Root, ref result);
+        }
+
+        public string PrintRNL()
+        {
+            String result = "";
+            return PrintRNL(Root, ref result);
         }
     }
 }
