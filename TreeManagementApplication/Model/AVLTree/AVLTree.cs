@@ -79,6 +79,12 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             Root = (AVLNode<T>)Delete(Root, Value);
             return Root;
         }
+        public void DeleteNode(int XIndex, int Level)
+        {
+            INode<T> node = FindNode(XIndex, Level);
+            Console.WriteLine(node);
+            Root = (AVLNode<T>?)DeleteNode(node.GetValue());
+        }
 
         private AVLNode<T> minValueNode(AVLNode<T> node)
         {
@@ -198,7 +204,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             throw new NotImplementedException();
         }
 
-        public INode<T>? FindParentNode(INode<T> node, int XIndex)
+        public INode<T>? FindParentNode(INode<T> node)
         {
             throw new NotImplementedException();
         }
@@ -491,6 +497,21 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         public string nodeTypetoString()
         {
             return "AVLNode";
+        }
+
+        public INode<T> FindNode(INode<T>? Node, T Value)
+        {
+
+
+            if (Node == null)
+            {
+                return Node;
+            }
+            if (Node.GetValue()!.CompareTo(Value) == 0)
+            {
+                return Node;
+            }
+            return FindNode(Node.GetLNode(), Value) ?? FindNode(Node.GetRNode(), Value);
         }
     }
 }

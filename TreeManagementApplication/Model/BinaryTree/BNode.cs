@@ -1,4 +1,4 @@
-﻿using TreeManagementApplication.Model.Interface;
+using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinaryTree
 {

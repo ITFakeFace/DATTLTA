@@ -1,3 +1,5 @@
+using System.Diagnostics.Eventing.Reader;
+using TreeManagementApplication.Model.BinarySearchTree;
 using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinaryTree
@@ -183,9 +185,15 @@ namespace TreeManagementApplication.Model.BinaryTree
             PrintLNR(Node.GetLNode());
             return result;
         }
+        public INode<T> FindNode(T value)
+        {
+            return FindNode(Root, value);
 
+        }
         public INode<T> FindNode(INode<T>? Node, T Value)
         {
+
+
             if (Node == null)
             {
                 return Node;
@@ -249,12 +257,7 @@ namespace TreeManagementApplication.Model.BinaryTree
             return GetLargestX(Node.GetRNode()!);
 
         }
-        public List<BNode<T>>? FindNode(T value)
-        {
-            List<BNode<T>>? found = new List<BNode<T>>();
-            FindNodeRecursive(Root, value, found);
-            return found;
-        }
+
 
         public void FindNodeRecursive(BNode<T>? node, T value, List<BNode<T>> found)
         {
@@ -289,6 +292,10 @@ namespace TreeManagementApplication.Model.BinaryTree
         }
 
         INode<T>? ITree<T>.FindNode(T Value)
+        {
+            throw new NotImplementedException();
+        }
+        public INode<T>? FindParentNode(INode<T> node)
         {
             throw new NotImplementedException();
         }
@@ -339,14 +346,40 @@ namespace TreeManagementApplication.Model.BinaryTree
             return node;
         }
 
-        public void DeleteBnode(INode<T> node)
-        {
-            if (node == null) { return; }
 
-            INode<T> DadNode = FindParentNode(node, node.GetXIndex());
-            if (node == DadNode.GetLNode())
-                DeleteTree(DadNode.GetLNode());
-            else DeleteTree(DadNode.GetRNode());
+        public void DeleteNode(int XIndex, int Level)
+        {
+            INode<T> node = FindNode(XIndex, Level);
+            DeleteNode(node);
+
+        }
+        public void DeleteNode(INode<T> node)
+        {
+            if (node == null)
+            {
+                return;
+            }
+            if (node == Root)
+            {
+                Root = null!;
+                return;
+            }
+            else
+            {
+                INode<T> DadNode = FindParentNode(Root, node.GetXIndex());
+                if (DadNode.GetLNode() != null)
+                {
+                    INode<T> DadLnode = DadNode.GetLNode();
+                    if (node.GetXIndex() == DadLnode.GetXIndex())
+                        DadNode.SetLNode(null);
+                }
+                if (DadNode.GetRNode() != null)
+                {
+                    INode<T> DadRnode = DadNode.GetRNode();
+                    if (node.GetXIndex() == DadRnode.GetXIndex())
+                        DadNode.SetRNode(null);
+                }
+            }
             return;
 
         }

@@ -19,5 +19,9 @@ namespace TreeManagementApplication.Model.GUI
             canvas.Children.Clear();
             nodeGUI.DrawNode(Root, ref canvas);
         }
+        public void RemoveTree(ref Canvas canvas)
+        {
+            canvas.Children.Clear();
+        }
     }
 }

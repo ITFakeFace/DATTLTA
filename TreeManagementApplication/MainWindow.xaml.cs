@@ -3,6 +3,7 @@ using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
 using System.ComponentModel;
+using System.ComponentModel.Design.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -272,6 +273,7 @@ namespace TreeManagementApplication
             ChangeNodeMenu.Visibility = Visibility.Hidden;
             ExportMode.Visibility = Visibility.Hidden;
             ImportMode.Visibility = Visibility.Hidden;
+            DeleteMenu.Visibility = Visibility.Hidden;
             int index = -1;
             switch (currentMode)
             {
@@ -284,6 +286,7 @@ namespace TreeManagementApplication
                     index = 1;
                     break;
                 case ToolBarMode.Delete:
+                    DeleteMenu.Visibility = Visibility.Visible;
                     index = 2;
                     break;
                 case ToolBarMode.Search:
@@ -344,11 +347,34 @@ namespace TreeManagementApplication
                     BeforeChangeField.Text = node.GetValue().ToString();
                     AfterChangeField.Focus();
                 }
+            }
+            else if (ModeMap[ToolBarMode.Delete].isActive)
+            {
+                Console.WriteLine("hello");
+
+                //Console.WriteLine(coordinate);
+                INode<int>? node = Tree.FindNode(gridCoordinate.X, gridCoordinate.Y);
+
+                if (node != null)
+                {
+                    //String text = DeleteValue.Text.ToString();
+
+                    Tree.DeleteNode(gridCoordinate.X, gridCoordinate.Y);
+                    if (Tree.GetRoot() == null)
+                    {
+                        TreeGUI<int> treeGUI = new TreeGUI<int>();
+                        treeGUI.RemoveTree(ref NodeCanvas);
+                    }
+                    else
+                    {
+                        RerenderTree();
+                    }
+                }
+
 
             }
 
         }
-
         private void AddField_LostFocus(object sender, RoutedEventArgs e)
         {
             if (AddField.Text.ToUpper().Equals(""))
@@ -574,6 +600,40 @@ namespace TreeManagementApplication
 
             Tree = Tree.GenerateRandomTree(Count, Min, Max);
             RerenderTree();
+        }
+
+        public void DeleteSubmit_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+            String text = DeleteValue.Text.ToString();
+            DeleteValue.Focus();
+            //Console.WriteLine(text);
+            INode<int> node = Tree.FindNode(int.Parse(text.ToString()));
+            Console.WriteLine(node);
+            if (node != null)
+            {
+                //String text = DeleteValue.Text.ToString();
+
+                Tree.DeleteNode(node.GetXIndex(), node.GetLevel());
+                if (Tree.GetRoot() == null)
+                {
+                    TreeGUI<int> treeGUI = new TreeGUI<int>();
+                    treeGUI.RemoveTree(ref NodeCanvas);
+                }
+                else
+                {
+                    RerenderTree();
+                }
+            }
+        }
+        private void DeleteSubmit_Click(object sender, RoutedEventArgs e)
+        {
+
+            String text = DeleteValue.Text.ToString();
+            DeleteValue.Focus();
+
+
+
         }
 
         private void AmountGenField_GotFocus(object sender, RoutedEventArgs e)
