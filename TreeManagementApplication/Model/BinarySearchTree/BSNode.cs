@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using TreeManagementApplication.Model.Interface;
 
 namespace TreeManagementApplication.Model.BinarySearchTree
@@ -23,10 +22,10 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             this.RNode = RNode;
         }
 
-        public BSNode<T> initialize(T Value)
-        {
-            return new BSNode<T>(Value);
-        }
+        /* public BSNode<T> initialize(T Value)
+         {
+             return new BSNode<T>(Value);
+         }*/
         public bool IsLeftest()
         {
             if (this.GetLNode() == null)
@@ -165,10 +164,10 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         {
             return this.RNode;
         }
-        void SetRNode(INode<T> Node)
-        {
-            this.RNode = (BSNode<T>?)Node;
-        }
+        /* void SetRNode(INode<T> Node)
+         {
+             this.RNode = (BSNode<T>?)Node;
+         }*/
         void INode<T>.SetRNode(INode<T> Node)
         {
             this.RNode = (BSNode<T>?)Node;
