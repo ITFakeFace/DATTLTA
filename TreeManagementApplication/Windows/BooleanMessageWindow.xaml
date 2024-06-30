@@ -10,7 +10,7 @@
     Height="250"
     Background="Transparent"
     ResizeMode="NoResize"
-    WindowStartupLocation="CenterOwner"
+    WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
     <Border

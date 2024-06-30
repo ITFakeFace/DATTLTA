@@ -407,12 +407,14 @@ namespace TreeManagementApplication
                             {
                                 oldValue = AddField.Text;
                                 AddField.Text = "Error";
+                                AddField.IsEnabled = false;
                             });
                             Thread.Sleep(2000);
                             this.Dispatcher.Invoke(() =>
                             {
                                 if (AddField.Text.Trim().CompareTo("Error") == 0)
                                 {
+                                    AddField.IsEnabled = true;
                                     AddField.Text = oldValue;
                                 }
                             });
@@ -482,6 +484,10 @@ namespace TreeManagementApplication
             try
             {
                 Count = int.Parse(AmountGenField.Text);
+                if (Count <= 0)
+                {
+                    throw new Exception("Size must be positive");
+                }
             }
             catch (Exception ex)
             {
@@ -493,12 +499,14 @@ namespace TreeManagementApplication
                     {
                         oldValue = AddField.Text;
                         AmountGenField.Text = "Error";
+                        AmountGenField.IsEnabled = false;
                     });
                     Thread.Sleep(2000);
                     this.Dispatcher.Invoke(() =>
                     {
                         if (AmountGenField.Text.Trim().CompareTo("Error") == 0)
                         {
+                            AmountGenField.IsEnabled = true;
                             AmountGenField.Text = oldValue;
                         }
                     });
@@ -520,12 +528,14 @@ namespace TreeManagementApplication
                     {
                         oldValue = AddField.Text;
                         MinGenField.Text = "Error";
+                        MinGenField.IsEnabled = false;
                     });
                     Thread.Sleep(2000);
                     this.Dispatcher.Invoke(() =>
                     {
                         if (AmountGenField.Text.Trim().CompareTo("Error") == 0)
                         {
+                            MinGenField.IsEnabled = true;
                             MinGenField.Text = oldValue;
                         }
                     });
@@ -547,12 +557,14 @@ namespace TreeManagementApplication
                     {
                         oldValue = AddField.Text;
                         MaxGenField.Text = "Error";
+                        MaxGenField.IsEnabled = false;
                     });
                     Thread.Sleep(2000);
                     this.Dispatcher.Invoke(() =>
                     {
                         if (MaxGenField.Text.Trim().CompareTo("Error") == 0)
                         {
+                            MaxGenField.IsEnabled = true;
                             MaxGenField.Text = oldValue;
                         }
                     });
