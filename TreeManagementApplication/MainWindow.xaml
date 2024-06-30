@@ -29,6 +29,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+
             <Grid Panel.ZIndex="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -959,21 +960,81 @@
 
                         </StackPanel>
 
+                    
+                     
+                        <StackPanel
+                                 x:Name="DeleteMenu"
+                                 Canvas.Left="50"
+                                 Canvas.Top="0"
+                                 Width="1300"
+                                 Height="120"
+                                VerticalAlignment="Center"
+                                 Orientation="Horizontal"
+                                Visibility="Hidden">
+                            <TextBox
+                                x:Name="DeleteValue"
+                                Width="300"
+                                Height="60"
+                                Margin="0,0,0,0"
+                                Padding="20,5,20,0"
+                                Background="Blue"
+                                BorderThickness="2"
+                                FontSize="32"
+                                Foreground="Black">
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="TextBox">
+                                                    <Border
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="20">
+                                                        <ScrollViewer
+                                                        x:Name="PART_ContentHost"
+                                                        Focusable="false"
+                                                        HorizontalScrollBarVisibility="Hidden"
+                                                        VerticalScrollBarVisibility="Hidden" />     
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                            <Button
+                                x:Name="DeleteSubmit"
+                                Content="Submit_Delete"
+                                Width="100"
+                                Height="55"
+                                Margin="0,0,0,0"
+                                FontSize="32"
+                               
+                                MouseDown="DeleteSubmit_MouseDown"
+                                />
+                            
+
+                        </StackPanel>
+                        
+                        
                     </Canvas>
 
                 </StackPanel>
+
                 <Button
                     x:Name="MenuResizeButton"
                     Canvas.Right="2"
                     Canvas.Bottom="4"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    Click="Button_Click">
+                 >
                     <Image
                         x:Name="MenuResizeButtonImg"
                         Width="40"
                         Height="40"
                         Source="pack://application:,,,/Resources/Static/Images/NavBar/Up_100px.png" />
+                     
                 </Button>
             </Canvas>
         </Border>

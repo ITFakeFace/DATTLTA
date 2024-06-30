@@ -1,3 +1,4 @@
+using System.CodeDom.Compiler;
 using TreeManagementApplication.Model.BinaryTree;
 using TreeManagementApplication.Model.Interface;
 
@@ -146,6 +147,13 @@ namespace TreeManagementApplication.Model.BinarySearchTree
         }
 
 
+			PrintLNR(Node.GetRNode());
+			Console.Write(Node.GetValue()!.ToString() + "  ");
+			PrintLNR(Node.GetLNode());
+		}
+
+            int isEqual = node.GetXIndex().CompareTo(XIndex);
+
         public INode<T>? FindParentNode(INode<T> node, int XIndex)
         {
             if (node == null)
@@ -154,6 +162,23 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             }
 
             int isEqual = node.GetXIndex().CompareTo(XIndex);
+        public bool UpdateNode(INode<T> node, T value)
+        {
+            if (!node.Equals(Root))
+            {
+                var result = FindParentNode(Root!, node.GetXIndex());
+                BSNode<T> parentNode = (BSNode<T>)result!;
+                DeleteNode(parentNode, node.GetValue()!);
+                return parentNode.InsertNode(value);
+            }
+            else
+            {
+                INode<T> newNode = new BSNode<T>(value, (BSNode<T>)Root!.GetLNode()!, (BSNode<T>)Root!.GetRNode()!);
+                DeleteNode(Root!, node.GetValue()!);
+                SetRoot(newNode);
+                return true;
+            }
+        }
 
             if (isEqual < 0)
             {
@@ -191,105 +216,93 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             }
             return node;
         }
-        public bool UpdateNode(INode<T> node, T value)
+
+        public void DeleteNode(int XIndex, int level)
         {
-            if (!node.Equals(Root))
-            {
-                var result = FindParentNode(Root!, node.GetXIndex());
-                BSNode<T> parentNode = (BSNode<T>)result!;
-                DeleteNode(parentNode, node.GetValue()!);
-                return parentNode.InsertNode(value);
-            }
-            else
-            {
-                INode<T> newNode = new BSNode<T>(value, (BSNode<T>)Root!.GetLNode()!, (BSNode<T>)Root!.GetRNode()!);
-                DeleteNode(Root!, node.GetValue()!);
-                SetRoot(newNode);
-                return true;
-            }
+            INode<T> node = FindNode(XIndex, level);
+            Console.WriteLine(node);
+            Root = (BSNode<T>?)DeleteNode(Root, node.GetValue());
+
         }
-
-        public INode<T>? FindAndDeleteNode(T? value, INode<T>? node = null)
+        private BSNode<T>? DeleteNode(INode<T>? node, T value)
         {
-            if (node is null)
-            {// Tìm node có giá trị value 
-                INode<T>? nodeToDelete = FindNode(value);
-
-                if (nodeToDelete != null)
-                {
-                    // Xóa node và trả về node đã xóa 
-                    Root = (BSNode<T>?)DeleteNode(Root, value);
-                    return nodeToDelete;
-                }
-            }
-            else
+            if (node == null)
             {
-                if (node.GetLNode() is null)
-                {
-
-                }
-            }
-
-            // Trả về null nếu không tìm thấy node 
-            return null;
-        }
-        private INode<T>? DeleteNode(INode<T>? root, T value)
-        {
-            if (root == null)
                 return null;
-
-            int compare = value.CompareTo(root.GetValue());
-
-            if (compare < 0)
-            {
-                root.SetLNode(DeleteNode(root.GetLNode(), value));
             }
-            else if (compare > 0)
+            BSNode<T> convert = node as BSNode<T>;
+            if (value.CompareTo(convert.GetValue()) < 0)
             {
-                root.SetRNode(DeleteNode(root.GetRNode(), value));
+                convert.LNode = (BSNode<T>)DeleteNode(convert.GetLNode(), value);
+
+            }
+            else if (value.CompareTo(convert.GetValue()) > 0)
+            {
+                convert.RNode = (BSNode<T>)DeleteNode(convert.GetRNode(), value);
             }
             else
             {
-                // Node found with value equals 'value' 
-
-                // Case 1: No child or only one child 
-                if (root.GetLNode() == null)
+                if ((convert.GetLNode() == null) || (convert.GetRNode() == null))
                 {
-                    return root.GetRNode();
+                    BSNode<T> res = null;
+                    if (res == convert.GetLNode())
+                        res = convert.RNode;
+                    else
+                        res = convert.LNode;
+                    if (res == null)
+                    {
+                        res = convert;
+                        convert = null;
+                    }
+                    else
+                        convert = res;
                 }
-                else if (root.GetRNode() == null)
+                else
                 {
-                    return root.GetLNode();
+                    BSNode<T> res = MinValue(convert.RNode);
+
+                    convert.Value = res.Value;
+                    convert.RNode = (BSNode<T>)DeleteNode(convert.RNode, res.Value);
+
                 }
 
-                // Case 2: Node with two children 
-                // Get the inorder successor (smallest in the right subtree) 
-                root.SetValue(MinValue(root.GetRNode()));
-
-                // Delete the inorder successor 
-                root.SetRNode(DeleteNode(root.GetRNode(), root.GetValue()));
             }
-
-            return root;
+            return convert;
         }
 
-        private T MinValue(INode<T> node)
+        private BSNode<T> MinValue(BSNode<T>? node)
         {
-            T minValue = node.GetValue();
-            while (node.GetLNode() != null)
+            BSNode<T> current = node;
+            while (current.GetLNode() != null)
             {
-                minValue = node.GetLNode().GetValue();
-                node = node.GetLNode();
+                current = current.LNode;
             }
-            return minValue;
+            return current;
+        }
+
+        public INode<T>? FindNode(int XIndex, int Level)
+        {
+            return Root!.FindNode(XIndex, Level);
         }
 
         public INode<T>? FindNode(T Value)
         {
-            if (this.GetRoot() == null) { return null; }
-            return FindChildNode(this.Root, Value);
+            return FindNode(Root, Value);
         }
+        public INode<T> FindNode(INode<T>? Node, T Value)
+        {
 
+
+            if (Node == null)
+            {
+                return Node;
+            }
+            if (Node.GetValue()!.CompareTo(Value) == 0)
+            {
+                return Node;
+            }
+            return FindNode(Node.GetLNode(), Value) ?? FindNode(Node.GetRNode(), Value);
+        }
         public INode<T>? FindChildNode(INode<T>? node, T value)
         {
             if (node == null) { return node; }
@@ -299,7 +312,7 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             {
                 return node;
             }
-            else if (isEqual < 0)
+            else if (isEqual > 0)
             {
                 return FindChildNode(node.GetRNode(), value);
             }
@@ -308,10 +321,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 return FindChildNode(node.GetLNode(), value);
             }
 
-        }
-        public INode<T>? FindNode(int XIndex, int Level)
-        {
-            return Root!.FindNode(XIndex, Level);
         }
 
         public void PrintIndexConsole()

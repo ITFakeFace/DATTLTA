@@ -3,6 +3,7 @@ using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
 using System.ComponentModel;
+using System.ComponentModel.Design.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -345,9 +346,28 @@ namespace TreeManagementApplication
                     AfterChangeField.Focus();
                 }
 
-            }
+		private void AddField_LostFocus(object sender, RoutedEventArgs e)
+		{
+			if (AddField.Text.ToUpper().Equals(""))
+			{
+				AddField.Text = "Insert";
+			}
+			SolidColorBrush brush = new SolidColorBrush();
+			AddField.BorderThickness = BtnAdd.BorderThickness = new Thickness(2);
+			AddField.BorderBrush = BtnAdd.BorderBrush = Brushes.Black;
+		}
 
-        }
+		private void AddField_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			if (AddField.Text.ToUpper().Equals("INSERT"))
+			{
+				AddField.Text = "";
+			}
+			SolidColorBrush brush = new SolidColorBrush();
+			brush.Color = (Color)ColorConverter.ConvertFromString("#00d2ff");
+			AddField.BorderThickness = BtnAdd.BorderThickness = new Thickness(4);
+			AddField.BorderBrush = BtnAdd.BorderBrush = brush;
+		}
 
         private void AddField_LostFocus(object sender, RoutedEventArgs e)
         {

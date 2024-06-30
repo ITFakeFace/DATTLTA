@@ -22,9 +22,11 @@ namespace TreeManagementApplication.Model.Interface
         int GetLargestY(INode<T> Node);
         bool InsertNode(T Value);
         List<T>? GetValues();
-        INode<T>? FindParentNode(INode<T> node, int XIndex);
         public bool UpdateNode(INode<T> Node, T value);
 
+        public INode<T>? FindParentNode(INode<T> node);
+        INode<T> DeleteNode(T Value);
+        public void DeleteNode(int XIndex, int Level);
         ITree<T> GenerateRandomTree(int Count, int Min, int Max);
         string Serialize();
         int Deserialize(Queue<Object> readFromFile);

@@ -190,15 +190,15 @@ namespace TreeManagementApplication.Model.BinarySearchTree
 
         public INode<T>? FindNode(T Value)
         {
-            throw new NotImplementedException();
+            return FindNode(Root, Value);
         }
 
         public INode<T>? FindNode(int XIndex, int Level)
         {
-            throw new NotImplementedException();
+            return Root!.FindNode(XIndex, Level);
         }
 
-        public INode<T>? FindParentNode(INode<T> node, int XIndex)
+        public INode<T>? FindParentNode(INode<T> node)
         {
             throw new NotImplementedException();
         }
