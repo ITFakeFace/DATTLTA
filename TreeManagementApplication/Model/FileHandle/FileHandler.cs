@@ -141,7 +141,7 @@ namespace TreeManagementApplication.Model.FileHandle
 
 #pragma warning disable SYSLIB0011
 
-        public byte[] SerializeBinary(ITree<T> tree)
+        private byte[] SerializeBinary(ITree<T> tree)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             byte[] byteArray;
@@ -159,7 +159,7 @@ namespace TreeManagementApplication.Model.FileHandle
             return null!;
         }
 
-        public INode<T> DeSerializeBinary(byte[] byteArray)
+        private INode<T> DeSerializeBinary(byte[] byteArray)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             using (MemoryStream ms = new MemoryStream(byteArray))
