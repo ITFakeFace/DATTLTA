@@ -118,64 +118,70 @@ namespace TreeManagementApplication.Model.BinaryTree
             Printer.Print(Root);
         }
 
-        public void PrintLNR(INode<T>? Node, String result = "")
+        public String PrintLNR(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             PrintLNR(Node.GetLNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
             result += Node.GetValue()!.ToString() + "  ";
             PrintLNR(Node.GetRNode());
+            return result;
         }
 
-        public void PrintLRN(INode<T>? Node, String result = "")
+        public String PrintLRN(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             PrintLNR(Node.GetLNode());
             PrintLNR(Node.GetRNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
             result += Node.GetValue()!.ToString() + "  ";
+            return result;
         }
 
-        public void PrintNLR(INode<T>? Node, String result = "")
+        public String PrintNLR(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             Console.Write(Node.GetValue()!.ToString() + "  ");
             result += Node.GetValue()!.ToString() + "  ";
             PrintLNR(Node.GetLNode());
             PrintLNR(Node.GetRNode());
+            return result;
         }
 
-        public void PrintNRL(INode<T>? Node, String result = "")
+        public String PrintNRL(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             Console.Write(Node.GetValue()!.ToString() + "  ");
             result += Node.GetValue()!.ToString() + "  ";
             PrintLNR(Node.GetRNode());
             PrintLNR(Node.GetLNode());
+            return result;
         }
 
-        public void PrintRLN(INode<T>? Node, String result = "")
+        public String PrintRLN(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             PrintLNR(Node.GetRNode());
             PrintLNR(Node.GetLNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
             result += Node.GetValue()!.ToString() + "  ";
+            return result;
         }
 
-        public void PrintRNL(INode<T>? Node, String result = "")
+        public String PrintRNL(INode<T>? Node, String result = "")
         {
-            if (Node == null) { return; }
+            if (Node == null) { return ""; }
 
             PrintLNR(Node.GetRNode());
             Console.Write(Node.GetValue()!.ToString() + "  ");
             result += Node.GetValue()!.ToString() + "  ";
             PrintLNR(Node.GetLNode());
+            return result;
         }
 
         public INode<T> FindNode(INode<T>? Node, T Value)

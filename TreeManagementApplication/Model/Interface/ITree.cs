@@ -7,12 +7,12 @@ namespace TreeManagementApplication.Model.Interface
         bool IsEmpty();
         void PrintConsole();
         INode<T> DeleteNode(T Value);
-        void PrintLNR(INode<T>? Node, String result = "");
-        void PrintLRN(INode<T>? Node, String result = "");
-        void PrintNLR(INode<T>? Node, String result = "");
-        void PrintNRL(INode<T>? Node, String result = "");
-        void PrintRLN(INode<T>? Node, String result = "");
-        void PrintRNL(INode<T>? Node, String result = "");
+        String PrintLNR(INode<T>? Node, String result = "");
+        String PrintLRN(INode<T>? Node, String result = "");
+        String PrintNLR(INode<T>? Node, String result = "");
+        String PrintNRL(INode<T>? Node, String result = "");
+        String PrintRLN(INode<T>? Node, String result = "");
+        String PrintRNL(INode<T>? Node, String result = "");
         INode<T>? FindNode(T Value);
         INode<T>? FindNode(int XIndex, int Level);
         INode<T>? GetRoot();
