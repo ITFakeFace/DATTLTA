@@ -145,15 +145,10 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             PrintLNR(Node.GetLNode());
             return result;
         }
-
-
-			PrintLNR(Node.GetRNode());
-			Console.Write(Node.GetValue()!.ToString() + "  ");
-			PrintLNR(Node.GetLNode());
-		}
-
-            int isEqual = node.GetXIndex().CompareTo(XIndex);
-
+        public INode<T>? FindParentNode(INode<T> node)
+        {
+            throw new NotImplementedException();
+        }
         public INode<T>? FindParentNode(INode<T> node, int XIndex)
         {
             if (node == null)
@@ -162,23 +157,6 @@ namespace TreeManagementApplication.Model.BinarySearchTree
             }
 
             int isEqual = node.GetXIndex().CompareTo(XIndex);
-        public bool UpdateNode(INode<T> node, T value)
-        {
-            if (!node.Equals(Root))
-            {
-                var result = FindParentNode(Root!, node.GetXIndex());
-                BSNode<T> parentNode = (BSNode<T>)result!;
-                DeleteNode(parentNode, node.GetValue()!);
-                return parentNode.InsertNode(value);
-            }
-            else
-            {
-                INode<T> newNode = new BSNode<T>(value, (BSNode<T>)Root!.GetLNode()!, (BSNode<T>)Root!.GetRNode()!);
-                DeleteNode(Root!, node.GetValue()!);
-                SetRoot(newNode);
-                return true;
-            }
-        }
 
             if (isEqual < 0)
             {
@@ -215,6 +193,24 @@ namespace TreeManagementApplication.Model.BinarySearchTree
                 }
             }
             return node;
+        }
+        public bool UpdateNode(INode<T> node, T value)
+        {
+            if (!node.Equals(Root))
+            {
+                var result = FindParentNode(Root!, node.GetXIndex());
+                BSNode<T> parentNode = (BSNode<T>)result!;
+                DeleteNode(parentNode, node.GetValue()!);
+                parentNode.InsertNode(value);
+                return true;
+            }
+            else
+            {
+                INode<T> newNode = new BSNode<T>(value, (BSNode<T>)Root!.GetLNode()!, (BSNode<T>)Root!.GetRNode()!);
+                DeleteNode(Root!, node.GetValue()!);
+                SetRoot(newNode);
+                return true;
+            }
         }
 
         public void DeleteNode(int XIndex, int level)

@@ -295,6 +295,10 @@ namespace TreeManagementApplication.Model.BinaryTree
         {
             throw new NotImplementedException();
         }
+        public INode<T>? FindParentNode(INode<T> node)
+        {
+            throw new NotImplementedException();
+        }
 
         public INode<T>? FindParentNode(INode<T> node, int XIndex)
         {

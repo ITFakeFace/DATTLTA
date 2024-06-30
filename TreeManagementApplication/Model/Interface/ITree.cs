@@ -25,7 +25,6 @@ namespace TreeManagementApplication.Model.Interface
         public bool UpdateNode(INode<T> Node, T value);
 
         public INode<T>? FindParentNode(INode<T> node);
-        INode<T> DeleteNode(T Value);
         public void DeleteNode(int XIndex, int Level);
         ITree<T> GenerateRandomTree(int Count, int Min, int Max);
         string Serialize();
