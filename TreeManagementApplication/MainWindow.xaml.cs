@@ -1077,8 +1077,9 @@ namespace TreeManagementApplication
             {
                 ErrorWindow error = new ErrorWindow("Error has occurred when serialize Tree");
                 error.Show();
-                RerenderTree();
+                return;
             }
+            RerenderTree();
         }
 
         private void ReadFileResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
