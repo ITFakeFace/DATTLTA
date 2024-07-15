@@ -732,7 +732,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Top"
                             Orientation="Horizontal"
-                            Visibility="Hidden">
+                            Visibility="Visible">
                             <Button
                                 x:Name="SaveAsTxtBtn"
                                 Width="280"
@@ -782,18 +782,9 @@
                                 </Button.Resources>
                             </Button>
                             <StackPanel
-                                Width="640"
+                                Width="670"
                                 Margin="300,0,0,0"
                                 Orientation="Horizontal">
-                                <TextBlock
-                                    x:Name="ResultTextBlock"
-                                    Width="115"
-                                    Height="49"
-                                    Margin="0,0,0,0"
-                                    VerticalAlignment="Center"
-                                    FontSize="32"
-                                    FontWeight="DemiBold"
-                                    Text="Result: " />
                                 <TextBox
                                     x:Name="ReadFileResult"
                                     Width="503"
@@ -805,11 +796,11 @@
                                     Foreground="Black"
                                     IsReadOnly="True"
                                     MouseDoubleClick="ReadFileResult_MouseDoubleClick"
-                                    Text="TextFile Result"
+                                    Text="Result"
                                     ToolTip="You Can Not change Text File Result here  ">
                                     <TextBox.Resources>
                                         <Style TargetType="{x:Type Border}">
-                                            <Setter Property="CornerRadius" Value="10,10,10,10" />
+                                            <Setter Property="CornerRadius" Value="10,0,0,10" />
                                         </Style>
                                         <Style TargetType="{x:Type TextBox}">
                                             <Setter Property="Template">
@@ -844,6 +835,71 @@
                                         </Style>
                                     </TextBox.Resources>
                                 </TextBox>
+                                <Button x:Name="BtnExportString"
+                                        Width="150"
+                                        Height="56"
+                                        Margin="0,0,0,0"
+                                        Background="White"
+                                        BorderBrush="Black"
+                                        BorderThickness="4"
+                                        Click="BtnExportString_Click"
+                                        Content="Add"
+                                        FontSize="32"
+                                        Foreground="Black"
+                                        GotFocus="BtnAdd_GotFocus"
+                                        LostFocus="BtnAdd_LostFocus">
+                                    <Button.Resources>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Setter Property="CornerRadius"
+                                                    Value="0,10,10,0" />
+                                        </Style>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type TextBox}">
+                                                        <Border x:Name="border"
+                                                                Background="{TemplateBinding Background}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                                SnapsToDevicePixels="True">
+                                                            <ScrollViewer x:Name="PART_ContentHost"
+                                                                          Focusable="false"
+                                                                          HorizontalScrollBarVisibility="Hidden"
+                                                                          VerticalScrollBarVisibility="Hidden" />
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsEnabled"
+                                                                     Value="false">
+                                                                <Setter TargetName="border"
+                                                                        Property="Opacity"
+                                                                        Value="0.56" />
+                                                            </Trigger>
+                                                            <Trigger Property="IsFocused"
+                                                                     Value="True">
+                                                                <Setter TargetName="border"
+                                                                        Property="BorderBrush"
+                                                                        Value="#00d2ff" />
+                                                                <Setter TargetName="border"
+                                                                        Property="BorderThickness"
+                                                                        Value="4" />
+                                                            </Trigger>
+                                                            <Trigger Property="IsFocused"
+                                                                     Value="False">
+                                                                <Setter TargetName="border"
+                                                                        Property="BorderBrush"
+                                                                        Value="Black" />
+                                                                <Setter TargetName="border"
+                                                                        Property="BorderThickness"
+                                                                        Value="2" />
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Resources>
+                                </Button>
+
                             </StackPanel>
                         </StackPanel>
 
@@ -1191,7 +1247,7 @@
                             VerticalAlignment="Center"
                             Orientation="Horizontal"
                             
-                            Visibility="Visible">
+                            Visibility="Hidden">
                             <TextBox
                                 x:Name="FindField"
                                 Width="300"

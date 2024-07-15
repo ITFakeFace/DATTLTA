@@ -1215,5 +1215,23 @@ namespace TreeManagementApplication
                 Console.WriteLine(ex.Message);
             }
         }
+
+        private void BtnExportString_Click(object sender, RoutedEventArgs e)
+        {
+            if (Tree.GetRoot() == null)
+            {
+                return;
+            }
+
+            string? serializeString = Tree.Serialize();
+            if (serializeString != null)
+            {
+                ReadFileResult.Text = serializeString;
+            }
+            else
+            {
+                ReadFileResult.Text = "Tree is null";
+            }
+        }
     }
 }
