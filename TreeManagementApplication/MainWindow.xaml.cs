@@ -1042,7 +1042,6 @@ namespace TreeManagementApplication
 
         private void ImportTree(Queue<object>? queue)
         {
-
             /* đọc phần tử đầu tiên của hàng đợi:
             1: AVL
             2:BinaryTree
@@ -1052,25 +1051,35 @@ namespace TreeManagementApplication
                                                     BNode                       BTree
                                                     BSNode                      BNode
              */
-
-            if (queue.Dequeue().ToString().Equals("1") && !Tree.nodeTypetoString().Equals("AVLNODE"))
+            string treeType = queue!.Dequeue().ToString()!;
+            Console.WriteLine("Tree Type" + treeType);
+            if (treeType!.Equals("1") && !Tree.nodeTypetoString().Equals("AVLNODE"))
             {
                 Tree = new AVLTree<int>();
                 CurrentTreeType = "AVL Tree";
+                Console.WriteLine(CurrentTreeType);
                 RadioAVLTree.IsChecked = true;
 
             }
-            else if (queue.Dequeue().ToString().Equals("2") && !CurrentTreeType.ToUpper().Equals("BNODE"))
+            else if (treeType!.Equals("2") && !CurrentTreeType.ToUpper().Equals("BNODE"))
             {
                 Tree = new BinaryTree<int>();
                 CurrentTreeType = "Binary Tree";
+                Console.WriteLine(CurrentTreeType);
                 RadioBinaryTree.IsChecked = true;
             }
-            else if (queue.Dequeue().ToString().Equals("3") && !CurrentTreeType.ToUpper().Equals("BSNODE"))
+            else if (treeType!.Equals("3") && !CurrentTreeType.ToUpper().Equals("BSNODE"))
             {
                 Tree = new BinarySearchTree<int>();
                 CurrentTreeType = "Binary Search Tree";
+                Console.WriteLine(CurrentTreeType);
                 RadioBSTree.IsChecked = true;
+            }
+            else
+            {
+                ErrorWindow error = new ErrorWindow("SearialSring missing tree type");
+                error.Show();
+                return;
             }
             int _status = Tree.Deserialize(queue);
             if (_status == 201)
@@ -1103,7 +1112,6 @@ namespace TreeManagementApplication
                         queue.Enqueue(item);
                     }
                     ImportTree(queue);
-                    RerenderTree();
                 }
             }
         }
@@ -1231,6 +1239,22 @@ namespace TreeManagementApplication
             else
             {
                 ReadFileResult.Text = "Tree is null";
+            }
+        }
+
+        private void BtnImportByString_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(ImportByText.Text == ""))
+            {
+                Queue<object> queue = new Queue<object>();
+                string[] strings = ImportByText.Text.ToString().TrimEnd(',').Split(',');
+                foreach (var item in strings)
+                {
+                    Console.WriteLine(item.Normalize());
+                    queue.Enqueue(item);
+                }
+                ImportTree(queue);
+                RerenderTree();
             }
         }
     }
