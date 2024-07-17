@@ -858,44 +858,51 @@ namespace TreeManagementApplication
             }
         }
 
-        private async void OnChangeTreeType(object sender, EventArgs e)
+        private async void OnChangeTreeType(object sender, RoutedEventArgs e)
         {
-            if (RadioBinaryTree.IsChecked ?? false && !CurrentTreeType.ToUpper().Equals("BINARY TREE"))
+            if (sender is RadioButton radioButton)
             {
-                BooleanMessageWindow check = new BooleanMessageWindow();
-                check.ShowDialog();
-                if (await check.GetValue())
+                string newTreeType = radioButton.Content.ToString().ToUpper();
+                if (!CurrentTreeType.ToUpper().Equals(newTreeType))
                 {
-                    CurrentTreeType = "Binary Tree";
-                    RadioBinaryTree.IsChecked = true;
-                    Tree = new BinaryTree<int>();
-                    RerenderTree();
+                    BooleanMessageWindow check = new BooleanMessageWindow();
+                    check.ShowDialog();
+                    if (await check.GetValue())
+                    {
+                        CurrentTreeType = radioButton.Content.ToString();
+                        switch (CurrentTreeType)
+                        {
+                            case "Binary Tree":
+                                Tree = new BinaryTree<int>();
+                                break;
+                            case "Binary Search Tree":
+                                Tree = new BinarySearchTree<int>();
+                                break;
+                            case "AVL Tree":
+                                Tree = new AVLTree<int>();
+                                break;
+                        }
+                        RerenderTree();
+                    }
+                    else
+                    {
+                        // Cancel the event by unchecking the RadioButton
+                        radioButton.IsChecked = false;
+                        // Optionally, recheck the previously selected RadioButton
+                        switch (CurrentTreeType.ToUpper())
+                        {
+                            case "BINARY TREE":
+                                RadioBinaryTree.IsChecked = true;
+                                break;
+                            case "BINARY SEARCH TREE":
+                                RadioBSTree.IsChecked = true;
+                                break;
+                            case "AVL TREE":
+                                RadioAVLTree.IsChecked = true;
+                                break;
+                        }
+                    }
                 }
-            }
-            else if (RadioBSTree.IsChecked ?? false && !CurrentTreeType.ToUpper().Equals("BINARY SEARCH TREE"))
-            {
-                BooleanMessageWindow check = new BooleanMessageWindow();
-                check.ShowDialog();
-                if (await check.GetValue())
-                {
-                    CurrentTreeType = "Binary Search Tree";
-                    RadioBSTree.IsChecked = true;
-                    Tree = new BinarySearchTree<int>();
-                    RerenderTree();
-                }
-            }
-            else if (RadioAVLTree.IsChecked ?? false && !CurrentTreeType.ToUpper().Equals("AVL TREE"))
-            {
-                BooleanMessageWindow check = new BooleanMessageWindow();
-                check.ShowDialog();
-                if (await check.GetValue())
-                {
-                    CurrentTreeType = "AVL Tree";
-                    RadioAVLTree.IsChecked = true;
-                    Tree = new AVLTree<int>();
-                    RerenderTree();
-                }
-
             }
         }
 

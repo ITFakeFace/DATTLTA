@@ -7,6 +7,8 @@
     xmlns:local="clr-namespace:TreeManagementApplication"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Tree Management System"
+    Left="0"
+    Top="0"
     Width="1920"
     Height="1080"
     ResizeMode="NoResize"
@@ -843,7 +845,7 @@
                                         BorderBrush="Black"
                                         BorderThickness="4"
                                         Click="BtnExportString_Click"
-                                        Content="Add"
+                                        Content="Export"
                                         FontSize="32"
                                         Foreground="Black"
                                         GotFocus="BtnAdd_GotFocus"
@@ -1020,7 +1022,7 @@
                                     Background="White"
                                     BorderBrush="Black"
                                     BorderThickness="4"
-                                    Content="Add"
+                                    Content="Import"
                                     FontSize="32"
                                     Foreground="Black"
                                     GotFocus="BtnAdd_GotFocus"
@@ -1097,8 +1099,9 @@
                                 Height="60"
                                 Margin="0,0,0,0"
                                 Padding="20,5,20,0"
-                                Background="Blue"
-                                BorderThickness="2"
+                                Background="White"
+                                BorderThickness="3"
+                                
                                 FontSize="32"
                                 Foreground="Black">
                                 <TextBox.Style>
